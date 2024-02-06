@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>C++ 内存管理</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/09/15/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/%E5%80%BCor%E5%BC%95%E7%94%A8%EF%BC%9F/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=C++ 内存管理"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=C++ 内存管理"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&text=C++ 内存管理"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=C++ 内存管理&body=Check out this article: http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shared-ptr"><span class="toc-number">2.</span> <span class="toc-text">shared_ptr</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E9%80%A0%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">常用构造：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%94%BE%E5%BC%83%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">放弃对象的管理：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">成员函数：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.4.</span> <span class="toc-text">关系运算符</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#unique-ptr"><span class="toc-number">3.</span> <span class="toc-text">unique_ptr</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">成员函数</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#weak-ptr"><span class="toc-number">4.</span> <span class="toc-text">weak_ptr</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">4.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-1"><span class="toc-number">4.3.</span> <span class="toc-text">成员函数</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%B8%8E%E5%AF%B9%E8%B1%A1%E6%B1%A0%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-number">5.</span> <span class="toc-text">智能指针与对象池的结合</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        C++ 内存管理
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-08-15T02:20:15.000Z"
+                  itemprop="datePublished">2020-08-15</time>
+            
+                (Updated:
+                <time datetime="2022-06-10T01:33:23.931Z"
+                      itemprop="dateModified">2022-06-10</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C/" rel="tag">C++</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>​	C++程序做好内存管理，可以避免内存碎片的产生，使程序长期稳定、高效地运行，实现内存管理常见有三种方式：</p>
+<ul>
+<li><p>内存池</p>
+<p>从系统中申请足够大小的内存，由程序自己管理。</p>
+</li>
+<li><p>对象池</p>
+<p>创建足够多的对象，减少创建和释放对象的消耗。</p>
+</li>
+<li><p>智能指针</p>
+<p>保证被创建的对象被正确地释放。</p>
+</li>
+</ul>
+<p><escape><span id="more"></span></escape></p>
+<blockquote>
+<p>内存池</p>
+</blockquote>
+<p>​	设计内存池有几个设计约束，分别是高效，设计简单，针对性强及使用简单。</p>
+<p>​	本文介绍的内存池的基本实现方法简单参照了windows的磁盘内存管理：</p>
+<p>​	<img src="https://s2.loli.net/2022/03/28/yElGFaQoeIAn7sT.png" alt="image-20220328173451153"></p>
+<p>​	可以看出，图示的文件虽然实际大小只有1.16KB，但windows操作系统仍然为其分配了4KB的磁盘空间，即windows在给文件分配磁盘空间时，是以4K为单位分配（此数值可以进行设置更改），这样做虽然牺牲了少量的磁盘空间，但换来了管理内存的便利性。</p>
+<p>​	于是，我们的内存池也可以设置如下：</p>
+<p><img src="https://s2.loli.net/2022/04/05/eXRO4wLGcfJW7xP.png" alt="image-20220405135109068"></p>
+<p>​	先介绍内存池（memory pool）本身，其是一个单向链表，每个节点都是一个最小的内存单元，内存单元由两部分组成，一部分为头信息(Memory Block)，其中包含了该内存单元的一些基本信息，另一部分则是实际上该内存单元的可用部分，内存池分配内存时实际将该部分内存分配用来创建变量或对象等。</p>
+<p>​	在此基础上，可以设计不同大小的内存池，用来管理不同大小的内存单元：</p>
+<p><img src="/../../AppData/Roaming/Typora/typora-user-images/image-20220405151852665.png" alt="image-20220405151852665"></p>
+<p>​	实现过程：</p>
+<p><img src="https://s2.loli.net/2022/04/05/3tKj8LsJYGEBldH.png" alt="image-20220405145534118"></p>
+<ul>
+<li><p>MemoryAllocatorBase</p>
+<p>创建特定大小内存池及分配内存的基类，首先是创建内存池，初始化单向链表：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">initMemory</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">assert</span>(_pBuf == <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">if</span> (_pBuf)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> sizeOfMemoryUnity = _nBlockSize + <span class="built_in">sizeof</span>(MemoryBlock);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//向系统申请内存</span></span><br><span class="line">    _pBuf = (<span class="type">char</span>*)<span class="built_in">malloc</span>(sizeOfMemoryUnity*_nBlockCount);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化内存池</span></span><br><span class="line">    _pHeader = (MemoryBlock*)_pBuf;</span><br><span class="line">    _pHeader-&gt;_bPool = <span class="literal">true</span>;</span><br><span class="line">    _pHeader-&gt;_nID = <span class="number">0</span>;</span><br><span class="line">    _pHeader-&gt;_nRef = <span class="number">0</span>;</span><br><span class="line">    _pHeader-&gt;_pAllocator = <span class="keyword">this</span>;</span><br><span class="line">    _pHeader-&gt;_pNext = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    MemoryBlock* pTemp1 = _pHeader;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> n = <span class="number">1</span>; n &lt; _nBlockCount; n++)</span><br><span class="line">    &#123;</span><br><span class="line">        MemoryBlock* pTemp2 = (MemoryBlock*)(_pBuf + n * (sizeOfMemoryUnity));</span><br><span class="line">        pTemp2-&gt;_bPool = <span class="literal">true</span>;</span><br><span class="line">        pTemp2-&gt;_nID = n;</span><br><span class="line">        pTemp2-&gt;_nRef = <span class="number">0</span>;</span><br><span class="line">        pTemp2-&gt;_pAllocator = <span class="keyword">this</span>;</span><br><span class="line">        pTemp2-&gt;_pNext = <span class="literal">nullptr</span>;</span><br><span class="line">        pTemp1-&gt;_pNext = pTemp2;</span><br><span class="line">        pTemp1 = pTemp2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分配内存时，如果池中仍有空闲单元，则分配内存单元，否则从堆中申请：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span>* <span class="title">allocMemory</span><span class="params">(<span class="type">size_t</span> nSize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(_mutex)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (_pBuf == <span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">initMemory</span>();</span><br><span class="line"></span><br><span class="line">    MemoryBlock* pReturn = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// enough memory blocks in pool</span></span><br><span class="line">    <span class="keyword">if</span> (_pHeader != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pReturn = _pHeader;</span><br><span class="line">        _pHeader = pReturn-&gt;_pNext;</span><br><span class="line">        <span class="built_in">assert</span>(pReturn-&gt;_nRef == <span class="number">0</span>);</span><br><span class="line">        pReturn-&gt;_nRef = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//printf(&quot;allocate memory from memory pool: block id: %d \n&quot;, _pHeader-&gt;_nID);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (<span class="type">char</span>*)pReturn + <span class="built_in">sizeof</span>(MemoryBlock);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">allocMemoryFromHeaps</span>(nSize);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span>* <span class="title">allocMemoryFromHeaps</span><span class="params">(<span class="type">size_t</span> nSize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MemoryBlock* pReturn = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="type">void</span>* temp = <span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(MemoryBlock) + nSize);</span><br><span class="line"></span><br><span class="line">    pReturn = (MemoryBlock*)temp;</span><br><span class="line">    pReturn-&gt;_bPool = <span class="literal">false</span>;</span><br><span class="line">    pReturn-&gt;_nID = <span class="number">-1</span>;</span><br><span class="line">    pReturn-&gt;_nRef = <span class="number">1</span>;</span><br><span class="line">    pReturn-&gt;_pAllocator = <span class="literal">nullptr</span>;</span><br><span class="line">    pReturn-&gt;_pNext = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">char</span>*)pReturn + <span class="built_in">sizeof</span>(MemoryBlock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>释放内存时，判断是否在池内，不在池内直接free：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">freeMemory</span><span class="params">(<span class="type">void</span> *pMem)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(_mutex)</span></span>;</span><br><span class="line">    <span class="comment">// get memory block</span></span><br><span class="line">    MemoryBlock* pBlockHeader = (MemoryBlock*)((<span class="type">char</span>*)pMem - <span class="built_in">sizeof</span>(MemoryBlock));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// memory is unrefered</span></span><br><span class="line">    <span class="keyword">if</span> (--pBlockHeader-&gt;_nRef != <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// memory is not in memory pool</span></span><br><span class="line">    <span class="keyword">if</span> (!pBlockHeader-&gt;_bPool)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">free</span>(pBlockHeader);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// memory is in memory pool</span></span><br><span class="line">    pBlockHeader-&gt;_nRef = <span class="number">0</span>;</span><br><span class="line">    pBlockHeader-&gt;_pNext = _pHeader;</span><br><span class="line">    <span class="built_in">memset</span>((<span class="type">char</span>*)pMem, <span class="number">0</span>, _nBlockSize - <span class="built_in">sizeof</span>(MemoryBlock));</span><br><span class="line">    _pHeader = pBlockHeader;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MemoryAllocator</p>
+<p>模板类，通过模板参数可指定内存池大小：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="type">size_t</span> nBlockCount, <span class="type">size_t</span> nBlockSize&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MemoryAllocator</span> : <span class="keyword">public</span> MemoryAllocatorBase</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">MemoryAllocator</span>()</span><br><span class="line">	&#123;</span><br><span class="line">		_nBlockCount = nBlockCount;</span><br><span class="line"></span><br><span class="line">		<span class="type">int</span> sizeOfPointer = <span class="built_in">sizeof</span>(<span class="type">void</span> *);</span><br><span class="line">		_nBlockSize = (nBlockSize % sizeOfPointer == <span class="number">0</span>) ? nBlockSize : (sizeOfPointer * (nBlockSize / sizeOfPointer + <span class="number">1</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MemoryManager</p>
+<p>内存管理类，构造函数私有，单例模式，用来管理多个MemoryAllocator，申请内存时根据内存大小选择内存池进行分配：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> MemoryManager&amp; <span class="title">Instance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> MemoryManager mgr;</span><br><span class="line">    <span class="keyword">return</span> mgr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 申请内存时，根据不同大小确定内存池</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> nBegin, <span class="type">int</span> nEnd, MemoryAllocatorBase* pAllocator)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = nBegin; i &lt;= nEnd &amp;&amp; i &lt;= MAX_MEMORY_SIZE; i++)</span><br><span class="line">        _arrAllocator[i] = pAllocator;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用内存池分配内存前，先判断是否有合适的内存池分配内存，如果没有，直接从堆中申请：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span>* <span class="title">allocMemory</span><span class="params">(<span class="type">size_t</span> nSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (nSize &lt;= MAX_MEMORY_SIZE) ? _arrAllocator[nSize]-&gt;<span class="built_in">allocMemory</span>(nSize) : MemoryAllocatorBase::<span class="built_in">allocMemoryFromHeaps</span>(nSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>重载new和delete运算符</p>
+<p>在重载new和delete的运算符方法中，便可使用MemoryManager来对内存进行分配：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span>* <span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="type">size_t</span> nSize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> MemoryManager::<span class="built_in">Instance</span>().<span class="built_in">allocMemory</span>(nSize);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="type">void</span>* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	MemoryManager::<span class="built_in">Instance</span>().<span class="built_in">freeMemory</span>(p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>[](<span class="type">size_t</span> nSize)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> MemoryManager::<span class="built_in">Instance</span>().<span class="built_in">allocMemory</span>(nSize);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="type">void</span>* p)</span><br><span class="line">&#123;</span><br><span class="line">	MemoryManager::<span class="built_in">Instance</span>().<span class="built_in">freeMemory</span>(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>对象池</p>
+</blockquote>
+<p>​	对象池的实现过程与内存池类似，不同之处仅在于每个对象池中存放的都是特定类型的对象。</p>
+<p>​	对象池本身也是一个链表，每个节点包含节点头与对象内存，其分配内存的过程与内存池基本一致，对象池是一个模板类，创建模板类对象时需要指定对象的类型ClasssName及对象池的大小nSize。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">ClassName</span>, <span class="type">size_t</span> nSize&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ObjectPool</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span> :</span><br><span class="line">	<span class="comment">// create and init an object pool</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">initMemory</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">// before init the object pool, it is necessary to make sure it is empty</span></span><br><span class="line">		<span class="built_in">assert</span>(_pHeader == <span class="literal">nullptr</span>);</span><br><span class="line">		<span class="comment">// calculate the memory size of each node, and request memory from system</span></span><br><span class="line">		<span class="type">size_t</span> nodeSize = <span class="built_in">sizeof</span>(NodeHeader) + <span class="built_in">sizeof</span>(ClassName);</span><br><span class="line">		<span class="type">size_t</span> totalSize = nSize * nodeSize;</span><br><span class="line">		_pBuf = <span class="keyword">new</span> <span class="type">char</span>[totalSize];</span><br><span class="line"></span><br><span class="line">		<span class="comment">// init the header node</span></span><br><span class="line">		_pHeader = (NodeHeader*)_pBuf;</span><br><span class="line">		_pHeader-&gt;_nID = <span class="number">0</span>;</span><br><span class="line">		_pHeader-&gt;_nRef = <span class="number">0</span>;</span><br><span class="line">		_pHeader-&gt;_pNext = <span class="literal">nullptr</span>;</span><br><span class="line">		_pHeader-&gt;_bPool = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// init each node</span></span><br><span class="line">		NodeHeader* temp1 = _pHeader;</span><br><span class="line">		NodeHeader* temp2 = <span class="literal">nullptr</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; nSize; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			temp2 = (NodeHeader*)(_pBuf + i * nodeSize);</span><br><span class="line">			temp2-&gt;_nID = i;</span><br><span class="line">			temp2-&gt;_nRef = <span class="number">0</span>;</span><br><span class="line">			temp2-&gt;_pNext = <span class="literal">nullptr</span>;</span><br><span class="line">			temp2-&gt;_bPool = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">			temp1-&gt;_pNext = temp2;</span><br><span class="line">			temp1 = temp2;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;init object pool\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span>* <span class="title">allocObjectMemory</span><span class="params">(<span class="type">size_t</span> nSize)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(_mutex)</span></span>;</span><br><span class="line">		<span class="keyword">if</span> (_pBuf == <span class="literal">nullptr</span>)</span><br><span class="line">			<span class="built_in">initMemory</span>();</span><br><span class="line"></span><br><span class="line">		NodeHeader* pReturn = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// enough memory blocks in pool</span></span><br><span class="line">		<span class="keyword">if</span> (_pHeader != <span class="literal">nullptr</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			pReturn = _pHeader;</span><br><span class="line">			_pHeader = pReturn-&gt;_pNext;</span><br><span class="line">			<span class="built_in">assert</span>(pReturn-&gt;_nRef == <span class="number">0</span>);</span><br><span class="line">			pReturn-&gt;_nRef = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">			<span class="comment">//printf(&quot;allocate memory from memory pool: block id: %d, reference: %d \n&quot;, pReturn-&gt;_nID, pReturn-&gt;_nRef);</span></span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> (<span class="type">char</span>*)pReturn + <span class="built_in">sizeof</span>(NodeHeader);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">allocObjectMemoryFromHeaps</span>(nSize);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span>* <span class="title">allocObjectMemoryFromHeaps</span><span class="params">(<span class="type">size_t</span> nSize)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		NodeHeader* pReturn = <span class="literal">nullptr</span>;</span><br><span class="line">		<span class="type">void</span>* temp = <span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(NodeHeader) + nSize);</span><br><span class="line"></span><br><span class="line">		pReturn = (NodeHeader*)temp;</span><br><span class="line">		pReturn-&gt;_bPool = <span class="literal">false</span>;</span><br><span class="line">		pReturn-&gt;_nID = <span class="number">-1</span>;</span><br><span class="line">		pReturn-&gt;_nRef = <span class="number">1</span>;</span><br><span class="line">		pReturn-&gt;_pNext = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//printf(&quot;allocate memory from heap: block id: %d \n&quot;, pReturn-&gt;_nID);</span></span><br><span class="line">		<span class="keyword">return</span> (<span class="type">char</span>*)pReturn + <span class="built_in">sizeof</span>(NodeHeader);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">freeObjectMemory</span><span class="params">(<span class="type">void</span> *pMem)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(_mutex)</span></span>;</span><br><span class="line">		<span class="comment">// get memory block</span></span><br><span class="line">		NodeHeader* pBlockHeader = (NodeHeader*)((<span class="type">char</span>*)pMem - <span class="built_in">sizeof</span>(NodeHeader));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// memory is unrefered</span></span><br><span class="line">		<span class="keyword">if</span> (--pBlockHeader-&gt;_nRef != <span class="number">0</span>)</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// memory is not in memory pool</span></span><br><span class="line">		<span class="keyword">if</span> (!pBlockHeader-&gt;_bPool)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//printf(&quot;free memory from heap: block id: %d \n&quot;, pBlockHeader-&gt;_nID);</span></span><br><span class="line">			<span class="built_in">free</span>(pBlockHeader);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// memory is in memory pool</span></span><br><span class="line">		pBlockHeader-&gt;_nRef = <span class="number">0</span>;</span><br><span class="line">		pBlockHeader-&gt;_pNext = _pHeader;</span><br><span class="line">		<span class="built_in">memset</span>((<span class="type">char</span>*)pMem, <span class="number">0</span>, <span class="built_in">sizeof</span>(ClassName));</span><br><span class="line">		_pHeader = pBlockHeader;</span><br><span class="line">		<span class="comment">//printf(&quot;free memory from object pool: block id: %d \n&quot;, pBlockHeader-&gt;_nID);</span></span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">NodeHeader</span> </span><br><span class="line">    &#123;</span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="type">size_t</span> _nID;</span><br><span class="line">		<span class="type">size_t</span> _nRef;</span><br><span class="line">		NodeHeader* _pNext;</span><br><span class="line">		<span class="comment">// whether this node is in the pool</span></span><br><span class="line">		<span class="type">bool</span> _bPool;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="comment">// reserve bit</span></span><br><span class="line">		<span class="type">char</span> c1;</span><br><span class="line">		<span class="type">char</span> c2;</span><br><span class="line">		<span class="type">char</span> c3;</span><br><span class="line">		<span class="type">char</span> c4;</span><br><span class="line">		<span class="type">char</span> c5;</span><br><span class="line">		<span class="type">char</span> c6;</span><br><span class="line">		<span class="type">char</span> c7;</span><br><span class="line">	&#125;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="comment">// header of each node</span></span><br><span class="line">	NodeHeader* _pHeader = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="comment">// memory address of object pool</span></span><br><span class="line">	<span class="type">char</span>* _pBuf = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="comment">// object lock</span></span><br><span class="line">	std::mutex _mutex;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>再看对象池的管理类，其负责创建对象池，并在创建对象时从对象池中分配内存，其内部重写了new和delete运算符，在运算符内部获取对应对象的对象池并分配或回收内存空间。</p>
+<p>因此，需要加入对象池管理的类只需要继承该基类即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>, <span class="type">size_t</span> nPoolSize&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ObjectPoolBase</span> </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span>* <span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="type">size_t</span> n)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">getObjectPool</span>().<span class="built_in">allocObjectMemory</span>(n);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="type">void</span>* p)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">getObjectPool</span>().<span class="built_in">freeObjectMemory</span>(p);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</span></span><br><span class="line"><span class="function">	<span class="type">static</span> T* <span class="title">createObj</span><span class="params">(Args ... args)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">T</span>(args ...);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">destroyObj</span><span class="params">(T* obj)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">delete</span> obj;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">static</span> ObjectPool&lt;T, nPoolSize&gt;&amp; <span class="title">getObjectPool</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="type">static</span> ObjectPool&lt;T, nPoolSize&gt; pool;</span><br><span class="line">		<span class="keyword">return</span> pool;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>智能指针</p>
+</blockquote>
+<p>​	c++11提出了三种智能指针，unique_ptr, shared_ptr和weak_ptr，并将auto_ptr摒弃，智能指针可以实现对new出来的对象进行管理，当符合对应的条件时，三种指针会自动析构对象并释放内存。</p>
+<h5 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h5><p>​	shared_ptr可以用来管理一个对象的内存，并可以与其他shared_ptr对象共项其管理对象的内存，其内部包含两个主要的指针：</p>
+<ul>
+<li>指向对象的指针(stored pointer)</li>
+<li>用于控制引用计数的指针（共享）(owned pointer)</li>
+</ul>
+<p>​    当新的shared_ptr参与管理对象内存时，所有对象内部的计数指针计数值都会+1，当shared_ptr对象声明周期结束或者失去其管理身份，计数器的值-1，计数值为0时，最后一个参与管理的shared_ptr对象会释放指向对象的指针。</p>
+<h6 id="常用构造："><a href="#常用构造：" class="headerlink" title="常用构造："></a>常用构造：</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无参构造</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="title">shared_ptr</span><span class="params">()</span> <span class="keyword">noexcept</span></span>;	</span><br><span class="line"><span class="comment">// 使用空指针构造</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="title">shared_ptr</span><span class="params">(<span class="type">nullptr_t</span>)</span> : shared_ptr() &#123;</span>&#125;</span><br><span class="line"><span class="comment">// 使用普通指针构造</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="keyword">explicit</span> <span class="title">shared_ptr</span> <span class="params">(U* p)</span></span>;	</span><br><span class="line"><span class="comment">// 拷贝构造，引用计数+1</span></span><br><span class="line"><span class="built_in">shared_ptr</span> (<span class="type">const</span> shared_ptr&amp; x) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="built_in">shared_ptr</span> (<span class="type">const</span> shared_ptr&lt;U&gt;&amp; x) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="comment">// 使用weak_ptr对象构造，若weak_ptr expired时，构造会抛出bad_weak_ptr异常</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="keyword">explicit</span> <span class="title">shared_ptr</span> <span class="params">(<span class="type">const</span> weak_ptr&lt;U&gt;&amp; x)</span></span>;</span><br><span class="line"><span class="comment">// 使用unique_ptr、auto_ptr对象构造，unique_ptr、auto_ptr放弃管理,内部对象指针为空，shared_ptr对象获得管理身份</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="built_in">shared_ptr</span> (auto_ptr&lt;U&gt;&amp;&amp; x);</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>, <span class="keyword">class</span> <span class="title class_">D</span>&gt; <span class="built_in">shared_ptr</span> (unique_ptr&lt;U,D&gt;&amp;&amp; x);</span><br><span class="line"><span class="comment">// 别名构造，stored pointer指向p，与x共享计数owner_ptr </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="built_in">shared_ptr</span> (<span class="type">const</span> shared_ptr&lt;U&gt;&amp; x, element_type* p) <span class="keyword">noexcept</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 别名构造demo</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>(<span class="type">int</span> a1)</span><br><span class="line">    &#123;</span><br><span class="line">        a = a1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C</span> &#123;<span class="type">int</span>* data;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    A* a1 = <span class="keyword">new</span> <span class="built_in">A</span>(<span class="number">1</span>);</span><br><span class="line">    A* a2 = <span class="keyword">new</span> <span class="built_in">A</span>(<span class="number">2</span>);</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;use_count:\n&quot;</span>;   </span><br><span class="line">    <span class="function">std::shared_ptr&lt;A&gt; <span class="title">p1</span><span class="params">(a1)</span></span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1-&gt;a &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;   </span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;---------------&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function">std::shared_ptr&lt;A&gt; <span class="title">p2</span><span class="params">(p1, a2)</span></span>;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;A&gt; <span class="title">p3</span><span class="params">(a2)</span></span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1-&gt;a &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p2: &quot;</span> &lt;&lt; p2.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p2: &quot;</span> &lt;&lt; p2-&gt;a &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p3: &quot;</span> &lt;&lt; p3.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p3: &quot;</span> &lt;&lt; p3-&gt;a &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    </span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;---------------&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    p1.<span class="built_in">reset</span>();</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p1: &quot;</span> &lt;&lt; p1.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p2: &quot;</span> &lt;&lt; p2.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p2: &quot;</span> &lt;&lt; p2-&gt;a &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p3: &quot;</span> &lt;&lt; p3.<span class="built_in">use_count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;p3: &quot;</span> &lt;&lt; p3-&gt;a &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>【注】不要用一个对象的地址同时构造多个shared_ptr，否则其可能多次析构从而引起异常</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">A</span>(<span class="type">int</span> n):<span class="built_in">a</span>(n)&#123;&#125;</span><br><span class="line">  <span class="type">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  A* a1 = <span class="keyword">new</span> <span class="built_in">A</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="function">std::shared_ptr&lt;A&gt; <span class="title">p1</span> <span class="params">(a1)</span></span>;</span><br><span class="line">  <span class="function">std::shared_ptr&lt;A&gt; <span class="title">p2</span> <span class="params">(p1)</span></span>;  <span class="comment">// √</span></span><br><span class="line">  <span class="function">std::shared_ptr&lt;A&gt; <span class="title">p3</span> <span class="params">(a1)</span></span>;  <span class="comment">// ×</span></span><br><span class="line">  std::cout &lt;&lt; p1.<span class="built_in">use_count</span>()  &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;		<span class="comment">// 2</span></span><br><span class="line">  std::cout &lt;&lt; p2.<span class="built_in">use_count</span>()  &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;		<span class="comment">// 2</span></span><br><span class="line">  std::cout &lt;&lt; p3.<span class="built_in">use_count</span>()  &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;		<span class="comment">// 1</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="放弃对象的管理："><a href="#放弃对象的管理：" class="headerlink" title="放弃对象的管理："></a>放弃对象的管理：</h6><ul>
+<li>运算符&#x3D;，管理新的对象</li>
+<li>reset()</li>
+<li>生命周期结束</li>
+<li>std::move</li>
+</ul>
+<h6 id="成员函数："><a href="#成员函数：" class="headerlink" title="成员函数："></a>成员函数：</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换stored pointer 和 owned pointer</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span> <span class="params">(shared_ptr&amp; x)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 放弃管理对象</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">reset</span><span class="params">()</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 放弃管理对象并管理新的对象</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="type">void</span> <span class="title">reset</span> <span class="params">(U* p)</span></span>;</span><br><span class="line"><span class="comment">//获取指向对象的指针</span></span><br><span class="line"><span class="function">element_type* <span class="title">get</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 获取引用次数</span></span><br><span class="line"><span class="function"><span class="type">long</span> <span class="type">int</span> <span class="title">use_count</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 判断引用唯一，与（use_count() == 1）等价</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">unique</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 判断stored pointer是否非空</span></span><br><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="keyword">operator</span> <span class="title">bool</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 判断owner pointer的地址是否 &lt;= X的owned pointer的地址</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="type">bool</span> <span class="title">owner_before</span> <span class="params">(<span class="type">const</span> weak_ptr&lt;U&gt;&amp; x)</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="type">bool</span> <span class="title">owner_before</span> <span class="params">(<span class="type">const</span> shared_ptr&lt;U&gt;&amp; x)</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h6><p>​	&#x3D;&#x3D;, !&#x3D;, &lt;, &lt;&#x3D;, &gt;, &gt;&#x3D;，用于比较stored pointer的地址大小关系</p>
+<h5 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h5><p>其与shared_ptr的不同之处在于unique_ptr无拷贝构造，其资源对象不可与其他unique_ptr共享，只能在unique_ptr对象之间移动，unique_ptr内部有两个组件：</p>
+<ul>
+<li><p>stored pointer：指向被管理的对象</p>
+</li>
+<li><p>stored deleter：指向删除器，用于析构被管理的对象</p>
+</li>
+</ul>
+<h6 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span> <span class="params">(unique_ptr&amp; x)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="function">pointer <span class="title">get</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="keyword">operator</span> <span class="title">bool</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>; <span class="comment">// &lt;=&gt; get()!=nullptr</span></span><br><span class="line"><span class="function">pointer <span class="title">release</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 放弃管理并返回stored pointer，不析构对象</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h5><h6 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h6><p>对于shared_ptr，其可能出现相互引用而无法析构的情况：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">A</span>()&#123;std::cout &lt;&lt; <span class="string">&quot;A()&quot;</span> &lt;&lt; std::endl;&#125;</span><br><span class="line">    ~<span class="built_in">A</span>()&#123;std::cout &lt;&lt; <span class="string">&quot;~A()&quot;</span> &lt;&lt; std::endl;&#125;</span><br><span class="line">    </span><br><span class="line">    std::shared_ptr&lt;B&gt; ptr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">B</span>()&#123;std::cout &lt;&lt; <span class="string">&quot;B()&quot;</span> &lt;&lt; std::endl;&#125;</span><br><span class="line">    ~<span class="built_in">B</span>()&#123;std::cout &lt;&lt; <span class="string">&quot;~B()&quot;</span> &lt;&lt; std::endl;&#125;</span><br><span class="line">    std::shared_ptr&lt;A&gt; ptr;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A* a = <span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">    B* b = <span class="keyword">new</span> <span class="built_in">B</span>();</span><br><span class="line">    <span class="function">std::shared_ptr&lt;A&gt; <span class="title">ptr1</span><span class="params">(a)</span></span>;</span><br><span class="line">    <span class="function">std::shared_ptr&lt;B&gt; <span class="title">ptr2</span><span class="params">(b)</span></span>;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ptr1 A use count : &quot;</span> &lt;&lt; ptr1.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ptr2 B use count : &quot;</span> &lt;&lt; ptr2.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;----------------------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    </span><br><span class="line">    a-&gt;ptr = ptr2;</span><br><span class="line">    b-&gt;ptr = ptr1;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ptr1 A use count : &quot;</span> &lt;&lt; ptr1.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;ptr2 B use count : &quot;</span> &lt;&lt; ptr2.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;----------------------&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/05/02/Uoki7sBVwHjySrl.png" alt="image-20220502181125864"></p>
+<p>可以看出当ptr1和ptr2在其生命周期结束时，并没有将A和B的实例对象析构，但是这两个实例对象的内存也无法访问到了，造成内存泄漏，对于这种情况可以将A或B中的成员对象ptr类型换成weak_ptr。</p>
+<p><img src="https://s2.loli.net/2022/05/02/ibwcd83kSXC1rUE.png" alt="image-20220502181427989"></p>
+<p>可以看出ptr1和ptr2的生命周期结束后，A和B的实例对象都被析构，这是因为weak_ptr在引用对象时，并不会引起owned pointer的计数增加，从途中可以看出，ptr1的use_count值为1，当其生命周期结束时，use_count减为0，A被析构，A的成员对象ptr也被析构，那么ptr2的owned_pointer的计数值在其生命周期结束时也会变为0，B的实例对象也会被析构。</p>
+<h6 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认构造</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="title">weak_ptr</span><span class="params">()</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="comment">// 拷贝构造</span></span><br><span class="line"><span class="built_in">weak_ptr</span> (<span class="type">const</span> weak_ptr&amp; x) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="built_in">weak_ptr</span> (<span class="type">const</span> weak_ptr&lt;U&gt;&amp; x) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="comment">// 使用shared_ptr构造</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="built_in">weak_ptr</span> (<span class="type">const</span> shared_ptr&lt;U&gt;&amp; x) <span class="keyword">noexcept</span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="成员函数-1"><a href="#成员函数-1" class="headerlink" title="成员函数"></a>成员函数</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span> <span class="params">(weak_ptr&amp; x)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">reset</span><span class="params">()</span> <span class="keyword">noexcept</span></span>;	<span class="comment">// 无重载函数</span></span><br><span class="line"><span class="function"><span class="type">long</span> <span class="type">int</span> <span class="title">use_count</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;	<span class="comment">// 只返回对象被shared_ptr引用的次数</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">expired</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>;	<span class="comment">// 对象已被析构，返回true</span></span><br><span class="line"><span class="function">shared_ptr&lt;element_type&gt; <span class="title">lock</span><span class="params">()</span> <span class="type">const</span> <span class="keyword">noexcept</span></span>; <span class="comment">// 返回shared_ptr对象， 返回对象的stored pointer与自身的指向相同</span></span><br><span class="line"><span class="comment">// 判断owner pointer的地址是否 &lt;= X的owned pointer的地址</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="type">bool</span> <span class="title">owner_before</span> <span class="params">(<span class="type">const</span> weak_ptr&lt;U&gt;&amp; x)</span> <span class="type">const</span></span>; </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt; <span class="function"><span class="type">bool</span> <span class="title">owner_before</span> <span class="params">(<span class="type">const</span> shared_ptr&lt;U&gt;&amp; x)</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="智能指针与对象池的结合"><a href="#智能指针与对象池的结合" class="headerlink" title="智能指针与对象池的结合"></a>智能指针与对象池的结合</h5><p>如果想要将某对象内存交由对象池管理，而其生命周期交由智能指针管理，应使用new运算符，从对象池中分配内存，然后将指针交由智能指针管理。</p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shared-ptr"><span class="toc-number">2.</span> <span class="toc-text">shared_ptr</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E9%80%A0%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">常用构造：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%94%BE%E5%BC%83%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">放弃对象的管理：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">成员函数：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.4.</span> <span class="toc-text">关系运算符</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#unique-ptr"><span class="toc-number">3.</span> <span class="toc-text">unique_ptr</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">成员函数</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#weak-ptr"><span class="toc-number">4.</span> <span class="toc-text">weak_ptr</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">4.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0-1"><span class="toc-number">4.3.</span> <span class="toc-text">成员函数</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%B8%8E%E5%AF%B9%E8%B1%A1%E6%B1%A0%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-number">5.</span> <span class="toc-text">智能指针与对象池的结合</span></a></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=C++ 内存管理"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&title=C++ 内存管理"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/&text=C++ 内存管理"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=C++ 内存管理&body=Check out this article: http://example.com/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>can原来是这么一回事。。（can简单介绍）</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/shell%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/06/20/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E6%9C%89%E5%BE%85%E6%95%B4%E7%90%86%E7%9A%84%E7%9F%A5%E8%AF%86-linux/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/&title=can原来是这么一回事。。（can简单介绍）"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/&title=can原来是这么一回事。。（can简单介绍）"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/&text=can原来是这么一回事。。（can简单介绍）"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=can原来是这么一回事。。（can简单介绍）&body=Check out this article: http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-can%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.can简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1can-%E9%80%9A%E8%AE%AF%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">1.1can 通讯特点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-can%E7%AE%80%E5%8D%95%E7%9A%84%E7%89%A9%E7%90%86%E6%9E%84%E6%88%90"><span class="toc-number">2.</span> <span class="toc-text">2.can简单的物理构成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1can-controller"><span class="toc-number">2.1.</span> <span class="toc-text">2.1can controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-can-transceiver"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 can transceiver</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-%E4%BD%8E%E9%80%9Fcan-transceiver"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 低速can transceiver</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-%E9%AB%98%E9%80%9Fcan-transceiver"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 高速can transceiver</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-can%E7%9A%84%E6%80%BB%E7%BA%BF%E9%80%BB%E8%BE%91"><span class="toc-number">3.</span> <span class="toc-text">3.can的总线逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">4.帧格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E6%95%B0%E6%8D%AE%E5%B8%A7-%E8%BF%9C%E7%A8%8B%E5%B8%A7"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 数据帧&#x2F;远程帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E9%94%99%E8%AF%AF%E5%B8%A7"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 错误帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E6%80%BB%E7%BA%BF%E5%90%8C%E6%AD%A5"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 总线同步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%BB%E7%BA%BF%E7%AB%9E%E4%BA%89"><span class="toc-number">5.</span> <span class="toc-text">5.总线竞争</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%95%B0%E6%8D%AE%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.</span> <span class="toc-text">6.数据保护</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-%E7%89%A9%E7%90%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 物理设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-%E6%80%BB%E7%BA%BF%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%88%B6"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 总线逻辑错误检测机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-%E6%80%BB%E7%BA%BF%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6"><span class="toc-number">6.3.</span> <span class="toc-text">6.3 总线逻辑错误处理机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA%E6%9C%BA%E5%88%B6"><span class="toc-number">6.4.</span> <span class="toc-text">6.4 错误跟踪机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">6.4.1.</span> <span class="toc-text">错误计数器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">6.4.2.</span> <span class="toc-text">节点三种状态</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.4.2.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        can原来是这么一回事。。（can简单介绍）
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-06-23T14:12:49.000Z"
+                  itemprop="datePublished">2020-06-23</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:41:11.001Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE/">通讯协议</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/can/" rel="tag">can</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h3 id="1-can简介"><a href="#1-can简介" class="headerlink" title="1.can简介"></a>1.can简介</h3><p>​    	众所周知，在一些分布式的控制系统中，尤其是汽车控制系统，can被广泛使用。can总线中只有2根数据传输线，总线上理论上可以连接无限多个节点（实际中受诸多条件限制，比如电气负载与数据传输的时间延时问题，一般总线最多不超过40m,节点数不超过32个节点，节点数与通讯的收发器硬件承受能力也有关系，网路末端也要接终端电阻），同时节点之间没有主从关系，其中一个节点发送数据，其余各节点均进入接收状态，可以拿广播作为举例，一个节点以广播形式发送数据，其余节点可以选择是否收听广播节目，本文将简单介绍can总线作为广播电台是如何选择播放哪个节点的节目以及如何保证节目播放的完整性与稳定性。</p>
+<p><escape><span id="more"></span></escape></p>
+<h4 id="1-1can-通讯特点"><a href="#1-1can-通讯特点" class="headerlink" title="1.1can 通讯特点"></a>1.1can 通讯特点</h4><blockquote>
+<p>去中心化：can通讯采用分布式原则，总线空闲时任意节点均可竞争发送消息，消息被广播时，各个节点可自行选择是否进行过滤。</p>
+</blockquote>
+<blockquote>
+<p>事件驱动：类似于中断函数，对特定的事件的发生进行广播。11898-4通讯协议另外增加了时间触发机制。</p>
+</blockquote>
+<p>&lt; !– more –&gt;</p>
+<h3 id="2-can简单的物理构成"><a href="#2-can简单的物理构成" class="headerlink" title="2.can简单的物理构成"></a>2.can简单的物理构成</h3><p>​    	如图所示，can总线由两根数据线组成，分别为canh和canl,can总线两端接的是终端电阻，来防止信号反射，一个can总线上可以连接若干个节点can node，node大致分为3个部分，host，can controller，can transceiver，host一般为我们的mcu，常见的就是我们的各种型号的单片机，部分单片机比如stm32会集成can controller，使用can通讯时只需外接一个can收发器就行。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/canmode.PNG" alt="canmode"></p>
+<h4 id="2-1can-controller"><a href="#2-1can-controller" class="headerlink" title="2.1can controller"></a>2.1can controller</h4><p>​    	如果其在同一个周期内需要接收大量消息时，可能需要外接存储器，接收信息比较少时则不需要，can controller 集成在mcu上时，一般也是有存储能力的。</p>
+<h4 id="2-2-can-transceiver"><a href="#2-2-can-transceiver" class="headerlink" title="2.2 can transceiver"></a>2.2 can transceiver</h4><p>​    	can transceiver直接与can总线相连，与controller在物理上解耦，确保当can总线上电平过高或发生其他情况时，不会对controller和mcu造成损坏，can transceiver分为低速transceiver和高速transceiver。</p>
+<h5 id="2-2-1-低速can-transceiver"><a href="#2-2-1-低速can-transceiver" class="headerlink" title="2.2.1 低速can transceiver"></a>2.2.1 低速can transceiver</h5><p>​    	低速transceiver采用iso 11898-3通讯协议，通讯速度在0~125Kbps之内，can总线两端不会发生信号反射，因此也不需要连接终端电阻，其差分电平时序图如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/lowspeedcan.PNG" alt="lowspeedcan"></p>
+<p>​    	如图示，当transceiver检测到canl比canh的电平高5V左右时，会认为can总线上呈显性电平（逻辑0），当canh比canl高2V左右时，认为can总线上呈隐性电平（逻辑1）。</p>
+<h5 id="2-2-2-高速can-transceiver"><a href="#2-2-2-高速can-transceiver" class="headerlink" title="2.2.2 高速can transceiver"></a>2.2.2 高速can transceiver</h5><p>​    	高速can的通讯协议为iso 11893-2，通讯速度在0~1Mbps之内，can总线两端需要连接中断电阻，其差分电平时序图如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/highspeedcan.PNG" alt="highspeedcan"></p>
+<p>​    	如图示，canh和canl的基准电平都为2.5V，当transceiver检测到canl比canh的电平都为基准电平时，会认为can总线上呈显性电平（逻辑0），当canh比canl高5V左右时，认为can总线上呈隐性电平（逻辑1）。</p>
+<h3 id="3-can的总线逻辑"><a href="#3-can的总线逻辑" class="headerlink" title="3.can的总线逻辑"></a>3.can的总线逻辑</h3><p>​		如上文所述，逻辑0为显性逻辑，逻辑1为隐性逻辑，总线遵循线与逻辑，即只要有一个node发送显性电平，总线电平呈显性电平，这点在can总线仲裁和错误检测上有着决定性的意义，也就是决定了总线广播是如何选择哪个节点的节目来进行播放，对广播的的完整性和稳定性也有重要影响。</p>
+<h3 id="4-帧格式"><a href="#4-帧格式" class="headerlink" title="4.帧格式"></a>4.帧格式</h3><h4 id="4-1-数据帧-远程帧"><a href="#4-1-数据帧-远程帧" class="headerlink" title="4.1 数据帧&#x2F;远程帧"></a>4.1 数据帧&#x2F;远程帧</h4><p>​		数据帧用于主动传输数据。其格式如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/dataframe.PNG" alt="dataframe"></p>
+<p>​		图中显示的是数据帧的标准帧的格式，还有一种扩展帧也是标准帧的一种，与标准帧的主要区别就是对标准帧的id位进行扩展，标准帧id长为11位，而扩展帧为29位，因此扩展帧可以支持更多的can节点。</p>
+<blockquote>
+<p>sof（1bit）：发出一个显性为边沿，can通讯并没有单独的时钟总线，网络节点以此显性边沿开始同步</p>
+</blockquote>
+<blockquote>
+<p>id（11bit）：定义消息优先级，数字越低优先级越高（can总线仲裁时会解释这点），这一区间也被成为仲裁域</p>
+</blockquote>
+<blockquote>
+<p>RTR（1bit）：显性表示数据帧，隐性表示远程帧</p>
+</blockquote>
+<blockquote>
+<p>r（1bit）：保留位</p>
+</blockquote>
+<blockquote>
+<p>dlc（4bit）：表示数据场的字节长度（最多8字节）</p>
+</blockquote>
+<blockquote>
+<p>Data Field（dlc确定长度）：数据位，长度由dlc决定，最多8字节</p>
+</blockquote>
+<blockquote>
+<p>crc（16bit）：校验位，包含1位隐性位的界定符，发送方根据前面所有数据自行对crc进行编码，然后填入crc位中，接收方在接收完crc前所有消息后会以同样的算法计算出一个crc编码并与发送方发送的crc进行比较，如果相同则认为这一帧数据发送正确，不一样则会报crc校验错误</p>
+</blockquote>
+<blockquote>
+<p>ack（2bit）：由接收方进行确认，收到消息会给出一个显性位，如果一个节点都没有确认收到消息，发送方监听此位为隐性位时就会报ack应答错误</p>
+</blockquote>
+<blockquote>
+<p>IDE（1位）：扩展帧标识符，扩展帧后面在此位后面会接扩展id的另18位，id前11位位置与标准帧相同</p>
+</blockquote>
+<blockquote>
+<p>EOF（7位）：帧结束标志，7bit全部隐性</p>
+</blockquote>
+<blockquote>
+<p>ITM（3bit）：帧间隔，不属于数据帧帧内，数据帧之间必须至少间隔1个ITM</p>
+</blockquote>
+<p>​		远程帧相对于数据帧，少了数据场（dlc和data field），其作用是某节点a以节点b的id向外广播，节点b收到后传送响应的信息，相当于a远程控制b发送数据</p>
+<h4 id="4-2-错误帧"><a href="#4-2-错误帧" class="headerlink" title="4.2 错误帧"></a>4.2 错误帧</h4><p>​		参照第六章。</p>
+<h4 id="4-3-总线同步"><a href="#4-3-总线同步" class="headerlink" title="4.3 总线同步"></a>4.3 总线同步</h4><p>​		can总线首次同步由sof发起，数据传输期间的重同步由位填充机制完成，即报文的侦起始、仲裁域、控制域、数据域以及CRC校验部分只要连续出现五个相同的位就需要额外插入一个相反的位，然后利用转化产生的边沿进行重同步，最后接收器再将插入帧去掉，这样就完成了总线同步。</p>
+<h3 id="5-总线竞争"><a href="#5-总线竞争" class="headerlink" title="5.总线竞争"></a>5.总线竞争</h3><p>​		总线竞争解决了多个节点在同一时间发送消息的竞争总线问题，也就是文章开始说的总线广播选择哪个节点的节目进行广播的问题。每个节点根据id竞争的流程图如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/competitionprocess.PNG" alt="competitionprocess"></p>
+<p>​		每个节点都会在进行发送时对总线电平进行监控，由于总线电平的线与逻辑，当节点发送id中某一位1后，若检测到总线上的电平为显性电平，则证明有某一个节点的id在相同位为0，此时，前者被判定为竞争失败，退出竞争，转为接收方，若检测到总线电平仍为隐性电平，则继续竞争总线，直至出现胜利的节点，这种竞争机制解释了为什么说节点中的id越小，消息优先级越高，竞争图解如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/buscompetition.PNG" alt="buscompetition"></p>
+<p>​		通过上文描述就能够说明节点能够通过id进行总线竞争的原因就是：</p>
+<blockquote>
+<p>1.总线遵循线与逻辑，0位显性，1位隐性</p>
+</blockquote>
+<blockquote>
+<p>2.节点在发送id时会监听总线电平，进行判断</p>
+</blockquote>
+<h3 id="6-数据保护"><a href="#6-数据保护" class="headerlink" title="6.数据保护"></a>6.数据保护</h3><p>​		can之所以能够得到广泛应用离不开其数据传输的稳定性，下面就来简单介绍下为什么can数据传输如此稳定。</p>
+<h4 id="6-1-物理设计"><a href="#6-1-物理设计" class="headerlink" title="6.1 物理设计"></a>6.1 物理设计</h4><p>​		can总线的传输协议对数据采取了NRZ编码，这种编码格式相比于曼彻斯特编码会少很多信号的跳变，减少了跳变时外界的干扰（同时，信号跳变沿少也会给时钟同步带来问题，于是引入了位填充机制作为补充）。</p>
+<p>​		在实际中，对can总线双绞线进行扭转也会在一定程度上消除共模干扰，终端接终端电阻也可以消除电缆线高频传输信号时电缆末端产生的反射。</p>
+<h4 id="6-2-总线逻辑错误检测机制"><a href="#6-2-总线逻辑错误检测机制" class="headerlink" title="6.2 总线逻辑错误检测机制"></a>6.2 总线逻辑错误检测机制</h4><p>​		can通讯实现了五中错误检测机制：</p>
+<blockquote>
+<p>stuff check：接收节点检测，检测是否有位填充错误，连续6个同极性位（除了EOF区）则报错</p>
+</blockquote>
+<blockquote>
+<p>form check：接收节点检测，检测crc界定符，ack界定符，eof界定符是否为显性</p>
+</blockquote>
+<blockquote>
+<p>bit monitoring：发送节点检测，发送显性但是can总线显示隐性则报错</p>
+</blockquote>
+<blockquote>
+<p>crc：接收节点显示，与发送方crc端进行对比，不一致则报错</p>
+</blockquote>
+<blockquote>
+<p>ack check：发送方检测，如果发送方检测到该位为隐性，则报错</p>
+</blockquote>
+<h4 id="6-3-总线逻辑错误处理机制"><a href="#6-3-总线逻辑错误处理机制" class="headerlink" title="6.3 总线逻辑错误处理机制"></a>6.3 总线逻辑错误处理机制</h4><p>​		can通讯遵循数据一致性原则，出于此原则，某个节点检测到错误会让所有节点知道此刻有一个错误，错误帧格式如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/error.PNG" alt="error"></p>
+<p>​		当某个节点检测到错误时，就会发送一个error flag，一个error flag由6个连续相同电平（主动错误：6个显性电平，被动错误：6个隐性电平）组成，之后便发送连续8个隐性电平表示错误帧完毕。</p>
+<p>[<strong>注</strong>] 别的节点检测出来错误发出的6个连续显性电平本身就不符合stuff check而被另外节点检测出来，此时另外一个错误发出被动错误的error flag。</p>
+<p>​		那么为什么图中会有不止一个error flag呢？原因在于节点检测到错误发送的6个显性电平后，别的节点也可能检测出来错误发出显性电平对其进行覆盖。</p>
+<h4 id="6-4-错误跟踪机制"><a href="#6-4-错误跟踪机制" class="headerlink" title="6.4 错误跟踪机制"></a>6.4 错误跟踪机制</h4><p>​		线与逻辑有一个问题，就是当某个节点一直检测错误时，其发送的error会让总线一直处于卡死状态，为了避免这个问题，can通讯提供了一种错误跟踪机制，对错误进行鉴别并限制其是否需要被广播。</p>
+<h5 id="错误计数器"><a href="#错误计数器" class="headerlink" title="错误计数器"></a>错误计数器</h5><p>​		每个节点的controller都有错误检测器，其计数方式如下：</p>
+<blockquote>
+<p>发送错误计数器TEC(Transmit Error Counter)：成功发送一条消息，计数器数值-1；发送时检测到错误，计数器数值+8</p>
+</blockquote>
+<blockquote>
+<p>接收错误计数器REC(Receive Error Counter)：成功接收一条消息，计数器数值-1；检测到错误，如果该节点时接收方，计数器数值+1，是引起错误的接收方，计数器的值+8</p>
+</blockquote>
+<h5 id="节点三种状态"><a href="#节点三种状态" class="headerlink" title="节点三种状态"></a>节点三种状态</h5><blockquote>
+<p>error active：默认初始状态，发现错误积极主动上报错误</p>
+</blockquote>
+<blockquote>
+<p>error passive：节点发现错误只会发送6个隐性位，并不会将错误广播</p>
+</blockquote>
+<blockquote>
+<p>bus off：节点对总线不再产生任何影响，其在逻辑上与总线断开</p>
+</blockquote>
+<p>​		三种状态之间的切换过程如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/errortracking.PNG" alt="errortracking"></p>
+<hr>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1d7411i7Ey/?spm_id_from=333.788.videocard.1">https://www.bilibili.com/video/BV1d7411i7Ey/?spm_id_from=333.788.videocard.1</a></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-can%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.can简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1can-%E9%80%9A%E8%AE%AF%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">1.1can 通讯特点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-can%E7%AE%80%E5%8D%95%E7%9A%84%E7%89%A9%E7%90%86%E6%9E%84%E6%88%90"><span class="toc-number">2.</span> <span class="toc-text">2.can简单的物理构成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1can-controller"><span class="toc-number">2.1.</span> <span class="toc-text">2.1can controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-can-transceiver"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 can transceiver</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-%E4%BD%8E%E9%80%9Fcan-transceiver"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 低速can transceiver</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-%E9%AB%98%E9%80%9Fcan-transceiver"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 高速can transceiver</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-can%E7%9A%84%E6%80%BB%E7%BA%BF%E9%80%BB%E8%BE%91"><span class="toc-number">3.</span> <span class="toc-text">3.can的总线逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">4.帧格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E6%95%B0%E6%8D%AE%E5%B8%A7-%E8%BF%9C%E7%A8%8B%E5%B8%A7"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 数据帧&#x2F;远程帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E9%94%99%E8%AF%AF%E5%B8%A7"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 错误帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E6%80%BB%E7%BA%BF%E5%90%8C%E6%AD%A5"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 总线同步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%BB%E7%BA%BF%E7%AB%9E%E4%BA%89"><span class="toc-number">5.</span> <span class="toc-text">5.总线竞争</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%95%B0%E6%8D%AE%E4%BF%9D%E6%8A%A4"><span class="toc-number">6.</span> <span class="toc-text">6.数据保护</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-%E7%89%A9%E7%90%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 物理设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-%E6%80%BB%E7%BA%BF%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%88%B6"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 总线逻辑错误检测机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-%E6%80%BB%E7%BA%BF%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6"><span class="toc-number">6.3.</span> <span class="toc-text">6.3 总线逻辑错误处理机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-%E9%94%99%E8%AF%AF%E8%B7%9F%E8%B8%AA%E6%9C%BA%E5%88%B6"><span class="toc-number">6.4.</span> <span class="toc-text">6.4 错误跟踪机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">6.4.1.</span> <span class="toc-text">错误计数器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E4%B8%89%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="toc-number">6.4.2.</span> <span class="toc-text">节点三种状态</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.4.2.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/&title=can原来是这么一回事。。（can简单介绍）"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/&title=can原来是这么一回事。。（can简单介绍）"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/&text=can原来是这么一回事。。（can简单介绍）"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=can原来是这么一回事。。（can简单介绍）&body=Check out this article: http://example.com/2020/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/can%E5%8E%9F%E6%9D%A5%E6%98%AF%E8%BF%99%E4%B9%88%E4%B8%80%E5%9B%9E%E4%BA%8B%E3%80%82%E3%80%82%EF%BC%88can%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>MAC地址、IP地址与ARP协议</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%B7%AF%E7%94%B1%E5%99%A8/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/&title=MAC地址、IP地址与ARP协议"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/&title=MAC地址、IP地址与ARP协议"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/&text=MAC地址、IP地址与ARP协议"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=MAC地址、IP地址与ARP协议&body=Check out this article: http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MAC%E5%9C%B0%E5%9D%80"><span class="toc-number">2.</span> <span class="toc-text">2.MAC地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1MAC%E5%9C%B0%E5%9D%80%E7%AE%80%E4%BB%8B%E5%8F%8A%E4%BD%9C%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">2.1MAC地址简介及作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-IEEE-802%E5%B1%80%E5%9F%9F%E7%BD%91%E7%9A%84MAC%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 IEEE 802局域网的MAC地址格式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-MAC%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 MAC地址格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-%E5%8D%95%E6%92%AD%EF%BC%8C%E5%A4%9A%E6%92%AD%E5%92%8C%E5%B9%BF%E6%92%ADMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 单播，多播和广播MAC地址</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E6%95%B0%E6%8D%AE%E5%8C%85%E8%BD%AC%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%ADIP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8F%98%E5%8C%96%E6%83%85%E5%86%B5"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 数据包转发过程中IP地址与MAC地址的变化情况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-ARP%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.</span> <span class="toc-text">3. ARP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MAC地址、IP地址与ARP协议
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-07-01T11:08:19.000Z"
+                  itemprop="datePublished">2021-07-01</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:31:52.629Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/tcp-ip/" rel="tag">tcp/ip</a>, <a class="tag-link-link" href="/tags/%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE/" rel="tag">通讯协议</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>​    	mac地址是以太网MAC子层所用的地址，属于数据链路层，ip地址为tcp&#x2F;ip体系结构中网络层使用的地址，arp协议同样属于网络层协议，其作用是已知设备所分配到的ip地址，根据ip地址获取到设备的mac地址。</p>
+<p><escape><span id="more"></span></escape></p>
+<h3 id="2-MAC地址"><a href="#2-MAC地址" class="headerlink" title="2.MAC地址"></a>2.MAC地址</h3><h4 id="2-1MAC地址简介及作用"><a href="#2-1MAC地址简介及作用" class="headerlink" title="2.1MAC地址简介及作用"></a>2.1MAC地址简介及作用</h4><p>​    	当多个主机连接在同一个广播信道上，要想实现两台主机之间的通信，每台主机必须有自己的标识，即一个数据链路层地址，在数据链路层中，以该地址区分每一台主机，这类地址是用于媒体接入控制（media access control）的，因此也称作MAC地址。</p>
+<p>​		MAC地址一般被固化在网卡（网络适配器）的EEPROOM中，因此MAC有时也称作物理地址或硬件地址。另外，因为通常情况下每台主机包括一个有线局域网适配器（有线网卡）和一个无线局域网适配器（无线网卡），所以<strong>MAC地址只作为网络适配器或者说网络中各接口的唯一标识，并不作为网络中各主机或个网络设备的唯一标识</strong>。</p>
+<p>​		当数据链路层将一个ip数据报封装为一个数据链路层的帧时，和网络层类似，会将自己的MAC地址（源MAC地址）和目标MAC地址一起封装到帧当中，并由物理层传输至该信道上的其他各个主机。</p>
+<p>​		如图示，有MAC地址分别为ABCDE的五台主机，当主机C给主机D发送帧时，会将源MAC地址C和目的MAC地址D一起封装到帧中，发送后，网络上的各个主机都会接收到该帧，并将帧中的目标MAC地址与自身MAC地址比较，若两者相同，则接受该帧并执行相应动作，否则，则抛弃该帧。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914140947558.png" alt="image-20210914140947558"></p>
+<h4 id="2-2-IEEE-802局域网的MAC地址格式"><a href="#2-2-IEEE-802局域网的MAC地址格式" class="headerlink" title="2.2 IEEE 802局域网的MAC地址格式"></a>2.2 IEEE 802局域网的MAC地址格式</h4><h5 id="2-2-1-MAC地址格式"><a href="#2-2-1-MAC地址格式" class="headerlink" title="2.2.1 MAC地址格式"></a>2.2.1 MAC地址格式</h5><p>​		如图示，MAC地址通常由48个bit构成，其中前三个字节表示各个网络设备厂商，由IEEE的注册管理机构分配，后三个字节则由各个网络厂商分配，标识自己生产的网络接口。一般地，将48个bit分为6个字节，用16进制表示，字节之间以’-‘或者’:’分隔，用来表示MAC地址。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914142539860.png" alt="image-20210914142539860"></p>
+<h5 id="2-2-2-单播，多播和广播MAC地址"><a href="#2-2-2-单播，多播和广播MAC地址" class="headerlink" title="2.2.2 单播，多播和广播MAC地址"></a>2.2.2 单播，多播和广播MAC地址</h5><p>​		MAC地址的第一字节中的bit0表示了该MAC地址是单播还是多播，bit1表示了该MAC地址是本地管理还是全球管理，这样就将MAC地址分为了四类，每类数量相同，其中本地管理中的多播地址FF-FF-FF-FF-FF-FF代表广播地址。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914143100945.png" alt="image-20210914143100945"></p>
+<blockquote>
+<p>单播MAC地址：即为网络接口的MAC地址</p>
+</blockquote>
+<blockquote>
+<p>多播MAC地址：不是网络接口的MAC地址，但是多个主机可以在自己的多播组列表中配置相同的多播组列表，当网络中某个主机发送帧中的目标MAC地址为多播MAC地址时，该帧称为多播帧，在多播组列表中配置该多播MAC地址的主机都会接受该帧，交由上层处理，否则，则抛弃该帧</p>
+</blockquote>
+<blockquote>
+<p>广播MAC地址：FF-FF-FF-FF-FF-FF,数据链路层将帧中的目标MAC地址填入广播MAC地址时，该帧称为广播帧，所有接收到该帧的主机都会接受该帧，交由上层处理</p>
+</blockquote>
+<h4 id="2-3-数据包转发过程中IP地址与MAC地址的变化情况"><a href="#2-3-数据包转发过程中IP地址与MAC地址的变化情况" class="headerlink" title="2.3 数据包转发过程中IP地址与MAC地址的变化情况"></a>2.3 数据包转发过程中IP地址与MAC地址的变化情况</h4><p>​		图示为一个IP地址为IP1的主机与一个IP地址为IP2的主机通讯过程中，数据包转发过程中IP地址与MAC地址的变化情况：</p>
+<p>​		<img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914145521277.png" alt="image-20210914145521277"></p>
+<p>​		可以看出帧中的源MAC地址会随着转发中的拆封与重封装而变化，而ip数据包装的源ip与目标ip没有变化，这是因为数据链路层接受到帧时，每次认为数据包已经到了目标主机，然后交由网络层，而网络层不认为其已经到达目标主机，所以不对ip数据报进行改动，重新发给数据链路层进行转发，数据链路层重新将ip数据报封装为帧，进行转发至下个主机。</p>
+<h3 id="3-ARP协议"><a href="#3-ARP协议" class="headerlink" title="3. ARP协议"></a>3. ARP协议</h3><p>​		ARP协议全称Address Resolution Protocol（地址解析协议），即根据IP地址寻找对应主机的MAC地址。对于上述数据包的转发过程，每次转发下个节点的ip地址是由网络层的路由选择算法得来，而下个节点的MAC地址，则由ARP协议计算得来。</p>
+<p>​		实际上与路由表类似，每个主机上也会有一个ARP高速缓存表，如下图，主机B给主机C发送数据包时，首先根据ARP高速缓存表进行MAC地址查询。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914151132338.png" alt="image-20210914151132338"></p>
+<p>​	如果能够找到，则根据MAC地址进行转发，如果未能找到，则发送ARP请求报文给网络中的各个节点，报文封装在<strong>广播帧</strong>中，报文中包含自身ip地址，自身MAC地址，以及目标主机的IP地址，如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914151419916.png" alt="image-20210914151419916"></p>
+<p>​	这时，主机AC都收到该广播帧，A收到该帧，发现请求中的目标ip地址并非自己，抛弃该帧，C收到该帧，发现有节点想知道自己的MAC地址，然后将B的ip和MAC地址封装在自己的ARP高速缓存表中，然后将相应报文封装在<strong>单播帧</strong>发送给B。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914152128870.png" alt="image-20210914152128870"></p>
+<p>​	总线上的其他主机都能收到该单播帧，但只有B的MAC地址与单播帧的目标MAC地址相同，进行接受并交由上层处理，然后将C的ip地址和MAC地址记录在自己的ARP高速缓存表中，这样，主机B便知道了C的MAC地址，从而进行通讯。</p>
+<p>​											<img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914152521546.png" alt="image-20210914152521546"></p>
+<p>​	其中，在ARP高速缓存表中，每行数据可分为动态和静态两种类型，动态记录为类似上述过程中通过广播帧自动获取到的，其生命周期为两分钟，静态记录是手动设置的，不同操作系统中静态记录生命周期不同，例如系统重启后静态记录不存在或者重启后依然有效。</p>
+<hr>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=34">计算机网络微课堂（湖科大教书匠）</a></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MAC%E5%9C%B0%E5%9D%80"><span class="toc-number">2.</span> <span class="toc-text">2.MAC地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1MAC%E5%9C%B0%E5%9D%80%E7%AE%80%E4%BB%8B%E5%8F%8A%E4%BD%9C%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">2.1MAC地址简介及作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-IEEE-802%E5%B1%80%E5%9F%9F%E7%BD%91%E7%9A%84MAC%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 IEEE 802局域网的MAC地址格式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-MAC%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 MAC地址格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-%E5%8D%95%E6%92%AD%EF%BC%8C%E5%A4%9A%E6%92%AD%E5%92%8C%E5%B9%BF%E6%92%ADMAC%E5%9C%B0%E5%9D%80"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 单播，多播和广播MAC地址</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E6%95%B0%E6%8D%AE%E5%8C%85%E8%BD%AC%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%ADIP%E5%9C%B0%E5%9D%80%E4%B8%8EMAC%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8F%98%E5%8C%96%E6%83%85%E5%86%B5"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 数据包转发过程中IP地址与MAC地址的变化情况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-ARP%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.</span> <span class="toc-text">3. ARP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/&title=MAC地址、IP地址与ARP协议"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/&title=MAC地址、IP地址与ARP协议"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/&text=MAC地址、IP地址与ARP协议"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=MAC地址、IP地址与ARP协议&body=Check out this article: http://example.com/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>TCP粘包与拆包</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/08/04/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/%E5%BE%AA%E7%8E%AF%E4%B8%AD%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8%E5%85%83%E7%B4%A0/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/08/02/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/%E5%87%BD%E6%95%B0%E4%BD%9C%E7%94%A8%E5%9F%9F/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/&title=TCP粘包与拆包"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/&title=TCP粘包与拆包"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/&text=TCP粘包与拆包"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=TCP粘包与拆包&body=Check out this article: http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#TCP%E7%B2%98%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">TCP粘包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">解决方案</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        TCP粘包与拆包
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-08-02T16:00:00.000Z"
+                  itemprop="datePublished">2020-08-03</time>
+            
+                (Updated:
+                <time datetime="2022-01-15T07:03:45.771Z"
+                      itemprop="dateModified">2022-01-15</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" rel="tag">项目笔记</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h5 id="TCP粘包"><a href="#TCP粘包" class="headerlink" title="TCP粘包"></a>TCP粘包</h5><p>​	在使用tcp socket进行收发数据时，实际上在发送和接收端都设置的有缓冲区，在调用send()函数时，tcp报文段并不会立即发送出去，而是首先判断发送缓冲区中是否有足够的长度，如果发送缓冲区没有足够的长度，则先不将报文段放入，等待当前缓冲区到达定时时间后，tcp发送方先将当前缓冲区内数据全部发出，再将之前的tcp报文段写入缓冲区，等待下次发送，这样可能接收方会一次性接收多个send()发送的数据，也称为<strong>tcp粘包</strong>。</p>
+<p>​	对于接受方也是一样，recv()时也不会一次性将接受缓冲区内的数据全部接受，而是要参照传入recv函数的最大长度来进行接收，并将接收长度返回。</p>
+<p>​	这样，如果发送的速度大于接受的速度时，就有可能导致接收缓冲区溢出，发送方停止发送，造成网络堵塞。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211212172055981.png" alt="image-20211212172055981"></p>
+<p><escape><span id="more"></span></escape></p>
+<h5 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h5><p>​	如同前面所说，如果接收方recv的速度过慢，那么接收方的缓冲区迟早会溢出造成网络堵塞，那么应对之法就是一次性将缓冲区的数据全部取出，放入缓存中。</p>
+<p>​	这时，发送方发送的数据全部堆积在了一起，虽然解决了网络可能堵塞的问题，但是tcp粘包的问题仍然存在，针对这个问题，主要从接收方开始着手，将tcp报文段按照特定长度，依次将每条消息从缓存中取出进行处理，然后将其从缓存中移除即可，这种解决方案也称为<strong>拆包</strong>。</p>
+<p>​	拆包过程主要维护两个变量，一个是用来缓存消息的缓冲区，另一个是缓冲区的尾部索引，即缓存中未处理的消息长度，拆包的主要过程如下：</p>
+<ul>
+<li>定义消息数据结构，包含消息类型，长度，数据内容等信息</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">CMND</span>&#123;</span><br><span class="line">    CMND_ERROR,</span><br><span class="line">    CMND_LOGIN,</span><br><span class="line">    CMND_LOGOUT</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DataHeader</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">DataHeader</span>()&#123;</span><br><span class="line">        cmnd = CMND_ERROR;</span><br><span class="line">        length = <span class="built_in">sizeof</span>(DataHeader);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> cmnd;</span><br><span class="line">    <span class="type">int</span> length;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Login</span>: pulic DataHeader&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Login</span>()&#123;</span><br><span class="line">        cmnd = CMND_LOGIN;</span><br><span class="line">        length = <span class="built_in">sizeof</span>(Login);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">char</span> username[<span class="number">16</span>];</span><br><span class="line">    <span class="type">char</span> password[<span class="number">100</span>];</span><br><span class="line">    <span class="type">char</span> data[<span class="number">900</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Logout</span>: <span class="keyword">public</span> DataHeader&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Login</span>()&#123;</span><br><span class="line">        cmnd = CMND_LOGIN;</span><br><span class="line">        length = <span class="built_in">sizeof</span>(Login);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">char</span> username[<span class="number">16</span>];</span><br><span class="line">    <span class="type">char</span> data[<span class="number">1000</span>];</span><br><span class="line">&#125;;    </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义单次接收的长度，单次接收缓冲区，消息缓冲区长度，消息缓冲区</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> RECV_SIZE   1024	<span class="comment">//单次接收最大长度</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MSG_BUF_SIZE  RECV_SIZE*20 <span class="comment">//消息缓冲区长度</span></span></span><br><span class="line"><span class="type">int</span> lastPosOfMsgBuf;</span><br><span class="line"><span class="type">char</span> recvBuf[RECV_SIZE];	<span class="comment">// 单次接收缓冲区</span></span><br><span class="line"><span class="type">char</span> msgBuf[RECV_SIZE];		<span class="comment">// 消息缓冲区</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将接收缓冲区数据全部取出(一般设置接收方单次接收最大数据长度与发送方单次发送最大长度相同)</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> len = <span class="built_in">recv</span>(senderSocket, recvBuf, RECV_SIZE, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将取得的消息放入消息缓冲区尾部</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memcpy</span>(msgBuf+lastPosOfMsgBuf, recvBuf, len);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>处理消息缓冲区数据，取出消息头，针对不同消息头进行拆包</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断消息缓冲区中是否包含一个完整的DataHeader</span></span><br><span class="line"><span class="keyword">while</span>(lastPosOfMsgBuf &gt; <span class="built_in">sizeof</span>(DataHeader))&#123;</span><br><span class="line">    <span class="comment">//取出DataHeader</span></span><br><span class="line">    DataHeader* header =(DataHeader*)msgBuf;</span><br><span class="line">    <span class="comment">//判断消息缓冲区中是否包含一条完整的消息</span></span><br><span class="line">    <span class="keyword">if</span>(lastPosOfMsgBuf &lt; header-&gt;length)&#123;</span><br><span class="line">        <span class="comment">//消息缓冲区中已不足一条完整数据，本次循环处理结束</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//针对消息头进行处理</span></span><br><span class="line">    <span class="built_in">process</span>(senderSocket, header);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">process</span><span class="params">(SOCKET senderSocket, DataHeader* header)</span></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(header-&gt;cmnd)&#123;</span><br><span class="line">        <span class="comment">// 发送方发来的是LOGIN</span></span><br><span class="line">        <span class="keyword">case</span> CMND_LOGIN:        </span><br><span class="line">            <span class="comment">//取出LOGIN消息</span></span><br><span class="line">            Login* login;</span><br><span class="line">            login = (Login*)msgBuf;</span><br><span class="line">            <span class="comment">//将此消息从消息缓冲区中移除</span></span><br><span class="line">            <span class="built_in">rmvMsgFromMsgBuf</span>(msgBuf, login-&gt;length);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//处理登录业务，code ...</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">        <span class="comment">// 发送方发来的是LOGOUT</span></span><br><span class="line">        <span class="keyword">case</span> CMND_LOGOUT:   </span><br><span class="line">            <span class="comment">//取出LOGOUT消息</span></span><br><span class="line">            LOGOUT* logout;</span><br><span class="line">            logout = (LOGOUT*)msgBuf;</span><br><span class="line">            <span class="comment">//将此消息从消息缓冲区中移除</span></span><br><span class="line">            <span class="built_in">rmvMsgFromMsgBuf</span>(msgBuf, logout-&gt;length);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//处理注销业务，code ..</span></span><br><span class="line">            <span class="keyword">break</span>；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rmvMsgFromMsgBuf</span><span class="params">(<span class="type">char</span>* msgBuf, <span class="type">int</span> len)</span></span>&#123;</span><br><span class="line">	<span class="comment">//将消息前移，将最前面的消息覆盖</span></span><br><span class="line">    <span class="built_in">memcpy</span>(msgBuf, msgBuf+len, lastPosOfMsgBuf-len);</span><br><span class="line">    <span class="comment">//消息尾部索引前移</span></span><br><span class="line">    lastPosOfMsgBuf -= len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	这样，就简单解决了适用于少客户端，低吞吐量下tcp的粘包问题。</p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#TCP%E7%B2%98%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">TCP粘包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">解决方案</span></a></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/&title=TCP粘包与拆包"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/&title=TCP粘包与拆包"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/&text=TCP粘包与拆包"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=TCP粘包与拆包&body=Check out this article: http://example.com/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

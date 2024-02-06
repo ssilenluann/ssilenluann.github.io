@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>socket常用api</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%B8%B8%E7%94%A8%E8%BD%AC%E5%8C%96%E5%87%BD%E6%95%B0/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/07/20/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%B8%B8%E7%94%A8%E9%9B%86%E5%90%88%E7%AE%97%E6%B3%95/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/&title=socket常用api"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/&title=socket常用api"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/&text=socket常用api"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=socket常用api&body=Check out this article: http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        socket常用api
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-07-31T16:00:00.000Z"
+                  itemprop="datePublished">2020-08-01</time>
+            
+                (Updated:
+                <time datetime="2022-06-10T10:02:21.195Z"
+                      itemprop="dateModified">2022-06-10</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" rel="tag">项目笔记</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <blockquote>
+<p>int WSAStartup(WORD wVersionRequested, LPWSADATA lpWSAData);</p>
+</blockquote>
+<p>​	头文件&lt;WinSock2.h&gt;</p>
+<p>​	使用socket api之前需要通过该函数指定Socket版本，版本信息由第一个参数wVersionRequested传入，主版本号放于低字节，副版本号放于高字节，第二个参数为操作系统返回的Socket的信息，包含版本和描述信息等。</p>
+<p>​	执行成功后返回0，完成应用程序与socket库的绑定，应用程序便可访问其他socket api。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WORD ver = <span class="built_in">MAKEWORD</span>(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line">WSADATA data;</span><br><span class="line"><span class="built_in">WSAStartup</span>(ver, &amp;data);</span><br></pre></td></tr></table></figure>
+
+<p>​    WSADATA介绍(win32)：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">WSAData</span> &#123;</span><br><span class="line">    WORD                    wVersion;			<span class="comment">//Windows Sockets DLL期望调用者使用的版本号</span></span><br><span class="line">    WORD                    wHighVersion;		<span class="comment">//Windows Sockets DLL能够支持的最高Socket版本号</span></span><br><span class="line">    <span class="type">char</span>                    szDescription[WSADESCRIPTION_LEN+<span class="number">1</span>];  <span class="comment">//对Socket的简单描述</span></span><br><span class="line">    <span class="type">char</span>                    szSystemStatus[WSASYS_STATUS_LEN+<span class="number">1</span>];  <span class="comment">//Windows Sockets DLL有关状态</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">short</span>          iMaxSockets;	<span class="comment">//单个进程最多开启socket数目</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">short</span>          iMaxUdpDg;		<span class="comment">//socket能够传输的最大udp单个用户数据报的大小，以字节为单位</span></span><br><span class="line">    <span class="type">char</span> FAR *              lpVendorInfo;	<span class="comment">//WinSock2.0版本中已弃用</span></span><br><span class="line"></span><br><span class="line">&#125; WSADATA, FAR * LPWSADATA;</span><br></pre></td></tr></table></figure>
+
+<p><escape><span id="more"></span></escape></p>
+<blockquote>
+<p>int WSACleanup();</p>
+</blockquote>
+<p>​	头文件&lt;WinSock2.h&gt;</p>
+<p>​	解除应用程序与socket的绑定，释放socket库所占用的系统资源。</p>
+<blockquote>
+<p>int WSAGetLastError ();</p>
+</blockquote>
+<p>​	头文件&lt;WinSock2.h&gt;</p>
+<p>​	获取socketapi执行时发生异常的错误代码</p>
+<blockquote>
+<p>SOCKET socket(int af, int type, int protocol);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt;</p>
+<p>​	该函数用来创建并监听Socket，失败返回INVALID_SOCKET</p>
+<ul>
+<li>af:指定通讯协议族<ul>
+<li>AF_INET,PF_INET:	IPv4地址协议</li>
+<li>PF_INET6：IPv6地址协议</li>
+</ul>
+</li>
+<li>type: 指定通讯的类型<ul>
+<li>SOCK_STREAM: Tcp连接，字节流</li>
+<li>SOCK_DGRAM：Udp连接，数据报</li>
+</ul>
+</li>
+<li>protocol: 一般设置为0</li>
+</ul>
+<blockquote>
+<p>int closesocket(SOCKET s);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt;</p>
+<p>​	关闭socke，执行成功返回0，否则返回SOCKET_ERROR</p>
+<blockquote>
+<p>int bind(SOCKET s, const struct sockaddr FAR *name, int namelen);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt; &lt;netinet&#x2F;in.h&gt;</p>
+<p>​	绑定ip和端口，一般服务端使用，客户端不使用，第二个参数用来指定ip和端口号，第三个参数用来指定第二个参数的大小，最好传入参数原型的大小</p>
+<p>​	执行成功返回0，否则返回SOCKET_ERROR</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sockaddr_in _sin = &#123;&#125;;</span><br><span class="line">_sin.sin_family = AF_INET;</span><br><span class="line">_sin.sin_port = <span class="built_in">htons</span>(<span class="number">4567</span>); <span class="comment">// host to net unsigned short</span></span><br><span class="line"><span class="comment">//_sin.sin_addr.S_un.S_addr = inet_addr(&quot;127.0.0.1&quot;);</span></span><br><span class="line">_sin.sin_addr.S_un.S_addr = INADDR_ANY;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">bind</span>(_sock, (sockaddr *)&amp;_sin, <span class="built_in">sizeof</span>(_sin)) == SOCKET_ERROR) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;绑定端口失败...\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;绑定端口成功\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sockaddr也可以用来绑定ip和端口，但是其将ip与端口信息混在了一起，所以最好使用sockaddr_in：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//win32</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> &#123;</span><br><span class="line">    <span class="type">short</span>   sin_family;			<span class="comment">//协议族，与创建socket时选择同样的协议族</span></span><br><span class="line">    USHORT sin_port;			<span class="comment">//端口</span></span><br><span class="line">    IN_ADDR sin_addr;			<span class="comment">//ip</span></span><br><span class="line">    CHAR sin_zero[<span class="number">8</span>];			<span class="comment">//不使用</span></span><br><span class="line">&#125; SOCKADDR_IN, *PSOCKADDR_IN;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">in_addr</span> &#123;</span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        <span class="keyword">struct</span> &#123; UCHAR s_b1,s_b2,s_b3,s_b4; &#125; S_un_b;</span><br><span class="line">        <span class="keyword">struct</span> &#123; USHORT s_w1,s_w2; &#125; S_un_w;</span><br><span class="line">        ULONG S_addr;		<span class="comment">//直接用此字段传入ip即可，如果此字段传入INADDR_ANY，表示接受任何ip地址的连接请求，只接受来自某个ip的连接可在此指定</span></span><br><span class="line">    &#125; S_un;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> s_addr  S_un.S_addr 	<span class="comment">//用这个宏也可以</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> s_host  S_un.S_un_b.s_b2    </span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> s_net   S_un.S_un_b.s_b1    </span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> s_imp   S_un.S_un_w.s_w2   </span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> s_impno S_un.S_un_b.s_b4    </span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> s_lh    S_un.S_un_b.s_b3 </span></span><br><span class="line">&#125; IN_ADDR, *PIN_ADDR, FAR *LPIN_ADDR;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>int listen(SOCKET s, int backlog);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt;</p>
+<p>​	使socket处于监听状态，处于监听状态的套接字s将维护一个客户连接请求队列，最多可容纳backlog个连接请求。</p>
+<p>​	执行成功返回0，失败返回SOCKET_ERROR.</p>
+<blockquote>
+<p>SOCKET accept(SOCKET s, struct sockaddr FAR *addr, int FAR *addrlen);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt;</p>
+<p>​	从listen维护的请求队列中取出排在最前的请求，并创建连接通道，如果连接成功就，返回SOCKET对象保存对方的socket信息，失败则返回INVALID_SOCKET.</p>
+<p>​	第二个参数为对方的地址信息，第三个参数为对方地址信息长度。</p>
+<blockquote>
+<p>int connect(SOCKET s, const struct sockaddr FAR * name, int namelen);</p>
+</blockquote>
+<p>​	客户端通过connect函数发起连接请求，如果连接成功，返回0，否则返回SOCKET_ERROR.</p>
+<blockquote>
+<p>int send(SOCKET s, const char FAR *buf, int len, int flags);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt;</p>
+<p>​	客户端与服务端之间通过send函数发送数据给对方，buf为实际要发送的数据， len为数据长度， flags一般填0，同步socket的send流程如下：</p>
+<ul>
+<li>比较socket发送缓冲区与len的大小，若len&gt;发送缓冲区的长度，send分段发送</li>
+<li>判断socket是否正在发送缓冲区的数据<ul>
+<li>是，先等待发送中的数据发送完成</li>
+<li>否，比较发送缓冲区的剩余长度与len的大小<ul>
+<li>发送缓冲区的剩余长度 &gt; len，将buf拷贝至缓冲区尾部，返回拷贝字节数</li>
+<li>发送缓冲区的剩余长度 &lt; len，等待现有缓冲区数据发送完毕，再将buf拷贝至缓冲区，返回拷贝字节数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>出现拷贝失败或者网络断开等问题导致send失败，返回SOCKET_ERROR</li>
+</ul>
+<blockquote>
+<p>int recv(SOCKET s, const char FAR *buf, int len, int flags);</p>
+</blockquote>
+<p>​	windows头文件：&lt;WinSock2.h&gt;</p>
+<p>​	linux头文件：&lt;sys&#x2F;socket.h&gt;</p>
+<p>​	客户端与服务端之间通过recv函数读取对方发送的数据，buf用来接收数据， len为buf长度， flags一般填0，同步socket的recv流程如下：</p>
+<ul>
+<li><p>判断socket是否正在发送数据，如果正在发送则等待数据发送完毕，socket发送数据过程中出现网络断开，返回SOCKET_ERROR</p>
+</li>
+<li><p>socket的发送缓冲区没有数据之后，recv先检查socket的接收缓冲区，如果接收缓冲区内没有数据或者正在接收数据，recv一直等待直到数据接收完毕</p>
+</li>
+<li><p>缓冲区接收完毕后，recv会将缓冲区数据拷贝至buf中，如果缓冲区中数数据长度&gt;len，则需要多次拷贝，recv返回实际拷贝字节数</p>
+</li>
+<li><p>recv拷贝时出错返回SOCKET_ERROR，网络断开返回0</p>
+</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211212172055981.png" alt="image-20211212172055981"></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/&title=socket常用api"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/&title=socket常用api"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/&text=socket常用api"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=socket常用api&body=Check out this article: http://example.com/2020/08/01/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/socket%E5%B8%B8%E7%94%A8api/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

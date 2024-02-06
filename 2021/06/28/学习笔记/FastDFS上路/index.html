@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>分布式文件存储</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/07/01/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/MAC%E5%9C%B0%E5%9D%80%E3%80%81IP%E5%9C%B0%E5%9D%80%E4%B8%8EARP%E5%8D%8F%E8%AE%AE/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--tcp%E5%8D%8F%E8%AE%AE/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/&title=分布式文件存储"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/&title=分布式文件存储"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/&text=分布式文件存储"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=分布式文件存储&body=Check out this article: http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FastDFS"><span class="toc-number">1.</span> <span class="toc-text">1.FastDFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-FastDFS%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 FastDFS简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-1-FastDFS%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.1 FastDFS体系结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-2-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.1.2 工作流程概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-3-%E4%B8%8A%E4%BC%A0%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.1.3 上传流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-FastDFS%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 FastDFS搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-1-%E5%AE%89%E8%A3%85%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.1 安装镜像</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-2-%E9%85%8D%E7%BD%AENginx"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.2 配置Nginx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.3 搭建文件存储微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-1-%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">1.3.1 搭建服务</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-2%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">1.3.2上传文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-3-%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">1.3.3 文件访问</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-3%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">1.3.3文件下载</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-4-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">1.3.4 删除文件</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        分布式文件存储
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-06-28T14:15:22.000Z"
+                  itemprop="datePublished">2021-06-28</time>
+            
+                (Updated:
+                <time datetime="2021-07-18T13:19:31.606Z"
+                      itemprop="dateModified">2021-07-18</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">项目笔记</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" rel="tag">文件管理</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <p>​	本文记录springboot微服务项目中文件管理服务的搭建过程，主要包含相册管理，商品分类管理等模块，实现了文件上传、下载、删除及缓存控制等功能。</p>
+<p><escape><span id="more"></span></escape></p>
+<h3 id="1-FastDFS"><a href="#1-FastDFS" class="headerlink" title="1.FastDFS"></a>1.FastDFS</h3><h4 id="1-1-FastDFS简介"><a href="#1-1-FastDFS简介" class="headerlink" title="1.1 FastDFS简介"></a>1.1 FastDFS简介</h4><h5 id="1-1-1-FastDFS体系结构"><a href="#1-1-1-FastDFS体系结构" class="headerlink" title="1.1.1 FastDFS体系结构"></a>1.1.1 FastDFS体系结构</h5><p>​	FastDFS是一个开源的轻量级分布式文件系统，它对文件进行管理，功能包括：文件存储，文件同步，文件访问（上传、下载）等，解决了大容量存储和负载均衡的问题，特别适合以文件为载体的在线服务，如相册网站，视频网站等。</p>
+<p>​	FastDFS架构包括Tracker Server和Storage Server,客户端请求Tracker server进行文件访问，tracker server调度Storage server完成用户访问。</p>
+<p><escape><!--more--></escape></p>
+<ul>
+<li>Tracker Server: 负载均衡和调度，通过Tracker Server可以在文件上传时根据一些策略找到Storage提供文件上传服务，可以理解为追踪或调度服务器</li>
+<li>Storage Server: 负责文件存储，客户端上传的文件最终存储在Storage服务器上，Storage Server没有实现自己的文件系统而是利用操作系统的文件系统来管理文件，可以理解为存储服务器</li>
+</ul>
+<h5 id="1-1-2-工作流程概述"><a href="#1-1-2-工作流程概述" class="headerlink" title="1.1.2 工作流程概述"></a>1.1.2 工作流程概述</h5><p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210717230611048.png" alt="image-20210717230611048"></p>
+<p>​	上图为FastDFS的工作流程，首先看Storage Server,其包含了多个服务器组，组内服务器文件同步备份实现<strong>高可用</strong>，通过增加组可以实现<strong>线性扩容</strong>，Storage Server定时向Tracker Server注册其组信息，用户提交访问文件的请求后，微服务从Tracker Server总获取Storage信息，并且找到可用的文件存储服务器,返回给微服务项目，最后，微服务将文件上传至对应的storage服务器。</p>
+<h5 id="1-1-3-上传流程"><a href="#1-1-3-上传流程" class="headerlink" title="1.1.3 上传流程"></a>1.1.3 上传流程</h5><p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718103036579.png" alt="image-20210718103036579"></p>
+<p>​	图为使用FastDFS上传文件时系统工作流程，客户端上传文件后，存储服务器会将文件ID返回给客户端，此文件ID用于以后访问文件的索引信息，文件索引信息包括：组名，虚拟磁盘路径，数据两级目录及文件名（groupN&#x2F;M00&#x2F;01&#x2F;02&#x2F;xxx.xx）</p>
+<blockquote>
+<p>组名：文件上传后所在的storage组名称，上传成功后storage服务器返回，客户端自行保存</p>
+</blockquote>
+<blockquote>
+<p>虚拟磁盘路径：storage server配置的虚拟路径，与磁盘选项store_pathN对应，指向了storage组中的某个节点的具体硬盘地址</p>
+</blockquote>
+<blockquote>
+<p>两级数据目录：storage服务器在每个虚拟磁盘路径下创建的两级目录，用来存储文件</p>
+</blockquote>
+<blockquote>
+<p>文件名：与上传时的文件名不同，此处的文件名包含storage服务器ip，文件创建时间戳，文件大小，随机数和文件扩展名等信息</p>
+</blockquote>
+<h4 id="1-2-FastDFS搭建"><a href="#1-2-FastDFS搭建" class="headerlink" title="1.2 FastDFS搭建"></a>1.2 FastDFS搭建</h4><h5 id="1-2-1-安装镜像"><a href="#1-2-1-安装镜像" class="headerlink" title="1.2.1 安装镜像"></a>1.2.1 安装镜像</h5><p>安装镜像</p>
+<blockquote>
+<p>docker pull morunchang&#x2F;fastdfs</p>
+</blockquote>
+<p>运行tracker</p>
+<blockquote>
+<p>docker run -d –name tracker –net&#x3D;host morunchang&#x2F;fastdfs sh tracker.sh</p>
+</blockquote>
+<p>运行storage（如果需要新增storage服务器，需要再次运行该命令，注意组名）</p>
+<blockquote>
+<p>docker run -d –name storage –net&#x3D;host -e TRACKER_IP&#x3D;139.196.79.161:22122 -e GROUP_NAME&#x3D;group1 morunchang&#x2F;fastdfs sh storage.sh</p>
+</blockquote>
+<h5 id="1-2-2-配置Nginx"><a href="#1-2-2-配置Nginx" class="headerlink" title="1.2.2 配置Nginx"></a>1.2.2 配置Nginx</h5><p>FastDFS的镜像中已经继承了Nginx，所以直接进入容器中就可以进行配置Nginx</p>
+<blockquote>
+<p>docker exec -it storage &#x2F;bin&#x2F;bash</p>
+</blockquote>
+<p>查看Nginx配置文件</p>
+<blockquote>
+<p>vi &#x2F;etc&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718111033127.png" alt="image-20210718111033127"></p>
+<p>nginx默认监听8080端口，并将&#x2F;M00开头的URL交由FastDFS处理</p>
+<p>设置容器开机自动启动</p>
+<blockquote>
+<p>docker update –restart&#x3D;always tracker</p>
+<p>docker update –restart&#x3D;always storage</p>
+</blockquote>
+<p>查看端口</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718154831716.png" alt="image-20210718154831716"></p>
+<p>注意防火墙配置，将两个端口向外开放</p>
+<p>禁止浏览器缓存：在tracker容器内编辑nginx.conf，对应位置如下：（配置完需容器storage容器）</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718190756817.png" alt="image-20210718190756817"></p>
+<h5 id="1-3-搭建文件存储微服务"><a href="#1-3-搭建文件存储微服务" class="headerlink" title="1.3 搭建文件存储微服务"></a>1.3 搭建文件存储微服务</h5><h6 id="1-3-1-搭建服务"><a href="#1-3-1-搭建服务" class="headerlink" title="1.3.1 搭建服务"></a>1.3.1 搭建服务</h6><p>创建新模块changgou-service-file,添加依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;net.oschina.zcx7878&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;fastdfs-client-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.27.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>配置FastDFS</p>
+<p>在resource文件夹下创建fastDFS的配置文件fdfs_client.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">connect_timeout=60</span><br><span class="line">network_timeout=60</span><br><span class="line">charset=UTF-8</span><br><span class="line">#tracker的http请求端口</span><br><span class="line">http.tracker_http_port=8080</span><br><span class="line">#trakcer的tcp通信端口</span><br><span class="line">tracker_server=192.168.211.131:22122</span><br></pre></td></tr></table></figure>
+
+<p>配置微服务</p>
+<p>在resource文件夹下创建application.yml</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">servlet:</span></span><br><span class="line">    <span class="attr">multipart:</span></span><br><span class="line">      <span class="attr">max-file-size:</span> <span class="string">10MB</span></span><br><span class="line">      <span class="attr">max-request-size:</span> <span class="string">10MB</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">file</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">18082</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://127.0.0.1:7001/eureka</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">    <span class="attr">prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">feign:</span></span><br><span class="line">  <span class="attr">hystrix:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>添加启动类FileApplication</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)</span> <span class="comment">//排除数据库自动加载</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(FileApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="1-3-2上传文件"><a href="#1-3-2上传文件" class="headerlink" title="1.3.2上传文件"></a>1.3.2上传文件</h6><p>创建文件信息封装类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FastDFSFile</span> &#123;</span><br><span class="line">    <span class="comment">//文件名字</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="comment">//文件内容</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span>[] content;</span><br><span class="line">    <span class="comment">//文件扩展名</span></span><br><span class="line">    <span class="keyword">private</span> String ext;</span><br><span class="line">    <span class="comment">//文件MD5摘要值</span></span><br><span class="line">    <span class="keyword">private</span> String md5;</span><br><span class="line">    <span class="comment">//文件创建作者</span></span><br><span class="line">    <span class="keyword">private</span> String author;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">FastDFSFile</span><span class="params">(String name, <span class="type">byte</span>[] content, String ext, String height,</span></span><br><span class="line"><span class="params">                       String width, String author)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.content = content;</span><br><span class="line">        <span class="built_in">this</span>.ext = ext;</span><br><span class="line">        <span class="built_in">this</span>.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">FastDFSFile</span><span class="params">(String name, <span class="type">byte</span>[] content, String ext)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.content = content;</span><br><span class="line">        <span class="built_in">this</span>.ext = ext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">byte</span>[] getContent() &#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setContent</span><span class="params">(<span class="type">byte</span>[] content)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getExt</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setExt</span><span class="params">(String ext)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.ext = ext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getMd5</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> md5;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMd5</span><span class="params">(String md5)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.md5 = md5;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAuthor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAuthor</span><span class="params">(String author)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.author = author;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.changgou.util;</span><br><span class="line"><span class="keyword">import</span> com.changgou.file.FastDFSFile;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.csource.common.MyException;</span><br><span class="line"><span class="keyword">import</span> org.csource.common.NameValuePair;</span><br><span class="line"><span class="keyword">import</span> org.csource.fastdfs.ClientGlobal;</span><br><span class="line"><span class="keyword">import</span> org.csource.fastdfs.StorageClient;</span><br><span class="line"><span class="keyword">import</span> org.csource.fastdfs.TrackerClient;</span><br><span class="line"><span class="keyword">import</span> org.csource.fastdfs.TrackerServer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.core.io.ClassPathResource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实现fastDFS文件管理：</span></span><br><span class="line"><span class="comment"> *  文件上传、下载、删除、获取文件信息、storage信息获取、tracker信息获取</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FastDFSUtil</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//查找classpath下的文件路径</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;fdfs_client.conf&quot;</span>).getPath();</span><br><span class="line">            ClientGlobal.init(fileName);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 文件上传</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * return:</span></span><br><span class="line"><span class="comment">     *  [0]:storage组名</span></span><br><span class="line"><span class="comment">     *  [1]:文件名： M00/xx/xx/xx.x</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String[] upload(FastDFSFile fastDFSFile) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//创建访问tracker的客户端对象</span></span><br><span class="line">        <span class="type">TrackerClient</span> <span class="variable">trackerClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过trackerClient访问TrackerServer,获取连接信息</span></span><br><span class="line">        <span class="type">TrackerServer</span> <span class="variable">trackerServer</span> <span class="operator">=</span> trackerClient.getConnection();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过连接信息，获取storage信息，并创建storageClient将storage信息存储</span></span><br><span class="line">        <span class="type">StorageClient</span> <span class="variable">storageClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(trackerServer, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过storageClient访问StorageServer，将文件上传，并保存文件上传后的存储信息</span></span><br><span class="line">        NameValuePair[] mataList = <span class="keyword">new</span> <span class="title class_">NameValuePair</span>[<span class="number">1</span>];</span><br><span class="line">        mataList[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">NameValuePair</span>(<span class="string">&quot;author&quot;</span>,fastDFSFile.getAuthor());</span><br><span class="line">        <span class="keyword">return</span> storageClient.upload_file(fastDFSFile.getContent(), fastDFSFile.getExt(), mataList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.changgou.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.changgou.file.FastDFSFile;</span><br><span class="line"><span class="keyword">import</span> com.changgou.util.FastDFSUtil;</span><br><span class="line"><span class="keyword">import</span> entity.Result;</span><br><span class="line"><span class="keyword">import</span> entity.StatusCode;</span><br><span class="line"><span class="keyword">import</span> org.springframework.util.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.multipart.MultipartFile;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/upload&quot;)</span></span><br><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FileUploadController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">upload</span><span class="params">(<span class="meta">@RequestParam(value=&quot;file&quot;)</span>MultipartFile file)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">FastDFSFile</span> <span class="variable">fastDFSFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FastDFSFile</span>(file.getOriginalFilename(),</span><br><span class="line">                file.getBytes(),</span><br><span class="line">                StringUtils.getFilenameExtension(file.getOriginalFilename()));</span><br><span class="line"></span><br><span class="line">        String[] uploads = FastDFSUtil.upload(fastDFSFile);</span><br><span class="line">        <span class="comment">//拼接访问地址 url = http://ip:port/groupN/Mxx/xx/xx/xx.x</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;http://192.169.79.161:8080/&quot;</span>+uploads[<span class="number">0</span>]+<span class="string">&quot;/&quot;</span>+uploads[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Result</span>&lt;String&gt;(<span class="literal">true</span>, StatusCode.OK,<span class="string">&quot;上传成功&quot;</span>,url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718151740481.png" alt="image-20210718151740481"></p>
+<p>返回值中包含文件存储位置，访问图片：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718151845280.png" alt="image-20210718151845280"></p>
+<p>服务搭建成功</p>
+<p>在服务器上查看文件：</p>
+<p>进入容器：</p>
+<blockquote>
+<p>docker exec -it  storage &#x2F;bin&#x2F;bash</p>
+</blockquote>
+<p>查看配置文件</p>
+<blockquote>
+<p>cat &#x2F;etc&#x2F;fdfs&#x2F;storage.conf</p>
+</blockquote>
+<p>找到虚拟路径storage_pathN(对应URL中的&#x2F;MN&#x2F;)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">store_path<span class="comment">#, based 0, if store_path0 not exists, it&#x27;s value is base_path</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">the paths must be exist</span></span><br><span class="line">store_path0=/data/fast_data</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">store_path1=/home/yuqing/fastdfs2</span></span><br></pre></td></tr></table></figure>
+
+<p>根据返回信息，文件存储地址为：<a target="_blank" rel="noopener" href="http://139.196.79.161:8080/group1/M00/00/00/rBEdFGDz1TmATyrXAAHSfROVPn050.jfif">http://139.196.79.161:8080/group1/M00/00/00/rBEdFGDz1TmATyrXAAHSfROVPn050.jfif</a></p>
+<p>其中：M00&#x3D;&#x2F;data&#x2F;fast_data&#x2F;data</p>
+<p>进入&#x2F;data&#x2F;fast_data&#x2F;data&#x2F;00&#x2F;00文件夹，则可找到对应文件</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718153028113.png" alt="image-20210718153028113"></p>
+<h6 id="1-3-3-文件访问"><a href="#1-3-3-文件访问" class="headerlink" title="1.3.3 文件访问"></a>1.3.3 文件访问</h6><p>在FastDFSUtil中添加方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取文件信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> FileInfo</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> FileInfo <span class="title function_">getFile</span><span class="params">(String groupName, String remoteFileName)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">//创建TrackerClient对象，通过TrackerClient对象访问TrackerServer</span></span><br><span class="line">    <span class="type">TrackerClient</span> <span class="variable">trackerClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过TrackerClient获取TrackerServer的连接信息</span></span><br><span class="line">    <span class="type">TrackerServer</span> <span class="variable">trackerServer</span> <span class="operator">=</span> trackerClient.getConnection();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过rackerServer获取Storage信息</span></span><br><span class="line">    <span class="type">StorageClient</span> <span class="variable">storageClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(trackerServer, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取文件信息</span></span><br><span class="line">    <span class="keyword">return</span> storageClient.get_file_info(groupName,remoteFileName);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试类测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FastDFSTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testGetFile</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">FileInfo</span> <span class="variable">fileInfo</span> <span class="operator">=</span> FastDFSUtil.getFile(<span class="string">&quot;group1&quot;</span>, <span class="string">&quot;M00/00/00/rBEdFGDz1TmATyrXAAHSfROVPn050.jfif&quot;</span>);</span><br><span class="line">            System.out.println(fileInfo.getSourceIpAddr());</span><br><span class="line">            System.out.println(fileInfo.getCreateTimestamp());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718183908294.png" alt="image-20210718183908294"></p>
+<p>成功得到storage的阿里云内网ip和文件创建时间</p>
+<h6 id="1-3-3文件下载"><a href="#1-3-3文件下载" class="headerlink" title="1.3.3文件下载"></a>1.3.3文件下载</h6><p>工具类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> InputStream <span class="title function_">downloadFile</span><span class="params">(String groupName, String remoteFileName)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">//创建TrackerClient对象，通过TrackerClient对象访问TrackerServer</span></span><br><span class="line">    <span class="type">TrackerClient</span> <span class="variable">trackerClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过TrackerClient获取TrackerServer的连接信息</span></span><br><span class="line">    <span class="type">TrackerServer</span> <span class="variable">trackerServer</span> <span class="operator">=</span> trackerClient.getConnection();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过rackerServer获取Storage信息</span></span><br><span class="line">    <span class="type">StorageClient</span> <span class="variable">storageClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(trackerServer, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//文件下载</span></span><br><span class="line">    <span class="type">byte</span>[] buffer = storageClient.download_file(groupName, remoteFileName);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(buffer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testDownloadFile</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> FastDFSUtil.downloadFile(<span class="string">&quot;group1&quot;</span>, <span class="string">&quot;M00/00/00/rBEdFGDz1TmATyrXAAHSfROVPn050.jfif&quot;</span>);</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">os</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;G:/1.jfif&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">while</span>(is.read(buffer)!=-<span class="number">1</span>)&#123;</span><br><span class="line">            os.write(buffer);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        os.flush();</span><br><span class="line">        os.close();</span><br><span class="line">        is.close();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718185246345.png" alt="image-20210718185246345"></p>
+<h6 id="1-3-4-删除文件"><a href="#1-3-4-删除文件" class="headerlink" title="1.3.4 删除文件"></a>1.3.4 删除文件</h6><p>工具类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">deleteFile</span><span class="params">(String groupName, String remoteFileName)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">//创建TrackerClient对象，通过TrackerClient对象访问TrackerServer</span></span><br><span class="line">    <span class="type">TrackerClient</span> <span class="variable">trackerClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过TrackerClient获取TrackerServer的连接信息</span></span><br><span class="line">    <span class="type">TrackerServer</span> <span class="variable">trackerServer</span> <span class="operator">=</span> trackerClient.getConnection();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过rackerServer获取Storage信息</span></span><br><span class="line">    <span class="type">StorageClient</span> <span class="variable">storageClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(trackerServer, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取文件信息</span></span><br><span class="line">    storageClient.delete_file(groupName,remoteFileName);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试类：	</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testDeleteFile</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        FastDFSUtil.deleteFile(<span class="string">&quot;group1&quot;</span>, <span class="string">&quot;M00/00/00/rBEdFGDz1TmATyrXAAHSfROVPn050.jfif&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210718190128799.png" alt="image-20210718190128799"></p>
+<p>storage server上已经没有该文件</p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FastDFS"><span class="toc-number">1.</span> <span class="toc-text">1.FastDFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-FastDFS%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 FastDFS简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-1-FastDFS%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.1 FastDFS体系结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-2-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.1.2 工作流程概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-3-%E4%B8%8A%E4%BC%A0%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.1.3 上传流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-FastDFS%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 FastDFS搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-1-%E5%AE%89%E8%A3%85%E9%95%9C%E5%83%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.1 安装镜像</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-2-%E9%85%8D%E7%BD%AENginx"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.2 配置Nginx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.3 搭建文件存储微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-1-%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">1.3.1 搭建服务</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-2%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">1.3.2上传文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-3-%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">1.3.3 文件访问</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-3%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">1.3.3文件下载</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-4-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">1.3.4 删除文件</span></a></li></ol></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/&title=分布式文件存储"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/&title=分布式文件存储"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/&text=分布式文件存储"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=分布式文件存储&body=Check out this article: http://example.com/2021/06/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E4%B8%8A%E8%B7%AF/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>服务端实现多线程处理多客户端消息</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/08/15/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/08/07/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/&title=服务端实现多线程处理多客户端消息"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/&title=服务端实现多线程处理多客户端消息"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/&text=服务端实现多线程处理多客户端消息"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=服务端实现多线程处理多客户端消息&body=Check out this article: http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E7%B1%BB%E2%80%93%E4%BA%8B%E4%BB%B6%E5%B1%82%E2%80%93INetEvent"><span class="toc-number">1.</span> <span class="toc-text">基类–事件层–INetEvent</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%B1%82%E2%80%93EasyTcpServer"><span class="toc-number">2.</span> <span class="toc-text">控制层–EasyTcpServer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E5%B1%82%E2%80%93MyServer"><span class="toc-number">3.</span> <span class="toc-text">业务层–MyServer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%B1%82%E2%80%93CELLServer"><span class="toc-number">4.</span> <span class="toc-text">处理层–CELLServer</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        服务端实现多线程处理多客户端消息
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-08-09T16:00:00.000Z"
+                  itemprop="datePublished">2020-08-10</time>
+            
+                (Updated:
+                <time datetime="2022-02-12T15:20:37.002Z"
+                      itemprop="dateModified">2022-02-12</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" rel="tag">项目笔记</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <p>​	记录服务端多线程处理多客户端消息的实现过程，主要功能包括：</p>
+<ul>
+<li><p>新客户端加入或退出的事件处理</p>
+</li>
+<li><p>对客户端消息进行拆包处理</p>
+</li>
+<li><p>服务端启动多个线程，将大量客户端均匀分配至各个线程，进行消息接收与处理</p>
+<p>通过类图简单展示封装过程：</p>
+<p><escape><span id="more"></span></escape></p>
+</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/ClassDiagram1.png" alt="ClassDiagram1"></p>
+<h5 id="基类–事件层–INetEvent"><a href="#基类–事件层–INetEvent" class="headerlink" title="基类–事件层–INetEvent"></a>基类–事件层–INetEvent</h5><p>​	事件层为纯抽象类，其包含4个函数，分别代表4个事件，即收到客户端加入请求(OnNetJoin)，客户端离开(OnNetLeave)，收到客户端消息(OnNetRecv)及处理客户端消息(OnNetMsg)。</p>
+<p>​	将收到客户端消息与处理客户端消息单独分开的原因是此处涉及拆包操作，当客户端短时间内发送大量请求时，可能会出现TCP沾包，服务端需要对收到的消息进行拆包，然后进行处理。</p>
+<h5 id="控制层–EasyTcpServer"><a href="#控制层–EasyTcpServer" class="headerlink" title="控制层–EasyTcpServer"></a>控制层–EasyTcpServer</h5><p>​	这里主要实现socket环境的初始化，创建socket等基础网络操作，同时使用select网络模型，监听新客户端的加入，以及实现OnNetJoin,OnNetLeave和OnNetRecv,对于OnNetMsg只做简单处理，比如消息数量的统计，更多的消息处理交由具体的业务层进行实现。</p>
+<ul>
+<li>监听新客户端的加入</li>
+</ul>
+<p>​	这里通过select模型实现，select函数中对fdRead, fdWrite和fdException都只传入一个socket，即服务端自身的socket，这样当select函数从监听到的可读目标只会是新客户端的连接发起请求。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">OnRun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">IsRun</span>()) &#123;</span><br><span class="line"></span><br><span class="line">        fd_set fdRead;</span><br><span class="line">        fd_set fdWrite;</span><br><span class="line">        fd_set fdExp;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">FD_ZERO</span>(&amp;fdRead);</span><br><span class="line">        <span class="built_in">FD_ZERO</span>(&amp;fdWrite);</span><br><span class="line">        <span class="built_in">FD_ZERO</span>(&amp;fdExp);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">FD_SET</span>(_sock, &amp;fdWrite);</span><br><span class="line">        <span class="built_in">FD_SET</span>(_sock, &amp;fdExp);</span><br><span class="line">        <span class="built_in">FD_SET</span>(_sock, &amp;fdRead);</span><br><span class="line"></span><br><span class="line">        timeval time = &#123; <span class="number">2</span>,<span class="number">0</span> &#125;;</span><br><span class="line">        <span class="type">int</span> ret = <span class="built_in">select</span>(_sock + <span class="number">1</span>, &amp;fdRead, &amp;fdWrite, &amp;fdExp, &amp;time);</span><br><span class="line">        <span class="keyword">if</span> (SOCKET_ERROR == ret) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;ETS:select结束,ERROR CODE &lt;%d&gt;\n&quot;</span>, <span class="built_in">WSAGetLastError</span>());</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">FD_ISSET</span>(_sock, &amp;fdRead)) &#123;</span><br><span class="line">            <span class="built_in">Accept</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">Aggregate</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动多处理层，将所有客户端均匀分配给各处理层</li>
+</ul>
+<p>​	观察类图可以看出，EsayTcpServer有一个属性<code>vector&lt;CELLServer*&gt; _cellServers</code>，EasyTcpServer和CELLServer有一种聚合关系(has-a)，实际上，每个CELLServer都会单独启动一个线程运行，控制层启动多个处理层，服务端就实现了启动多个线程。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">(<span class="type">int</span> cellServerCount)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; cellServerCount; i++) &#123;</span><br><span class="line">        CELLServer* cs = <span class="keyword">new</span> <span class="built_in">CELLServer</span>(<span class="keyword">this</span>, _sock);</span><br><span class="line">        _cellServers.<span class="built_in">push_back</span>(cs);</span><br><span class="line">        cs-&gt;<span class="built_in">Start</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    _cellServerCount = cellServerCount;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	至于如何将所有客户端均匀分配至各个线程，这里在新客户端加入时，控制层寻找出新客户端最少的处理层，将新客户端交给其即可实现。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnNetJoin</span><span class="params">(CELLClient* pClient)</span> </span>&#123;</span><br><span class="line">    <span class="function">std::lock_guard&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(_mutex)</span></span>;</span><br><span class="line">    <span class="comment">//选出拥有最小客户端队列的cell server，并将该客户端加入其客户端缓冲队列</span></span><br><span class="line">    CELLServer* cellServerWithMinClientCount = _cellServers[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> pCellServer : _cellServers)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (pCellServer-&gt;<span class="built_in">getClientCount</span>() &lt; cellServerWithMinClientCount-&gt;<span class="built_in">getClientCount</span>())</span><br><span class="line">            cellServerWithMinClientCount = pCellServer;</span><br><span class="line">    &#125;</span><br><span class="line">    cellServerWithMinClientCount-&gt;<span class="built_in">addClient</span>(pClient);</span><br><span class="line">    _clientCount++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="业务层–MyServer"><a href="#业务层–MyServer" class="headerlink" title="业务层–MyServer"></a>业务层–MyServer</h5><p>​	业务层主要实现OnNetMsg方法，对不同的消息进行处理。</p>
+<h5 id="处理层–CELLServer"><a href="#处理层–CELLServer" class="headerlink" title="处理层–CELLServer"></a>处理层–CELLServer</h5><ul>
+<li>启动线程，使用select模型对该处理层的所有客户端进行监听</li>
+</ul>
+<p>​	在处理层中，首先是启动新线程，在新线程中，使用select模型对所有客户端进行监听是否有新消息传来并对新消息进行接收。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    _thread = std::<span class="built_in">thread</span>(<span class="built_in">mem_fun</span>(&amp;CELLServer::OnRun), <span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//_thread.detach();</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">OnRun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">IsRun</span>()) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将客户端缓冲区数据取出</span></span><br><span class="line">		<span class="comment">//code...</span></span><br><span class="line"></span><br><span class="line">        fd_set fdRead;</span><br><span class="line">        <span class="built_in">FD_ZERO</span>(&amp;fdRead);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取最大文件描述符，将所有客户端socket加入fdRead</span></span><br><span class="line">        <span class="comment">//code...</span></span><br><span class="line"></span><br><span class="line">        timeval time = &#123; <span class="number">1</span>,<span class="number">0</span> &#125;;</span><br><span class="line">        <span class="type">int</span> ret = <span class="built_in">select</span>(_maxSockfd + <span class="number">1</span>, &amp;fdRead, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>, &amp;time);</span><br><span class="line">        <span class="keyword">if</span> (SOCKET_ERROR == ret) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;CS:select结束,ERROR CODE &lt;%d&gt;\n&quot;</span>, <span class="built_in">WSAGetLastError</span>());</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == ret)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;无消息请求，处理其他业务\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (vector&lt;CELLClient*&gt;::iterator it = _sockClients.<span class="built_in">begin</span>(); it != _sockClients.<span class="built_in">end</span>(); it++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">FD_ISSET</span>((*it)-&gt;<span class="built_in">sockfd</span>(), &amp;fdRead)) &#123;</span><br><span class="line">                <span class="comment">//接收消息</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="number">-1</span> == <span class="built_in">RecvData</span>(*it)) &#123;</span><br><span class="line">					<span class="comment">//客户端退出，关闭socket</span></span><br><span class="line">                    <span class="comment">//code...</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>接收信息，拆包</p>
+<p>select检测到某个客户端的socket可读后，便对该client进行接收，并将接收的消息全部放入接收缓冲区，然后对接收缓冲区的数据进行逐条取出，直至接收缓冲区的剩余长度不足一条消息长度，具体实现参考<a target="_blank" rel="noopener" href="http://139.196.79.161:5260/2020/08/03/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98/">解决tcp粘包问题</a>。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接收消息 处理粘包 拆分包</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">RecvData</span><span class="params">(CELLClient* pClient)</span> </span>&#123;</span><br><span class="line">    netmsg_DataHeader *header;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将收到的消息放入消息缓冲区</span></span><br><span class="line">    <span class="type">int</span> len = pClient-&gt;<span class="built_in">RecvData</span>();</span><br><span class="line">    <span class="keyword">if</span> (len &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//CELLLog::Info(&quot;客户端退出\n&quot;);</span></span><br><span class="line">        <span class="built_in">CloseSocket</span>(pClient-&gt;<span class="built_in">sockfd</span>());</span><br><span class="line">        _pNetEvent-&gt;<span class="built_in">OnNetLeave</span>(pClient);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        _pNetEvent-&gt;<span class="built_in">OnNetRecv</span>(pClient);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (exception e) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;exception: %s\n&quot;</span>, e.<span class="built_in">what</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//处理消息缓冲区数据</span></span><br><span class="line">    <span class="keyword">while</span> (pClient-&gt;<span class="built_in">hasCompleteMsg</span>(header)) &#123;</span><br><span class="line">        <span class="comment">//取出一条消息头</span></span><br><span class="line">        header = (netmsg_DataHeader*)pClient-&gt;<span class="built_in">getRecvBuff</span>();</span><br><span class="line">        <span class="keyword">if</span> (!pClient-&gt;<span class="built_in">hasMsg</span>()) &#123;</span><br><span class="line">            <span class="comment">//消息队列中不存在一条完整消息</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//处理消息</span></span><br><span class="line">        _pNetEvent-&gt;<span class="built_in">OnNetMsg</span>(<span class="keyword">this</span>, pClient, header);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E7%B1%BB%E2%80%93%E4%BA%8B%E4%BB%B6%E5%B1%82%E2%80%93INetEvent"><span class="toc-number">1.</span> <span class="toc-text">基类–事件层–INetEvent</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%B1%82%E2%80%93EasyTcpServer"><span class="toc-number">2.</span> <span class="toc-text">控制层–EasyTcpServer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E5%B1%82%E2%80%93MyServer"><span class="toc-number">3.</span> <span class="toc-text">业务层–MyServer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%B1%82%E2%80%93CELLServer"><span class="toc-number">4.</span> <span class="toc-text">处理层–CELLServer</span></a></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/&title=服务端实现多线程处理多客户端消息"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/&title=服务端实现多线程处理多客户端消息"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/&text=服务端实现多线程处理多客户端消息"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=服务端实现多线程处理多客户端消息&body=Check out this article: http://example.com/2020/08/10/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86%E5%A4%9A%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%A8%8B%E5%BA%8F%E6%9E%B6%E6%9E%84/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>VUE组件之间数据传递及方法调用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/04/09/%E5%B0%8F%E7%9F%A5%E8%AF%86/vue%E5%B0%8F%E7%9F%A5%E8%AF%86/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/&title=VUE组件之间数据传递及方法调用"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/&title=VUE组件之间数据传递及方法调用"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/&text=VUE组件之间数据传递及方法调用"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=VUE组件之间数据传递及方法调用&body=Check out this article: http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#VUE%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E5%8F%8A%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">VUE组件之间数据传递及方法调用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、数据传递</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%88%B6%E4%BC%A0%E5%AD%90-props"><span class="toc-number">1.2.</span> <span class="toc-text">1.父传子(props)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%90%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.1.</span> <span class="toc-text">子组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%88%B6%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.2.</span> <span class="toc-text">父组件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AD%90%E4%BC%A0%E7%88%B6-emit"><span class="toc-number">1.3.</span> <span class="toc-text">二、子传父($emit)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%88%B6%E7%BB%84%E4%BB%B6-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">父组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%90%E7%BB%84%E4%BB%B6-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">子组件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">二、方法调用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%AD%90%E7%BB%84%E4%BB%B6%E8%B0%83%E7%94%A8%E7%88%B6%E7%BB%84%E4%BB%B6%E6%96%B9%E6%B3%95-parent"><span class="toc-number">1.5.</span> <span class="toc-text">1.子组件调用父组件方法($parent)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%88%B6%E7%BB%84%E4%BB%B6-2"><span class="toc-number">1.5.1.</span> <span class="toc-text">父组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%90%E7%BB%84%E4%BB%B6-2"><span class="toc-number">1.5.2.</span> <span class="toc-text">子组件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%AD%90%E7%BB%84%E4%BB%B6%E8%B0%83%E7%94%A8%E7%88%B6%E7%BB%84%E4%BB%B6%E6%96%B9%E6%B3%95-refs"><span class="toc-number">1.6.</span> <span class="toc-text">2.子组件调用父组件方法($refs)</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        VUE组件之间数据传递及方法调用
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-04-26T11:08:29.000Z"
+                  itemprop="datePublished">2021-04-26</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:31:07.285Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/vue/" rel="tag">vue</a>, <a class="tag-link-link" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">框架</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h4 id="VUE组件之间数据传递及方法调用"><a href="#VUE组件之间数据传递及方法调用" class="headerlink" title="VUE组件之间数据传递及方法调用"></a>VUE组件之间数据传递及方法调用</h4><h5 id="一、数据传递"><a href="#一、数据传递" class="headerlink" title="一、数据传递"></a>一、数据传递</h5><h5 id="1-父传子-props"><a href="#1-父传子-props" class="headerlink" title="1.父传子(props)"></a>1.父传子(props)</h5><h6 id="子组件"><a href="#子组件" class="headerlink" title="子组件"></a>子组件</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">    	&#123;&#123;msg&#125;&#125;</span><br><span class="line">        &lt;span v-for=&quot;item in title&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	export default &#123;</span><br><span class="line">        name: &quot;ChildComponent&quot;,</span><br><span class="line">        props:&#123;</span><br><span class="line">            msg:&#123;</span><br><span class="line">                type: String,</span><br><span class="line">                defult: &quot;#####&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            title:&#123;</span><br><span class="line">                type: Array,</span><br><span class="line">                required: true	//变量不可缺省</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="父组件"><a href="#父组件" class="headerlink" title="父组件"></a>父组件</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">        &lt;ChildComponent msg=&#x27;hello world&#x27;</span><br><span class="line">                        :title=&quot;title&quot;&gt;&lt;/ChildComponent&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import ChildComponent from &#x27;./components/ChildComponent&#x27;</span><br><span class="line">    export default &#123;</span><br><span class="line">      name: &#x27;Main&#x27;,</span><br><span class="line">      components: &#123;</span><br><span class="line">        ChildComponent</span><br><span class="line">      &#125;,</span><br><span class="line">      data() &#123;</span><br><span class="line">          return &#123;</span><br><span class="line">             title: [</span><br><span class="line">                 &#x27;格林童话&#x27;,</span><br><span class="line">                 &#x27;安徒生童话&#x27;</span><br><span class="line">             ] </span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><escape><span id="more"></span></escape></p>
+<h5 id="二、子传父-emit"><a href="#二、子传父-emit" class="headerlink" title="二、子传父($emit)"></a>二、子传父($emit)</h5><h6 id="父组件-1"><a href="#父组件-1" class="headerlink" title="父组件"></a>父组件</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">        &lt;ChildComponent @eventName=&quot;countPlus&quot;&gt;&lt;/ChildComponent&gt;</span><br><span class="line">        &#123;&#123;count&#125;&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import ChildComponent from &#x27;./components/ChildComponent&#x27;</span><br><span class="line">    export default &#123;</span><br><span class="line">      name: &#x27;Main&#x27;,</span><br><span class="line">      components: &#123;</span><br><span class="line">        ChildComponent</span><br><span class="line">      &#125;,</span><br><span class="line">      data() &#123;</span><br><span class="line">          return &#123;</span><br><span class="line">          	count: 0</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">          countPlus(data) &#123;</span><br><span class="line">              this.count += data;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="子组件-1"><a href="#子组件-1" class="headerlink" title="子组件"></a>子组件</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">    	&lt;button @click=&quot;changeCount(1)&quot;&gt;+&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	export default &#123;</span><br><span class="line">        name: &quot;ChildComponent&quot;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            changeCount(num) &#123;</span><br><span class="line">                this.$emit(&#x27;eventName&#x27;,num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="二、方法调用"><a href="#二、方法调用" class="headerlink" title="二、方法调用"></a>二、方法调用</h5><h5 id="1-子组件调用父组件方法-parent"><a href="#1-子组件调用父组件方法-parent" class="headerlink" title="1.子组件调用父组件方法($parent)"></a>1.子组件调用父组件方法($parent)</h5><h6 id="父组件-2"><a href="#父组件-2" class="headerlink" title="父组件"></a>父组件</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">        &lt;ChildComponent @click=&quot;countPlus&quot;&gt;&lt;/ChildComponent&gt;</span><br><span class="line">        &#123;&#123;count&#125;&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import ChildComponent from &#x27;./components/ChildComponent&#x27;</span><br><span class="line">    export default &#123;</span><br><span class="line">      name: &#x27;Main&#x27;,</span><br><span class="line">      components: &#123;</span><br><span class="line">        ChildComponent</span><br><span class="line">      &#125;,</span><br><span class="line">      data() &#123;</span><br><span class="line">          return &#123;</span><br><span class="line">          	count: 0</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">          countPlus() &#123;</span><br><span class="line">              this.count ++;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="子组件-2"><a href="#子组件-2" class="headerlink" title="子组件"></a>子组件</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">    	&lt;button @click=&quot;changeCount&quot;&gt;+&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	export default &#123;</span><br><span class="line">        name: &quot;ChildComponent&quot;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            changeCount() &#123;</span><br><span class="line">                this.$parent.countPlus();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-子组件调用父组件方法-refs"><a href="#2-子组件调用父组件方法-refs" class="headerlink" title="2.子组件调用父组件方法($refs)"></a>2.子组件调用父组件方法($refs)</h5><p>父组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">        &lt;ChildComponent ref=&#x27;child&#x27;&gt;&lt;/ChildComponent&gt;</span><br><span class="line">        &lt;button @click=&quot;changeCount&quot;&gt;+&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    import ChildComponent from &#x27;./components/ChildComponent&#x27;</span><br><span class="line">    export default &#123;</span><br><span class="line">      name: &#x27;Main&#x27;,</span><br><span class="line">      components: &#123;</span><br><span class="line">        ChildComponent</span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">          changeCount() &#123;</span><br><span class="line">              this.$refs.child.changeCount();</span><br><span class="line">              console.log(this.refs.child.count);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>子组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">    	&#123;&#123;count&#125;&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	export default &#123;</span><br><span class="line">        name: &quot;ChildComponent&quot;,</span><br><span class="line">        data() &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                count: 0</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            changeCount() &#123;</span><br><span class="line">                this.count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#VUE%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92%E5%8F%8A%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">VUE组件之间数据传递及方法调用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、数据传递</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E7%88%B6%E4%BC%A0%E5%AD%90-props"><span class="toc-number">1.2.</span> <span class="toc-text">1.父传子(props)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%90%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.1.</span> <span class="toc-text">子组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%88%B6%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.2.</span> <span class="toc-text">父组件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AD%90%E4%BC%A0%E7%88%B6-emit"><span class="toc-number">1.3.</span> <span class="toc-text">二、子传父($emit)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%88%B6%E7%BB%84%E4%BB%B6-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">父组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%90%E7%BB%84%E4%BB%B6-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">子组件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">二、方法调用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%AD%90%E7%BB%84%E4%BB%B6%E8%B0%83%E7%94%A8%E7%88%B6%E7%BB%84%E4%BB%B6%E6%96%B9%E6%B3%95-parent"><span class="toc-number">1.5.</span> <span class="toc-text">1.子组件调用父组件方法($parent)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%88%B6%E7%BB%84%E4%BB%B6-2"><span class="toc-number">1.5.1.</span> <span class="toc-text">父组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%90%E7%BB%84%E4%BB%B6-2"><span class="toc-number">1.5.2.</span> <span class="toc-text">子组件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%AD%90%E7%BB%84%E4%BB%B6%E8%B0%83%E7%94%A8%E7%88%B6%E7%BB%84%E4%BB%B6%E6%96%B9%E6%B3%95-refs"><span class="toc-number">1.6.</span> <span class="toc-text">2.子组件调用父组件方法($refs)</span></a></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/&title=VUE组件之间数据传递及方法调用"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/&title=VUE组件之间数据传递及方法调用"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/&text=VUE组件之间数据传递及方法调用"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=VUE组件之间数据传递及方法调用&body=Check out this article: http://example.com/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

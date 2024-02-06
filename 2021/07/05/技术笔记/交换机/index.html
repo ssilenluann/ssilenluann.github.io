@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>从媒体接入控制到虚拟局域网</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/07/10/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/VPN%E4%B8%8ENAT/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%B7%AF%E7%94%B1%E5%99%A8/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/&title=从媒体接入控制到虚拟局域网"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/&title=从媒体接入控制到虚拟局域网"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/&text=从媒体接入控制到虚拟局域网"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=从媒体接入控制到虚拟局域网&body=Check out this article: http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.  简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-CSMA-CD"><span class="toc-number">2.</span> <span class="toc-text">2.  CSMA&#x2F;CD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-CSMA-CD"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 CSMA&#x2F;CD</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-%E4%BA%89%E7%94%A8%E6%9C%9F%EF%BC%88%E7%A2%B0%E6%92%9E%E7%AA%97%E5%8F%A3%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 争用期（碰撞窗口）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3-%E6%88%AA%E6%96%AD%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%8C%87%E6%95%B0%E9%80%80%E9%81%BF%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">2.3  截断二进制指数退避算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">3.</span> <span class="toc-text">3. 以太网交换机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.</span> <span class="toc-text">3.1交换机简介</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-%E5%AF%B9%E6%AF%94%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8E%E9%9B%86%E7%BA%BF%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 对比交换机与集线器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BD%AC%E5%8F%91%E5%B8%A7%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 以太网交换机自学习和转发帧的流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="toc-number">4.</span> <span class="toc-text">4. 虚拟局域网VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E6%A6%82%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 虚拟局域网VLAN概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-VALN%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 VALN的实现机制</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#4-2-1-IEEE-802-1Q%E5%B8%A7"><span class="toc-number">4.2.1.</span> <span class="toc-text">4.2.1 IEEE 802.1Q帧</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-2-2-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%AB%AF%E5%8F%A3%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.2.2.</span> <span class="toc-text">4.2.2  交换机的端口类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-2-3-%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-number">4.2.3.</span> <span class="toc-text">4.2.3 设计一个简单局域网</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.2.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        从媒体接入控制到虚拟局域网
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-07-05T12:38:59.000Z"
+                  itemprop="datePublished">2021-07-05</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:32:04.990Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" rel="tag">数据链路层</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1.  简介"></a>1.  简介</h4><p>​		对于一个简单的总线型网络拓扑，其中有多个网络节点，如果恰巧有两个或更多的节点在同一时刻发送数据，这就导致信号在总线上会产生碰撞，从而导致信号发送失败，这时，共享信道就要着重考虑一个问题就是如何协调各个发送和接收节点对共享信道的占用，即接入媒体控制MAC（Medium Access Control）。本文将简单介绍用来控制共享信道占用的CSMA&#x2F;CD协议，以及现在常用的网络交换设备以太网交换机。</p>
+<p><eacape><span id="more"></span></escape></p>
+<h4 id="2-CSMA-CD"><a href="#2-CSMA-CD" class="headerlink" title="2.  CSMA&#x2F;CD"></a>2.  CSMA&#x2F;CD</h4><h5 id="2-1-CSMA-CD"><a href="#2-1-CSMA-CD" class="headerlink" title="2.1 CSMA&#x2F;CD"></a>2.1 CSMA&#x2F;CD</h5><p>​		CSMA&#x2F;CD全称为载波监听多址接入&#x2F;碰撞检测（carrier sense multiple access&#x2F;collision detection）。</p>
+<ul>
+<li>多址接入MA：多个节点连接在一条总线上竞争使用总线</li>
+<li>载波监听CS：每个节点发送帧之前先要检测下总线上是否有其他节点在发送帧<ul>
+<li>若检测到总线空闲96个bit空闲时间，则发送帧</li>
+<li>若检测到总线忙，则等待至总线空闲96个bit后发送帧</li>
+</ul>
+</li>
+<li>碰撞检测CD:每一个正在发送帧的节点边发送边检测碰撞<ul>
+<li>一旦检测出碰撞，则停止发送，等待一段时间后再发送</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-2-争用期（碰撞窗口）"><a href="#2-2-争用期（碰撞窗口）" class="headerlink" title="2.2 争用期（碰撞窗口）"></a>2.2 争用期（碰撞窗口）</h5><p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914183621852.png" alt="image-20210914183621852"></p>
+<p>​	如图示，假设AD之间的单程端到端之间的传播时延为t,在总线空闲时，A想给D发送信息，期间ABCD有可能都会发送信息，那么理论上，最长经过时间2t后，A就能检测到信号碰撞，时间2t称为争用期或碰撞窗口。</p>
+<p>  因此，经过争用期这段时间内没有检测到碰撞，则这次发生肯定不会产生碰撞，并且争用期的时间是不确定的，端到端往返时延越长，争用期越长，主机越多，发生碰撞的概率越大。</p>
+<h5 id="2-3-截断二进制指数退避算法"><a href="#2-3-截断二进制指数退避算法" class="headerlink" title="2.3  截断二进制指数退避算法"></a>2.3  截断二进制指数退避算法</h5><p>​	正如前面所讲，如果一个节点发送帧后检测到了碰撞，那么该节点会等待一段时间后再进行发送，该等待时间由截断二进制指数退避算法计算得来。</p>
+<p>​	<img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914185054203.png" alt="image-20210914185054203"></p>
+<ul>
+<li>若连续多次发生碰撞，就有可能表示较多节点参与总线竞争，使用退避算法可使平均等待时间加长，减少碰撞的概率，有利于系统稳定</li>
+<li>当重传16次仍不能成功时，表明同时发送帧的节点太多，以至于连续发生碰撞，则丢弃该帧，并向上层报告</li>
+</ul>
+<p>​    需要说明的是，在<strong>无线局域网</strong>中，不能使用CSMA&#x2F;CD协议，而是使用CSMD&#x2F;CA（载波监听多址接入&#x2F;碰撞避免）协议。</p>
+<h4 id="3-以太网交换机"><a href="#3-以太网交换机" class="headerlink" title="3. 以太网交换机"></a>3. 以太网交换机</h4><h5 id="3-1交换机简介"><a href="#3-1交换机简介" class="headerlink" title="3.1交换机简介"></a>3.1交换机简介</h5><p>​	以太网交换机通常由多个接口，每个接口都可以直接与一台主机或另一个以太网交换机相连，一般工作在全双工模式，其具有并行性，能同时连通多对接口，使多对主机能同时通信，无碰撞（不使用CSMA&#x2F;CD协议）。</p>
+<p>​	其工作在数据链路层和物理层，收到帧后，在帧交换表中查找帧的目的MAC地址所对应的接口号，然后通过该接口转发该帧，其帧交换表是通过自学习算法自动地逐渐建立起来的。</p>
+<h5 id="3-2-对比交换机与集线器"><a href="#3-2-对比交换机与集线器" class="headerlink" title="3.2 对比交换机与集线器"></a>3.2 对比交换机与集线器</h5><ul>
+<li>单个节点单播帧传输</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914191540776.png" alt="image-20210914191540776"></p>
+<p>​	当集线器接收到某个节点的单播帧时，仍将其发送到其他主机，需要其他主机自行对比自身MAC地址与帧中的目标MAC地址，然后决定是否接受该帧；而交换机接收到某个节点的单播帧时，会根据帧交换表查找目的MAC地址所在的接口，只向该接口所连接的节点进行转发。</p>
+<ul>
+<li>多节点单播帧传输</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914190921167.png" alt="image-20210914190921167"></p>
+<p>​	对于集线器，同时收到多个单播帧，必定会产生信号冲突，然后发送节点会基于CSMA&#x2F;CD进行避让，而交换机会将接受到的帧先缓存起来，然后逐个发送给目标主机</p>
+<ul>
+<li><p>广播帧传输</p>
+<p>两者一致</p>
+</li>
+<li><p>拓展网络下传输单播帧</p>
+</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914191736042.png" alt="image-20210914191736042"></p>
+<ul>
+<li>扩展网络下多节点传输单播帧</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914191935754.png" alt="image-20210914191935754"></p>
+<p>​	可以看出，如果使用集线器扩展以太网，不仅扩大了其广播域，还扩大了其碰撞域，而使用交换机扩展以太网，只扩大其广播域，不会扩大其碰撞域</p>
+<h5 id="3-3-以太网交换机自学习和转发帧的流程"><a href="#3-3-以太网交换机自学习和转发帧的流程" class="headerlink" title="3.3 以太网交换机自学习和转发帧的流程"></a>3.3 以太网交换机自学习和转发帧的流程</h5><p>​	如图示，两台交换机连接在一起，上面各有4个接口，一共连接ABCDEF6台主机，假设各主机都已经知道其他主机的MAC地址，无需通过ARP协议获取其他主机MAC地址。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914192625049.png" alt="image-20210914192625049"></p>
+<p>   现假设A要给B发送信息，则首先A将帧传输至接口1，交换机1会记录下接口1对应A的MAC地址，并将记录填写在帧交换表中，完成<strong>登记</strong>。</p>
+<p>​	<img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914192905739.png" alt="image-20210914192905739"></p>
+<p>​	登记完成后，交换机1需要将帧进行<strong>转发</strong>，转发前先从帧交换表中查询帧中目标MAC地址对应的接口，发现查询不到，于是将帧转发至2、3、4接口，进行<strong>泛洪</strong>。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914193201225.png" alt="image-20210914193201225"></p>
+<p>​	接下来，主机B、C接收到帧，并根据帧中目标MAC地址与自身MAC地址进行比较，决定是否接受，而从接口4转发的帧会进入交换机2，交换机2和交换机1一样，先进行登记，将A的MAC地址与端口2的对应信息记录至帧交换表中，然后进行经过查询后将帧转发至所有接口，主机DEF会接收到帧然后进行判断是否接收。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914193752628.png" alt="image-20210914193752628"></p>
+<p>​	如此重复多个回合，交换机就会将所有的接口和MAC地址的对应情况全部记录在帧交换表中。</p>
+<p>​	需要注意的是，每条记录都有自己的有效时间，<strong>到期自动删除</strong>。</p>
+<h4 id="4-虚拟局域网VLAN"><a href="#4-虚拟局域网VLAN" class="headerlink" title="4. 虚拟局域网VLAN"></a>4. 虚拟局域网VLAN</h4><p>​	以太网交换机工作在数据链路层（包括物理层），使用一个或多个以太网交换机互联起来的交换式以太网，其所有站点都属于同一个广播域，即以太网中任意站点发送广播帧，其余所有站点均收到广播帧。随着交换式以太网规模的扩大，广播帧出现的就会越来越频繁，造成广播风暴及其他潜在的安全问题，为了解决这一问题，虚拟局域网技术应运而生。</p>
+<h5 id="4-1-虚拟局域网VLAN概述"><a href="#4-1-虚拟局域网VLAN概述" class="headerlink" title="4.1 虚拟局域网VLAN概述"></a>4.1 虚拟局域网VLAN概述</h5><p>​	虚拟局域网VLAN（virtual local area network）是一种将局域网内的设备划分为与物理位置无关的逻辑组的技术，这些逻辑组具有某些共同的需求。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914223038280.png" alt="image-20210914223038280"></p>
+<p>​	比如，可以将图示的局域网划分为两个虚拟局域网VLAN1、VLAN2,VLAN1中的广播帧不会发送至VLAN2中的站点，VLAN2中的广播帧也不会发送至VLAN1中的站点。</p>
+<h5 id="4-2-VALN的实现机制"><a href="#4-2-VALN的实现机制" class="headerlink" title="4.2 VALN的实现机制"></a>4.2 VALN的实现机制</h5><h6 id="4-2-1-IEEE-802-1Q帧"><a href="#4-2-1-IEEE-802-1Q帧" class="headerlink" title="4.2.1 IEEE 802.1Q帧"></a>4.2.1 IEEE 802.1Q帧</h6><p>​	IEEE 802.1Q帧对以太网MAC帧格式进行了扩展，插入了4字节的VLAN标记，如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914223508668.png" alt="image-20210914223508668"></p>
+<ul>
+<li><p>VLAN标记的最后12字节称为VLAN标识符VID，它唯一地标志了以太网帧属于哪一个VLAN</p>
+</li>
+<li><p>802.1Q帧通过交换机进行处理，而非用户主机进行处理</p>
+<ul>
+<li>当交换机收到普通的以太网帧时，会插入4字节的VLAN标记使其转变为802.1Q帧，简称“打标签”</li>
+<li>当交换机转发802.1Q帧时，可能会去掉4字节的VLAN标记使其变为普通的以太网帧，简称“去标签”</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-2-2-交换机的端口类型"><a href="#4-2-2-交换机的端口类型" class="headerlink" title="4.2.2  交换机的端口类型"></a>4.2.2  交换机的端口类型</h6><p>​	交换机的端口类型有三种：Access、Trunk、Hybrid（思科交换机没有次类型端口）。</p>
+<blockquote>
+<p>Access端口</p>
+</blockquote>
+<ul>
+<li><p>一般用于连接用户计算机</p>
+</li>
+<li><p>只属于一个VLAN</p>
+</li>
+<li><p>端口的PVID（端口VLAN ID）值与端口所属VLAN的ID值相同，默认为1</p>
+</li>
+<li><p>端口接收帧处理方法：</p>
+<p>一般只接受“未打标签”的普通以太网MAC帧，然后根据自身PVID值给帧“打标签”，字段中VID值与PVID相同</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914224703768.png" alt="image-20210914224703768"></p>
+</li>
+<li><p>端口发送处理方法：</p>
+<p>若帧中的VID与端口的PVID值相同，则“去标签”并转发该帧，否则不转发</p>
+</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914224949236.png" alt="image-20210914224949236"></p>
+<blockquote>
+<p>Trunk端口</p>
+</blockquote>
+<ul>
+<li><p>一般用于交换机之间或交换机与路由器之前的互连</p>
+</li>
+<li><p>可以属于多个VLAN</p>
+</li>
+<li><p>用户可以设置Trunk端口中的PVID值，默认情况下Trunk端口的PVID值为1</p>
+</li>
+<li><p>端口发送处理方法：</p>
+<ul>
+<li>对VID等于PVID的帧，“去标签”再转发</li>
+<li>对VID不等于PVID的帧，直接转发</li>
+</ul>
+</li>
+<li><p>端口接收处理方法：</p>
+<ul>
+<li>对于“未打标签”的帧，将帧“打标签”</li>
+<li>“已打标签”的帧，直接接收</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914230022017.png" alt="image-20210914230022017"></p>
+<p>​	如上图，交换机1的端口5为Trunk型，广播帧VID与端口PVID不等，直接转发，交换机2的端口5为Trunk型，广播帧“已打标签”，直接接收</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914230358949.png" alt="image-20210914230358949"></p>
+<p>​    如上图，交换机1的端口5为Trunk型，广播帧VID与端口PVID相等，“去标签”后转发，交换机2的端口5为Trunk型，广播帧“未打标签”，“打标签”后再接收</p>
+</li>
+</ul>
+<blockquote>
+<p>Hybrid端口</p>
+</blockquote>
+<ul>
+<li><p>即可用于交换机之间或交换机与路由器之间的互连（同Trunk端口），也可用于交换机与计算机之间的互连（同Access端口）</p>
+</li>
+<li><p>可以属于多个VLAN（同Trunk端口）</p>
+</li>
+<li><p>用户可以设置Hybrid端口的PVID值，默认情况下，Hybrid端口的PVID值为1（同Trunk端口）</p>
+</li>
+<li><p>发送处理方法：</p>
+<p>查看帧的VID是否在端口的“去标签”列表中：</p>
+<ul>
+<li>在，“去标签”后再转发</li>
+<li>不在，直接转发</li>
+</ul>
+</li>
+<li><p>接收处理方法</p>
+<ul>
+<li>“未打标签”的帧，“打标签”后接收</li>
+<li>“已打标签”的帧，直接接收</li>
+</ul>
+</li>
+</ul>
+<h6 id="4-2-3-设计一个简单局域网"><a href="#4-2-3-设计一个简单局域网" class="headerlink" title="4.2.3 设计一个简单局域网"></a>4.2.3 设计一个简单局域网</h6><p>​	主机A、B、C连接在同一个交换机上的不同接口，利用Hybrid端口，实现A和B都可以和C通信，而AB之间不能相互通信</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210914232526130.png" alt="image-20210914232526130"></p>
+<p>​	此设计的关键之处在于当交换机将帧转发至计算机时，必须先去标签，因为计算机不能处理802.1Q帧，只能处理普通MAC帧，因此，在图示设计中，AB与C都能正常通讯，因为端口3的去标签列表中包含了端口1、2的PVID，即从端口1、2来的帧，经端口3转发后，都会被去除标签，成为正常MAC帧，主机C可以接受，同理，端口3来的帧也会被端口1、2去标签成为正常帧，而被A、B接受，所以AB都可以和C相互通讯。</p>
+<p>​	而端口1的去标签中不包含端口2的PVID，这就导致从端口1中来的数据帧，经由端口2转发后，没有被去标签，仍然是802.1Q帧，计算机B不能识别，计算机B不能接受到A的信息，同理，计算机A也不能接受到B的信息，即AB不能相互通讯。</p>
+<hr>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=40">计算机网络微课堂(湖科大教书匠)</a></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.  简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-CSMA-CD"><span class="toc-number">2.</span> <span class="toc-text">2.  CSMA&#x2F;CD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-CSMA-CD"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 CSMA&#x2F;CD</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-%E4%BA%89%E7%94%A8%E6%9C%9F%EF%BC%88%E7%A2%B0%E6%92%9E%E7%AA%97%E5%8F%A3%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 争用期（碰撞窗口）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3-%E6%88%AA%E6%96%AD%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%8C%87%E6%95%B0%E9%80%80%E9%81%BF%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">2.3  截断二进制指数退避算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">3.</span> <span class="toc-text">3. 以太网交换机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.</span> <span class="toc-text">3.1交换机简介</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-%E5%AF%B9%E6%AF%94%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8E%E9%9B%86%E7%BA%BF%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 对比交换机与集线器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%87%AA%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BD%AC%E5%8F%91%E5%B8%A7%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 以太网交换机自学习和转发帧的流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN"><span class="toc-number">4.</span> <span class="toc-text">4. 虚拟局域网VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91VLAN%E6%A6%82%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 虚拟局域网VLAN概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-VALN%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 VALN的实现机制</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#4-2-1-IEEE-802-1Q%E5%B8%A7"><span class="toc-number">4.2.1.</span> <span class="toc-text">4.2.1 IEEE 802.1Q帧</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-2-2-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%AB%AF%E5%8F%A3%E7%B1%BB%E5%9E%8B"><span class="toc-number">4.2.2.</span> <span class="toc-text">4.2.2  交换机的端口类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-2-3-%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-number">4.2.3.</span> <span class="toc-text">4.2.3 设计一个简单局域网</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.2.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/&title=从媒体接入控制到虚拟局域网"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/&title=从媒体接入控制到虚拟局域网"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/&text=从媒体接入控制到虚拟局域网"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=从媒体接入控制到虚拟局域网&body=Check out this article: http://example.com/2021/07/05/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E4%BA%A4%E6%8D%A2%E6%9C%BA/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

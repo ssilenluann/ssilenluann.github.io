@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>C++ multi-threading condition_variable</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%20time/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/&title=C++ multi-threading condition_variable"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/&title=C++ multi-threading condition_variable"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/&text=C++ multi-threading condition_variable"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=C++ multi-threading condition_variable&body=Check out this article: http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">成员方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#wait-functions"><span class="toc-number">2.2.</span> <span class="toc-text">wait functions</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#notify-functions"><span class="toc-number">2.3.</span> <span class="toc-text">notify functions</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#std-notify-all-at-thread-exit"><span class="toc-number">3.</span> <span class="toc-text">std::notify_all_at_thread_exit</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        C++ multi-threading condition_variable
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-08-04T02:20:15.000Z"
+                  itemprop="datePublished">2020-08-04</time>
+            
+                (Updated:
+                <time datetime="2022-06-10T01:32:41.748Z"
+                      itemprop="dateModified">2022-06-10</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C/" rel="tag">C++</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>​	头文件<condition_variable>下包括两个类，condition_variable和condition_variable_any:</p>
+<ul>
+<li>condition_variable： 其对象可以阻塞线程直到被notified才继续执行线程任务，当wait方法调用时使用std::unique_lock&lt;std::mutex&gt;对象来阻塞线程，直到同一个condition_variable对象的通知方法(notify_one&#x2F;ontify_all)被调用。</li>
+<li>condition_variable_any：与condition_variable对象相比，其互斥量并不一定只是std::mutex，只要是<a target="_blank" rel="noopener" href="http://www.cplusplus.com/reference/concept/Lockable/">lockable</a>的类都可以，除了这点两者完全相同</li>
+</ul>
+<p><escape><span id="more"></span></escape></p>
+<p>​	以下是堆condition_variable的介绍：</p>
+<h5 id="成员方法"><a href="#成员方法" class="headerlink" title="成员方法"></a>成员方法</h5><h6 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h6><p>​	其只有默认的无参构造函数，拷贝构造和&#x3D;运算符均已被移除。</p>
+<h6 id="wait-functions"><a href="#wait-functions" class="headerlink" title="wait functions"></a>wait functions</h6><ul>
+<li>cv_status</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">cv_status</span> &#123; no_timeout, timeout &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>​	作为wait_for和wait_until方法的返回值类型，其反映了线程是否阻塞了指定时间。</p>
+<ul>
+<li>wait</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unconditional</span> (<span class="number">1</span>)	</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">wait</span> <span class="params">(unique_lock&lt;mutex&gt;&amp; lck)</span></span>;</span><br><span class="line"><span class="built_in">predicate</span> (<span class="number">2</span>)	</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Predicate</span>&gt;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">wait</span> <span class="params">(unique_lock&lt;mutex&gt;&amp; lck, Predicate pred)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>​	wait方法会阻塞当前线程直至该线程被notify，当线程被阻塞的同时，lck.unlock()方法同时被调用，互斥锁被释放，当被notify时，lck.lock()方法被同时执行，互斥锁被再次锁定。</p>
+<p>​	对于其重载方法(2)，当调用该方法时，谓词pred返回false时线程才被阻塞，线程阻塞后，谓词返回true时，线程才允许被notify，类似<code>while (!pred()) wait(lck);</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">std::mutex mtx;</span><br><span class="line">std::condition_variable cv;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> cargo = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">shipment_available</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> cargo!=<span class="number">0</span>;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">consume</span> <span class="params">(<span class="type">int</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; ++i) &#123;</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lck</span><span class="params">(mtx)</span></span>;</span><br><span class="line">    cv.<span class="built_in">wait</span>(lck,shipment_available);</span><br><span class="line">    <span class="comment">// consume:</span></span><br><span class="line">    std::cout &lt;&lt; cargo &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    cargo=<span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="function">std::thread <span class="title">consumer_thread</span> <span class="params">(consume,<span class="number">10</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// produce 10 items when needed:</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; ++i) &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">shipment_available</span>()) std::this_thread::<span class="built_in">yield</span>();</span><br><span class="line">    <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lck</span><span class="params">(mtx)</span></span>;</span><br><span class="line">    cargo = i+<span class="number">1</span>;</span><br><span class="line">    cv.<span class="built_in">notify_one</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  consumer_thread.<span class="built_in">join</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>wait_for</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unconditional</span> (<span class="number">1</span>)	</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Rep</span>, <span class="keyword">class</span> <span class="title class_">Period</span>&gt;</span><br><span class="line">  <span class="function">cv_status <span class="title">wait_for</span> <span class="params">(unique_lock&lt;mutex&gt;&amp; lck,</span></span></span><br><span class="line"><span class="params"><span class="function">                      <span class="type">const</span> chrono::duration&lt;Rep,Period&gt;&amp; rel_time)</span></span>;</span><br><span class="line"><span class="built_in">predicate</span> (<span class="number">2</span>)	</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Rep</span>, <span class="keyword">class</span> <span class="title class_">Period</span>, <span class="keyword">class</span> <span class="title class_">Predicate</span>&gt;</span><br><span class="line">       <span class="function"><span class="type">bool</span> <span class="title">wait_for</span> <span class="params">(unique_lock&lt;mutex&gt;&amp; lck,</span></span></span><br><span class="line"><span class="params"><span class="function">                      <span class="type">const</span> chrono::duration&lt;Rep,Period&gt;&amp; rel_time, Predicate pred)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>​	阻塞当前线程直至阻塞时间段超过rel_time或者被notify，当线程被阻塞时，同时会调用lck.unlock()，释放锁资源；当线程被notify或者rel_time超时后会自动调用lck.lock()，抢占所资源。</p>
+<p>​	对于重载方法(2)，只有当pred返回false时，方法才会阻塞线程，当谓词返回true时，线程允许被唤醒，该方法与下面语句等价：</p>
+<p>​	<code>wait_until (lck, chrono::steady_clock::now() + rel_time, std::move(pred));</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>           <span class="comment">// std::cout</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span>             <span class="comment">// std::thread</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;chrono&gt;</span>             <span class="comment">// std::chrono::seconds</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span>              <span class="comment">// std::mutex, std::unique_lock</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span> <span class="comment">// std::condition_variable, std::cv_status</span></span></span><br><span class="line"></span><br><span class="line">std::condition_variable cv;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> value;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">read_value</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::cin &gt;&gt; value;</span><br><span class="line">  cv.<span class="built_in">notify_one</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;Please, enter an integer (I&#x27;ll be printing dots): \n&quot;</span>;</span><br><span class="line">  <span class="function">std::thread <span class="title">th</span> <span class="params">(read_value)</span></span>;</span><br><span class="line"></span><br><span class="line">  std::mutex mtx;</span><br><span class="line">  <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lck</span><span class="params">(mtx)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (cv.<span class="built_in">wait_for</span>(lck,std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>))==std::cv_status::timeout) &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&#x27;.&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">  &#125;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;You entered: &quot;</span> &lt;&lt; value &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  th.<span class="built_in">join</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>wait_until</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unconditional</span> (<span class="number">1</span>)	</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Clock</span>, <span class="keyword">class</span> <span class="title class_">Duration</span>&gt;</span><br><span class="line">  <span class="function">cv_status <span class="title">wait_until</span> <span class="params">(unique_lock&lt;mutex&gt;&amp; lck,</span></span></span><br><span class="line"><span class="params"><span class="function">                        <span class="type">const</span> chrono::time_point&lt;Clock,Duration&gt;&amp; abs_time)</span></span>;</span><br><span class="line"><span class="built_in">predicate</span> (<span class="number">2</span>)	</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Clock</span>, <span class="keyword">class</span> <span class="title class_">Duration</span>, <span class="keyword">class</span> <span class="title class_">Predicate</span>&gt;</span><br><span class="line">       <span class="function"><span class="type">bool</span> <span class="title">wait_until</span> <span class="params">(unique_lock&lt;mutex&gt;&amp; lck,</span></span></span><br><span class="line"><span class="params"><span class="function">                        <span class="type">const</span> chrono::time_point&lt;Clock,Duration&gt;&amp; abs_time,</span></span></span><br><span class="line"><span class="params"><span class="function">                        Predicate pred)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>​	阻塞当前线程直至时间点abs_time或者被notify，当线程阻塞后，调用lck.unlock()，释放锁资源；线程阻塞超时或者被notify后，再次调用lck.lock()抢占所资源。</p>
+<p>​	对于重载方法(2)，只有谓词pred返回false时允许线程阻塞，当pred返回true时，才允许被nofity，当超时时间到时，返回pred的返回值，与下面语句等价：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (!<span class="built_in">pred</span>())</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">wait_until</span>(lck,abs_time) == cv_status::timeout)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pred</span>();</span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="notify-functions"><a href="#notify-functions" class="headerlink" title="notify functions"></a>notify functions</h6><ul>
+<li><p>notify_one</p>
+<p>唤醒一个正在阻塞的线程，如果多个线程正在阻塞，则并不确定唤醒哪一个线程</p>
+</li>
+<li><p>notify_all</p>
+<p>唤醒所有正在阻塞的线程</p>
+</li>
+</ul>
+<h5 id="std-notify-all-at-thread-exit"><a href="#std-notify-all-at-thread-exit" class="headerlink" title="std::notify_all_at_thread_exit"></a>std::notify_all_at_thread_exit</h5><p><code>void notify_all_at_thread_exit (condition_variable&amp; cond, unique_lock&lt;mutex&gt; lck);</code></p>
+<p>​	线程结束时，唤醒正在阻塞的线程，相当于在线程结束前调用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lck.<span class="built_in">unlock</span>();</span><br><span class="line">cond.<span class="built_in">notify_all</span>();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>           <span class="comment">// std::cout</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span>             <span class="comment">// std::thread</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;mutex&gt;</span>              <span class="comment">// std::mutex, std::unique_lock</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;condition_variable&gt;</span> <span class="comment">// std::condition_variable</span></span></span><br><span class="line"></span><br><span class="line">std::mutex mtx;</span><br><span class="line">std::condition_variable cv;</span><br><span class="line"><span class="type">bool</span> ready = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print_id</span> <span class="params">(<span class="type">int</span> id)</span> </span>&#123;</span><br><span class="line">  <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lck</span><span class="params">(mtx)</span></span>;</span><br><span class="line">  <span class="keyword">while</span> (!ready) cv.<span class="built_in">wait</span>(lck);</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;thread &quot;</span> &lt;&lt; id &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">go</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lck</span><span class="params">(mtx)</span></span>;</span><br><span class="line">  std::<span class="built_in">notify_all_at_thread_exit</span>(cv,std::<span class="built_in">move</span>(lck));	<span class="comment">// unique_lock无拷贝构造，此处可以用std::move完成右值传递</span></span><br><span class="line">  ready = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  std::thread threads[<span class="number">10</span>];</span><br><span class="line">  <span class="comment">// spawn 10 threads:</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; ++i)</span><br><span class="line">    threads[i] = std::<span class="built_in">thread</span>(print_id,i);</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;10 threads ready to race...\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">  std::<span class="built_in">thread</span>(go).<span class="built_in">detach</span>();   <span class="comment">// go!</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; th : threads) th.<span class="built_in">join</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">成员方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#wait-functions"><span class="toc-number">2.2.</span> <span class="toc-text">wait functions</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#notify-functions"><span class="toc-number">2.3.</span> <span class="toc-text">notify functions</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#std-notify-all-at-thread-exit"><span class="toc-number">3.</span> <span class="toc-text">std::notify_all_at_thread_exit</span></a></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/&title=C++ multi-threading condition_variable"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/&title=C++ multi-threading condition_variable"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/&text=C++ multi-threading condition_variable"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=C++ multi-threading condition_variable&body=Check out this article: http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

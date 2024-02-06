@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>epoll API</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/12/07/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/&title=epoll API"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/&title=epoll API"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/&text=epoll API"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=epoll API&body=Check out this article: http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        epoll API
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-12-07T02:20:15.000Z"
+                  itemprop="datePublished">2021-12-07</time>
+            
+                (Updated:
+                <time datetime="2022-06-10T10:43:38.537Z"
+                      itemprop="dateModified">2022-06-10</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" rel="tag">项目笔记</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <p>​	关于epoll的原理，参见<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63179839">epoll详解</a>.</p>
+<span id="more"></span>
+
+<p>​	epoll相关的api定义在头文件&lt;sys&#x2F;epoll.h&gt;中</p>
+<blockquote>
+<p>cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-max</p>
+</blockquote>
+<p>​	查看打开文件个数上限</p>
+<blockquote>
+<p>int epoll_create(int size);</p>
+</blockquote>
+<p>​	返回值：epoll的句柄，也是一个fd值，使用完后必须close</p>
+<p>​	size：最多监听socket的个数，linux core 2.6.8版本后该参数就没有实际作用了，监听最大上限由epoll动态管理，理论最大上限为系统最大打开文件个数</p>
+<blockquote>
+<p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</p>
+</blockquote>
+<p>​	epoll_event 的原型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> <span class="title class_">epoll_data</span> &#123;</span><br><span class="line">     <span class="type">void</span> *ptr;</span><br><span class="line">     <span class="type">int</span> fd;</span><br><span class="line">    <span class="type">__uint32_t</span> u32;</span><br><span class="line">     <span class="type">__uint64_t</span> u64;</span><br><span class="line"> &#125; <span class="type">epoll_data_t</span>;</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">struct</span> <span class="title class_">epoll_event</span> &#123;</span><br><span class="line">     <span class="type">__uint32_t</span> events; <span class="comment">/* Epoll events */</span></span><br><span class="line">    <span class="type">epoll_data_t</span> data; <span class="comment">/* User data variable */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>​	epoll的事件注册函数，注册成功后epoll会对该fd进行监听。</p>
+<p>​	返回值：0：注册成功；-1：注册失败</p>
+<p>​	epfd:即epoll_create()返回的fd值</p>
+<p>​	op:</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EPOLL_CTL_ADD</td>
+<td>注册新的fd到epfd中</td>
+</tr>
+<tr>
+<td>EPOLL_CTL_MOD</td>
+<td>修改已经注册的fd的监听事件</td>
+</tr>
+<tr>
+<td>EPOLL_CTL_DEL</td>
+<td>从epfd中删除一个fd</td>
+</tr>
+</tbody></table>
+<p>​	fd:需要监听的fd</p>
+<p>​	event:可以是以下几个宏的集合：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EPOLLIN</td>
+<td>表示对应的文件描述符可以读（包括对端SOCKET正常关闭）</td>
+</tr>
+<tr>
+<td>EPOLLOUT</td>
+<td>表示对应的文件描述符可以写；</td>
+</tr>
+<tr>
+<td>EPOLLPRI</td>
+<td>表示对应的文件描述符有紧急的数据可读</td>
+</tr>
+<tr>
+<td>EPOLLERR</td>
+<td>表示对应的文件描述符发生错误</td>
+</tr>
+<tr>
+<td>EPOLLHUP</td>
+<td>表示对应的文件描述符被挂断</td>
+</tr>
+<tr>
+<td>EPOLLET</td>
+<td>将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的</td>
+</tr>
+<tr>
+<td>EPOLLONESHOT</td>
+<td>只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里</td>
+</tr>
+</tbody></table>
+<p>​	边缘触发(ET)与水平触发(LT)：这是两种通知事件被触发的方式，默认为LT。以可读和可写事件被触发为例比较区别：</p>
+<ul>
+<li><p>边缘触发：接收缓冲区由空转为非空时，触发可读信号，但若是缓冲区中由1K字节数据，用户read时只接收0.5K字节，则对于缓冲区内的数据，epoll不会通知文件描述符可读；发送缓冲区状态由非空转化为空时，通知epoll通知fd可写</p>
+<p>优点：搭配非阻塞IO读取数据，提高性能，非常适合流量较大的场景</p>
+<p>缺点：不使用非阻塞IO的话，不能保证数据的完整</p>
+</li>
+<li><p>水平触发：只要fd接收缓冲区中有数据可读，就会一直通知fd可读，只要发送缓冲区未满，就会一直通知fd可写</p>
+<p>优点：保证数据完整输出</p>
+<p>缺点：降低系统性能</p>
+</li>
+</ul>
+<blockquote>
+<p>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</p>
+</blockquote>
+<p>​	等待事件的产生，类似于select模型。</p>
+<p>​	返回值：返回需要处理的事件数目</p>
+<p>​	epfd：epoll文件描述符</p>
+<p>​	events：用来存放事件的数组</p>
+<p>​	maxevents：数组长度，最大应不超过epoll_create的传入的size</p>
+<p>​	timeout：超时时间，毫秒，传入0会立即返回，传入-1则阻塞等待直至时间到来</p>
+<blockquote>
+<p>服务端demo 边缘触发+非阻塞IO</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXLINE 5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> OPEN_MAX 100</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LISTENQ 20</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SERV_PORT 5000</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INFTIM 1000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setnonblocking</span><span class="params">(<span class="type">int</span> sock)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> opts;</span><br><span class="line">    opts=<span class="built_in">fcntl</span>(sock,F_GETFL);</span><br><span class="line">    <span class="keyword">if</span>(opts&lt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;fcntl(sock,GETFL)&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    opts = opts|O_NONBLOCK;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">fcntl</span>(sock,F_SETFL,opts)&lt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">perror</span>(<span class="string">&quot;fcntl(sock,SETFL,opts)&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> i, maxi, listenfd, connfd, sockfd,epfd,nfds, portnumber;</span><br><span class="line">    <span class="type">ssize_t</span> n;</span><br><span class="line">    <span class="type">char</span> line[MAXLINE];</span><br><span class="line">    <span class="type">socklen_t</span> clilen;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( <span class="number">2</span> == argc )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( (portnumber = <span class="built_in">atoi</span>(argv[<span class="number">1</span>])) &lt; <span class="number">0</span> )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(stderr,<span class="string">&quot;Usage:%s portnumber/a/n&quot;</span>,argv[<span class="number">0</span>]);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(stderr,<span class="string">&quot;Usage:%s portnumber/a/n&quot;</span>,argv[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明epoll_event结构体的变量,ev用于注册事件,数组用于回传要处理的事件</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">epoll_event</span> ev,events[<span class="number">20</span>];</span><br><span class="line">    <span class="comment">//生成用于处理accept的epoll专用的文件描述符</span></span><br><span class="line"></span><br><span class="line">    epfd=<span class="built_in">epoll_create</span>(<span class="number">256</span>);</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> clientaddr;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> serveraddr;</span><br><span class="line">    listenfd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">//把socket设置为非阻塞方式</span></span><br><span class="line">	<span class="built_in">setnonblocking</span>(listenfd);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置与要处理的事件相关的文件描述符</span></span><br><span class="line">    ev.data.fd=listenfd;</span><br><span class="line">    <span class="comment">//设置要处理的事件类型</span></span><br><span class="line"></span><br><span class="line">    ev.events=EPOLLIN|EPOLLET;	<span class="comment">// 边缘触发</span></span><br><span class="line">    <span class="comment">//ev.events=EPOLLIN;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//注册epoll事件</span></span><br><span class="line">    <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_ADD,listenfd,&amp;ev);</span><br><span class="line">    <span class="built_in">bzero</span>(&amp;serveraddr, <span class="built_in">sizeof</span>(serveraddr));</span><br><span class="line">    serveraddr.sin_family = AF_INET;</span><br><span class="line">    <span class="type">char</span> *local_addr=<span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">    <span class="built_in">inet_aton</span>(local_addr,&amp;(serveraddr.sin_addr));<span class="comment">//htons(portnumber);</span></span><br><span class="line"></span><br><span class="line">    serveraddr.sin_port=<span class="built_in">htons</span>(portnumber);</span><br><span class="line">    <span class="built_in">bind</span>(listenfd,(sockaddr *)&amp;serveraddr, <span class="built_in">sizeof</span>(serveraddr));</span><br><span class="line">    <span class="built_in">listen</span>(listenfd, LISTENQ);</span><br><span class="line">    maxi = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> ( ; ; ) &#123;</span><br><span class="line">        <span class="comment">//等待epoll事件的发生</span></span><br><span class="line"></span><br><span class="line">        nfds=<span class="built_in">epoll_wait</span>(epfd,events,<span class="number">20</span>,<span class="number">500</span>);</span><br><span class="line">        <span class="comment">//处理所发生的所有事件</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nfds;++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(events[i].data.fd==listenfd)<span class="comment">//如果新监测到一个SOCKET用户连接到了绑定的SOCKET端口，建立新的连接。</span></span><br><span class="line"></span><br><span class="line">            &#123;</span><br><span class="line">                connfd = <span class="built_in">accept</span>(listenfd,(sockaddr *)&amp;clientaddr, &amp;clilen);</span><br><span class="line">                <span class="keyword">if</span>(connfd&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">perror</span>(<span class="string">&quot;connfd&lt;0&quot;</span>);</span><br><span class="line">                    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//setnonblocking(connfd);</span></span><br><span class="line"></span><br><span class="line">                <span class="type">char</span> *str = <span class="built_in">inet_ntoa</span>(clientaddr.sin_addr);</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;accapt a connection from &quot;</span> &lt;&lt; str &lt;&lt; endl;</span><br><span class="line">                <span class="comment">//设置用于读操作的文件描述符</span></span><br><span class="line"></span><br><span class="line">                ev.data.fd=connfd;</span><br><span class="line">                <span class="comment">//设置用于注测的读操作事件</span></span><br><span class="line"></span><br><span class="line">                ev.events=EPOLLIN|EPOLLET;</span><br><span class="line">                <span class="comment">//ev.events=EPOLLIN;</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//注册ev</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_ADD,connfd,&amp;ev);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(events[i].events&amp;EPOLLIN)<span class="comment">//如果是已经连接的用户，并且收到数据，那么进行读入。</span></span><br><span class="line"></span><br><span class="line">            &#123;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;EPOLLIN&quot;</span> &lt;&lt; endl;</span><br><span class="line">                <span class="keyword">if</span> ( (sockfd = events[i].data.fd) &lt; <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span> ( (n = <span class="built_in">read</span>(sockfd, line, MAXLINE)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (errno == ECONNRESET) &#123;</span><br><span class="line">                        <span class="built_in">close</span>(sockfd);</span><br><span class="line">                        events[i].data.fd = <span class="number">-1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span></span><br><span class="line">                        std::cout&lt;&lt;<span class="string">&quot;readline error&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="built_in">close</span>(sockfd);</span><br><span class="line">                    events[i].data.fd = <span class="number">-1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                line[n] = <span class="string">&#x27;/0&#x27;</span>;</span><br><span class="line">                cout &lt;&lt; <span class="string">&quot;read &quot;</span> &lt;&lt; line &lt;&lt; endl;</span><br><span class="line">                <span class="comment">//设置用于写操作的文件描述符</span></span><br><span class="line"></span><br><span class="line">                ev.data.fd=sockfd;</span><br><span class="line">                <span class="comment">//设置用于注测的写操作事件</span></span><br><span class="line"></span><br><span class="line">                ev.events=EPOLLOUT|EPOLLET;</span><br><span class="line">                <span class="comment">//修改sockfd上要处理的事件为EPOLLOUT</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//epoll_ctl(epfd,EPOLL_CTL_MOD,sockfd,&amp;ev);</span></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(events[i].events&amp;EPOLLOUT) <span class="comment">// 如果有数据发送</span></span><br><span class="line"></span><br><span class="line">            &#123;</span><br><span class="line">                sockfd = events[i].data.fd;</span><br><span class="line">                <span class="built_in">write</span>(sockfd, line, n);</span><br><span class="line">                <span class="comment">//设置用于读操作的文件描述符</span></span><br><span class="line"></span><br><span class="line">                ev.data.fd=sockfd;</span><br><span class="line">                <span class="comment">//设置用于注测的读操作事件</span></span><br><span class="line"></span><br><span class="line">                ev.events=EPOLLIN|EPOLLET;</span><br><span class="line">                <span class="comment">//修改sockfd上要处理的事件为EPOLIN</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_MOD,sockfd,&amp;ev);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/&title=epoll API"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/&title=epoll API"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/&text=epoll API"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=epoll API&body=Check out this article: http://example.com/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

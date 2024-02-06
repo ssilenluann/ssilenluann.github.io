@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>自底向上看tcp协议--可靠数据传输原理</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/06/23/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--tcp%E5%8D%8F%E8%AE%AE/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/04/26/%E5%B0%8F%E7%9F%A5%E8%AF%86/%E7%BB%84%E4%BB%B6%E4%B9%8B%E9%97%B4%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%92/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/&title=自底向上看tcp协议--可靠数据传输原理"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/&title=自底向上看tcp协议--可靠数据传输原理"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/&text=自底向上看tcp协议--可靠数据传输原理"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=自底向上看tcp协议--可靠数据传输原理&body=Check out this article: http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">二、可靠数据传输原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.1.</span> <span class="toc-text">1、停止等待协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%BB%8F%E5%AE%8C%E5%85%A8%E5%8F%AF%E9%9D%A0%E4%BF%A1%E9%81%93%E4%BC%A0%E8%BE%93%E7%9A%84rdt1-0%EF%BC%88%E4%B8%8D%E5%B1%9E%E4%BA%8E%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85%EF%BC%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">(1) 经完全可靠信道传输的rdt1.0（不属于停止等待）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BB%8F%E5%85%B7%E6%9C%89%E6%AF%94%E7%89%B9%E5%B7%AE%E9%94%99%E4%BC%A0%E8%BE%93%E4%BF%A1%E9%81%93%E4%BC%A0%E8%BE%93%E7%9A%84rdt2-0"><span class="toc-number">2.1.2.</span> <span class="toc-text">(2) 经具有比特差错传输信道传输的rdt2.0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B8%A6%E6%9C%89%E5%88%86%E7%BB%84%E5%BA%8F%E5%8F%B7%E7%9A%84rdt2-1"><span class="toc-number">2.1.3.</span> <span class="toc-text">(3) 带有分组序号的rdt2.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%97%A0NAK-NAK-free-%E7%9A%84rdt2-2"><span class="toc-number">2.1.4.</span> <span class="toc-text">(4) 无NAK(NAK free)的rdt2.2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E7%BB%8F%E5%85%B7%E6%9C%89%E6%AF%94%E7%89%B9%E5%B7%AE%E9%94%99%E7%9A%84%E4%B8%A2%E5%8C%85%E4%BF%A1%E9%81%93%E7%9A%84%E4%BC%A0%E8%BE%93rdt3-0"><span class="toc-number">2.1.5.</span> <span class="toc-text">(5) 经具有比特差错的丢包信道的传输rdt3.0</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E6%B5%81%E6%B0%B4%E7%BA%BF-pipe-line-%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2、流水线(pipe line)协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%9B%9E%E9%80%80N%E6%AD%A5-go-back-n-GBN"><span class="toc-number">2.2.1.</span> <span class="toc-text">(1) 回退N步(go-back-n,GBN)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0-selective-repeat-SR"><span class="toc-number">2.2.2.</span> <span class="toc-text">(2) 选择重传(selective repeat,SR)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%AF%94%E8%BE%83"><span class="toc-number">2.3.</span> <span class="toc-text">3、比较</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.3.0.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        自底向上看tcp协议--可靠数据传输原理
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-06-22T13:35:49.000Z"
+                  itemprop="datePublished">2021-06-22</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:32:33.229Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/tcp-ip/" rel="tag">tcp/ip</a>, <a class="tag-link-link" href="/tags/%E4%BC%A0%E8%BE%93%E5%B1%82/" rel="tag">传输层</a>, <a class="tag-link-link" href="/tags/%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE/" rel="tag">通讯协议</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>​	tcp协议属于五层因特网协议栈中的传输层，为两个不同端系统上的进程之间提供<strong>可靠</strong>数据传输，具有面向连接，保序可靠等特点，并且提供拥塞控制，快速重传等功能。本文将从可靠数据传输原理开始，简单介绍tcp协议的工作流程和原理。</p>
+<p><escape><span id="more"></span></escape></p>
+<hr>
+<h2 id="二、可靠数据传输原理"><a href="#二、可靠数据传输原理" class="headerlink" title="二、可靠数据传输原理"></a>二、可靠数据传输原理</h2><p>​	tcp是在不可靠（尽力而为）的端到端的网络层协议（ip协议）之上实现的可靠数据传输协议，相当于在不可靠的传输信道上面实现可靠的传输服务，实现这种传输，有两种传输协议，分别为停止等待协议和流水线协议。</p>
+<h3 id="1、停止等待协议"><a href="#1、停止等待协议" class="headerlink" title="1、停止等待协议"></a>1、停止等待协议</h3><p>​	在停止等待协议中，我们从简到难一步步完善协议，先假设底层信道（即网络层及其以下所有层级）所提供的数据传输是完全可靠的，然后一步步引入数据在底层信道中可能出现的差错情况，对协议进行完善,在分析的过程中引入有限状态机FSM(finite state machine)。</p>
+<h4 id="1-经完全可靠信道传输的rdt1-0（不属于停止等待）"><a href="#1-经完全可靠信道传输的rdt1-0（不属于停止等待）" class="headerlink" title="(1) 经完全可靠信道传输的rdt1.0（不属于停止等待）"></a>(1) 经完全可靠信道传输的rdt1.0（不属于停止等待）</h4><p>​	首先，我们介绍底层信道完全可靠，数据在传输的过程中完全不会产生差错，这时的协议称为rdt1.0(reliable data transfer protocol 1.0).</p>
+<blockquote>
+<p>有限状态机</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629020355141.png" alt="image-20210629020355141"></p>
+<p>​	在rdt1.0中，传输信道提供的数据传输完全可靠，不会产生任何差错，所以发送端和接收端只有一个状态，不需考虑差错即提供反馈，只需等待socket api调用rdt_send或rdt_rdv进行数据收发即可。</p>
+<h4 id="2-经具有比特差错传输信道传输的rdt2-0"><a href="#2-经具有比特差错传输信道传输的rdt2-0" class="headerlink" title="(2) 经具有比特差错传输信道传输的rdt2.0"></a>(2) 经具有比特差错传输信道传输的rdt2.0</h4><p>​	在rdt2.0中，我们开始考虑更加实际的底层信道的数据传输，数据传输的过程中，分组中的比特可能受损，接收方需要对接收分组进行校验，然后将校验结果反馈给发送方，发送方跟据反馈结果做出对应动作。</p>
+<blockquote>
+<p>有限状态机</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/7222676-8e384d1adb73dc0b.png" alt="7222676-8e384d1adb73dc0b"></p>
+<p>​	对于接收方，其仍只有一个状态，那就是等待下层调用rdt_rcv,进行数据读取，但是此时接收方需要具备两个功能：</p>
+<ul>
+<li>差错检测：引入一种机制，对接收到的分组进行差错检测，类似udp的校验和的功能</li>
+<li>反馈：<ul>
+<li>ACK：肯定确认，表示分组数据没有差错</li>
+<li>NAK：否定确认，表示分组存在差错</li>
+</ul>
+</li>
+</ul>
+<p>​    对于发送方，其有两个状态，一是等待上层api调用rdt_send进行数据发送，而是等待接收方的反馈：</p>
+<ul>
+<li>ACK：进入等待上层调用rdt_send状态，等待上层发送数据</li>
+<li>NAK：重传</li>
+</ul>
+<h4 id="3-带有分组序号的rdt2-1"><a href="#3-带有分组序号的rdt2-1" class="headerlink" title="(3) 带有分组序号的rdt2.1"></a>(3) 带有分组序号的rdt2.1</h4><p>​	rdt2.0对于分组具有差错检测功能，看上去已经可以提供可靠的数据传输服务了，但是rdt2.0仍有一个致命缺陷，那就是接收方的反馈信号ACK、NAK仍有比特差错的可能，解决方案是对报文的每个分组引入分组序号，以引入1bit的分组序号为例，发送方初始的分组号为0，接收方期待的初始分组号也为0。</p>
+<blockquote>
+<p>有限状态机</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/d8b19d2a58724f3182f653b88f8bf981.jpg" alt="d8b19d2a58724f3182f653b88f8bf981"></p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/1.PNG" alt="1"></p>
+<p>​	这时，对于发送方有四种状态，等待发送分组0，等待发送分组1，等待ACK0&#x2F;NAK0,等待AKC1&#x2F;NAK1,接收方有两种状态，等待接收分组0，等待接收分组1。</p>
+<p>  由于初始化时两者分组序号均为0，所以发送方处于等待发送分组0状态，接收方处于等待接收分组0状态。此时工作流程：</p>
+<p>发送方：发送分组0，进入等待ACK0&#x2F;NAK0</p>
+<p>接收方：数据校验，回复：</p>
+<ul>
+<li><p>ACK0：分组号为0并且分组数据本身都没有损坏</p>
+</li>
+<li><p>NAK0：分组号不为0或者分组数据损坏</p>
+</li>
+</ul>
+<p>接收方：接收反馈，进入下一状态：</p>
+<ul>
+<li><p>重发分组0：接收到以下反馈，然后进入等待ACK0&#x2F;NAK0状态</p>
+<ul>
+<li>NAK0：分组数据损坏</li>
+<li>NAK1：分组数据损坏，反馈分组号损坏</li>
+<li>ACK1：分组号损坏</li>
+<li>其他：无法分辨的反馈</li>
+</ul>
+</li>
+<li><p>等待发送分组1：接收到反馈ACK0，表示分组号和分组数据本身都没有损坏</p>
+<p>这样进行循环，rdt2.1就解决了rdt2.0不能解决的反馈出现传输差错的问题。</p>
+</li>
+</ul>
+<h4 id="4-无NAK-NAK-free-的rdt2-2"><a href="#4-无NAK-NAK-free-的rdt2-2" class="headerlink" title="(4) 无NAK(NAK free)的rdt2.2"></a>(4) 无NAK(NAK free)的rdt2.2</h4><p>​	rdt2.2在本质上与rdt2.1相同，是对rdt2.1的简化，在rdt2.2中舍弃了NAK反馈，使用NAK+上一次反馈的ACK分组号作为<strong>否定确认</strong>，打个比方来说，如果问你一个男生帅不帅或者一个女生好不好看，你不进行直接回答，而是回答说他性格很幽默，或者她性格很开朗，就等于侧面对问题作出了否定的回答，rdt2.2正是使用了这种答非所问的形式作为否定确认。比如接收方等待接收分组1，结果接收到了分组0，或者接收到了分组1，但是数据校验失败，这时接收方不回复NAK1，而是回复ACK0，<strong>使用对上一个分组的肯定确认作为对本次分组的否定确认</strong>，接收方接收到ACK0后，就会重传分组。</p>
+<h4 id="5-经具有比特差错的丢包信道的传输rdt3-0"><a href="#5-经具有比特差错的丢包信道的传输rdt3-0" class="headerlink" title="(5) 经具有比特差错的丢包信道的传输rdt3.0"></a>(5) 经具有比特差错的丢包信道的传输rdt3.0</h4><p>​	现在假定，分组经底层信道传输中，除了比特受损，可能还有丢包的现象产生，对此，我们的解决方案是在发送端引入<strong>倒计数定时器</strong>，在发送分组后对定时器进行复位，设定一个超时时间，在超时时间结束后如果仍未收到接收端的反馈，则视为丢包现象产生，重新发送该分组并复位定时器，若在超时时间内发送端接收到反馈，则复位定时器，并根据反馈选择重发分组或者等待发送下一分组，其流程图如下：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629020443684.png" alt="image-20210629020443684"></p>
+<h3 id="2、流水线-pipe-line-协议"><a href="#2、流水线-pipe-line-协议" class="headerlink" title="2、流水线(pipe line)协议"></a>2、流水线(pipe line)协议</h3><p>​	从可靠性来看，停止等待协议已经可以满足需要，但是要从性能来看，尤其在带宽利用率来看，停止等待协议并不优秀。假设从A地点到B地点有一条链路，信号的往返时延为RTT(round-trip time),链路带宽为Rbps,发送分组长为Lbit,则发送该分组时传输时延为t&#x3D;L&#x2F;R,链路使用率为<strong>t&#x2F;(t+RTT)</strong>,实际上，信号的传输时延往往为微秒级别，甚至仅有几微秒，而往返时延RTT可达数十甚至上百毫秒，这就意味着在停止等待协议中，带宽的利用率可能不到1%。</p>
+<p>​	为了提高带宽利用率，我们需要将RTT利用起来，即在上一个分组的反馈仍未到来时，下一个分组也要发出，这样就形成了从发送方到接收方的一个分组队列，这种技术被称为流水线。</p>
+<p>​	如图所示，在流水线协议中，发送方存在一个发送缓冲区，缓冲区长度为N，表示发送方可以同时发送多个分组，缓冲区的后沿base(基序号)之前的分组都是已经发送并得到了接收方的肯定确认，下一个发送的分组号用nextseqnum表示，base和nextseqnum两者之中（包括base）的分组是已经发送尚未得到ACK的分组，nextseqnum之后到缓冲区窗口前沿的部分是缓冲区中即将发送的分组，base+N之后的分组暂时不可发送。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629205741499.png" alt="image-20210629205741499"></p>
+<p>​		流水线中的每个分组在传输的过程中都有可能产生差错，对于差错的两种不同的恢复办法，流水线协议又分为了回退N步和选择重传两种类型的协议。</p>
+<h4 id="1-回退N步-go-back-n-GBN"><a href="#1-回退N步-go-back-n-GBN" class="headerlink" title="(1) 回退N步(go-back-n,GBN)"></a>(1) 回退N步(go-back-n,GBN)</h4><blockquote>
+<p>接收方</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629210409232.png" alt="image-20210629210409232"></p>
+<p>​	在GBN协议中，发送方缓冲窗口虽有N个分组，但是接收方不具备缓冲窗口，每次只能处理一个分组，即接收方只需做两件事：</p>
+<ul>
+<li>收到分组n，判断其分组序号是否是自己期望的分组序号，并对数据进行校验，反馈ACKn或ACK(n-1)，然后选择是否将期望分组号自增</li>
+<li>等待上层调用drt_rcv</li>
+</ul>
+<blockquote>
+<p>发送方</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629212012707.png" alt="image-20210629212012707"></p>
+<p> 对于发送方，其有三件事情需要响应：</p>
+<ul>
+<li><p>上层的调用</p>
+<ul>
+<li>发送窗口未满，发送nextseqnum分组</li>
+<li>发送窗口已满，指示上层缓冲区已满，等待一段时间再发</li>
+</ul>
+</li>
+<li><p>累积确认</p>
+<p>发送方从base至nextseqnum开始，对确认号进行累积，先是等待ACKbase,收到ACKbase后，发送窗口向后移动，之前的base+1成为了新的base,nextseqnum成为了新的nextseqnum,发送方继续等待ACKbase，直至收到ACKnextseqnum,这种对分组的确认称为累积确认。</p>
+</li>
+<li><p>超时事件</p>
+<p>在base分组发送后，发送方启动一个定时器，设定一个超时时间</p>
+<ul>
+<li>超时时间内所有分组的确认完成，关闭定时器，窗口后沿滑动至nextseqnum处，如下图所示，然后等待上层调用发送分组，重启定时器</li>
+<li>超时时间内没有完成所有分组的确认,重启定时器，<strong>重新发送所有已发送尚未确认的分组</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629214915657.png" alt="image-20210629214915657"></p>
+<p>​	就GBN的工作流程，其也被称为滑动窗口协议。</p>
+<h4 id="2-选择重传-selective-repeat-SR"><a href="#2-选择重传-selective-repeat-SR" class="headerlink" title="(2) 选择重传(selective repeat,SR)"></a>(2) 选择重传(selective repeat,SR)</h4><p>​	对于GBN协议，其弊端在于发送缓冲区的任一分组发生损坏或丢失，整个分组都要重新发送，这无疑降低了运输层的效率，而且在网络中可能存在大量的超时重传分组来占用带宽，使得网络性能进一步降低。</p>
+<p>​	解决办法是在接收方同样设置一个长度为N的接收缓冲区，并在发送方为发送缓冲区的每一个分组都设置单独的超时定时器。</p>
+<p>​	<img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20210629220712500.png" alt="image-20210629220712500"></p>
+<blockquote>
+<p> 接收方</p>
+</blockquote>
+<p>由于缓冲区的存在，接收方可对多个分组进行校验和缓存：</p>
+<ul>
+<li>当正向反馈的分组号为<strong>接收缓冲区的base</strong>时，该base分组将被交付给上层，同时base++,缓冲区腾出一个位置用于接收新的分组(可以看做窗口向后滑动1位)</li>
+<li>当正向反馈的分组号n不等于接收缓冲区的base时，该分组将被缓存，等待分组[n,base]<strong>都实现肯定确认</strong>后，一起交付给上层，同时base&#x3D;n+1,缓冲区腾出n-base+1个分组(相当于窗口向后滑动n-base+1位)</li>
+</ul>
+<blockquote>
+<p>发送方</p>
+</blockquote>
+<p>当发送方发送n个分组后，ACK到来</p>
+<ul>
+<li>分组号&#x3D;&#x3D;base,滑动窗口向前，发送方可发送新的分组</li>
+<li>分组号!&#x3D;base,滑动窗口保持不动</li>
+<li>base定时器超时，后面有x个以确认的分组，重传base分组，直至收到正向确认，base&#x3D;x+1(滑动窗口滑动至x+1)</li>
+</ul>
+<p>这样，当缓冲区某个分组出现问题时，发送方只需发送出现问题的分组即可。</p>
+<h3 id="3、比较"><a href="#3、比较" class="headerlink" title="3、比较"></a>3、比较</h3><ul>
+<li>停止等待协议，具备数据校验和超时重传能力，发送缓冲区长度为1，接收缓冲区长度为1</li>
+<li>流水线协议<ul>
+<li>回退N步协议，具备数据校验和超时重传能力，发送缓冲区长度&gt;1,接收缓冲区长度&#x3D;1，超时时间触发后，所有分组都需重传</li>
+<li>选择重传协议，具备数据校验和超时重传能力，发送缓冲区长度&gt;1，接收缓冲区长度&gt;1，超时时间触发后，仅需重传超时分组</li>
+</ul>
+</li>
+</ul>
+<p>到了这里，数据的可靠传输原理基本简单介绍完毕。</p>
+<hr>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JV411t7ow?from=search&seid=6326636280390194932">中科大郑烇、杨坚全套《计算机网络（自顶向下方法 第7版，James F.Kurose，Keith W.Ross）》课程</a></p>
+<p><u>《计算机网络自顶向下方法》 第六版</u></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">二、可靠数据传输原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.1.</span> <span class="toc-text">1、停止等待协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%BB%8F%E5%AE%8C%E5%85%A8%E5%8F%AF%E9%9D%A0%E4%BF%A1%E9%81%93%E4%BC%A0%E8%BE%93%E7%9A%84rdt1-0%EF%BC%88%E4%B8%8D%E5%B1%9E%E4%BA%8E%E5%81%9C%E6%AD%A2%E7%AD%89%E5%BE%85%EF%BC%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">(1) 经完全可靠信道传输的rdt1.0（不属于停止等待）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BB%8F%E5%85%B7%E6%9C%89%E6%AF%94%E7%89%B9%E5%B7%AE%E9%94%99%E4%BC%A0%E8%BE%93%E4%BF%A1%E9%81%93%E4%BC%A0%E8%BE%93%E7%9A%84rdt2-0"><span class="toc-number">2.1.2.</span> <span class="toc-text">(2) 经具有比特差错传输信道传输的rdt2.0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B8%A6%E6%9C%89%E5%88%86%E7%BB%84%E5%BA%8F%E5%8F%B7%E7%9A%84rdt2-1"><span class="toc-number">2.1.3.</span> <span class="toc-text">(3) 带有分组序号的rdt2.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%97%A0NAK-NAK-free-%E7%9A%84rdt2-2"><span class="toc-number">2.1.4.</span> <span class="toc-text">(4) 无NAK(NAK free)的rdt2.2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E7%BB%8F%E5%85%B7%E6%9C%89%E6%AF%94%E7%89%B9%E5%B7%AE%E9%94%99%E7%9A%84%E4%B8%A2%E5%8C%85%E4%BF%A1%E9%81%93%E7%9A%84%E4%BC%A0%E8%BE%93rdt3-0"><span class="toc-number">2.1.5.</span> <span class="toc-text">(5) 经具有比特差错的丢包信道的传输rdt3.0</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E6%B5%81%E6%B0%B4%E7%BA%BF-pipe-line-%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2、流水线(pipe line)协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%9B%9E%E9%80%80N%E6%AD%A5-go-back-n-GBN"><span class="toc-number">2.2.1.</span> <span class="toc-text">(1) 回退N步(go-back-n,GBN)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0-selective-repeat-SR"><span class="toc-number">2.2.2.</span> <span class="toc-text">(2) 选择重传(selective repeat,SR)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%AF%94%E8%BE%83"><span class="toc-number">2.3.</span> <span class="toc-text">3、比较</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.3.0.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/&title=自底向上看tcp协议--可靠数据传输原理"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/&title=自底向上看tcp协议--可靠数据传输原理"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/&text=自底向上看tcp协议--可靠数据传输原理"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=自底向上看tcp协议--可靠数据传输原理&body=Check out this article: http://example.com/2021/06/22/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9C%8Btcpip%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B--%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8E%9F%E7%90%86/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

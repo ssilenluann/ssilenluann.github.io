@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>域名系统DNS</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/08/10/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DHCP%E5%8D%8F%E8%AE%AE/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/07/10/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/VPN%E4%B8%8ENAT/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/&title=域名系统DNS"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/&title=域名系统DNS"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/&text=域名系统DNS"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=域名系统DNS&body=Check out this article: http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.  简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9F%9F%E5%90%8D%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">2.域名结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9FDNS"><span class="toc-number">3.</span> <span class="toc-text">3.域名系统DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        域名系统DNS
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-07-12T11:21:10.000Z"
+                  itemprop="datePublished">2021-07-12</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:31:31.091Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%BA%94%E7%94%A8%E5%B1%82/" rel="tag">应用层</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1.  简介"></a>1.  简介</h4><p>​		在平时，为了方便记忆和使用，我们访问web应用时，在浏览器中一般不直接输入web应用的服务器ip地址，而是输入其对应的域名，实际上，当我们在浏览器内输入web服务器的域名时，用户主机会首先在自己的DNS高速缓存中查找该域名对应的ip地址，如果没有找到，则会向网络中的某台DNS服务器发起查询，DNS服务器中有域名和ip地址映射关系的数据库，当DNS服务器收到DNS查询报文后，在其数据库中进行查询，将查询结果返回给用户主机，这样，用户主机的浏览器就可以通过web服务器的ip地址对其进行访问了，这就是域名系统（Domain Name System）的作用。</p>
+<p><eacape><span id="more"></span></escape></p>
+<h4 id="2-域名结构"><a href="#2-域名结构" class="headerlink" title="2.域名结构"></a>2.域名结构</h4><blockquote>
+<p>xxx.三级域名.二级域名.顶级域名</p>
+</blockquote>
+<ul>
+<li><p>因特网采用层次树状结构的域名系统，域名系统由若干个分量组成，各分量之间用’.’隔开，分别代表不同级别的域名。</p>
+<ul>
+<li>每一级域名都由英文字母和数字组成，不超过63个字符，不区分大小写字母</li>
+<li>级别最低的域名写在最左边，最高级写在最右边</li>
+<li>完整的域名不超过255个字符</li>
+</ul>
+</li>
+<li><p>域名系统即不规定一个域名需要包括多少个下级域名，也不规定每一级域名代表含义</p>
+</li>
+<li><p>各级域名由其上一级域名的管理机构管理，而最高的顶级域名则由因特网名称与数字地址分配机构ICANN进行管理</p>
+</li>
+</ul>
+<blockquote>
+<p>顶级域名(Top Level Domain)分类</p>
+</blockquote>
+<ul>
+<li>国家顶级域名nTLD： 如cn代表中国，us代表美国</li>
+<li>通用顶级域名gTLD:   com(公司企业)、net(网络服务机构)、org(非营利性组织)、int(国际组织)、edu(美国教育机构)、gov(美国政府部门)、mil(美国军事部门)</li>
+<li>反向域arpa: 用于反向域名解析，即IP地址反向解析为域名</li>
+</ul>
+<blockquote>
+<p>二级域名</p>
+</blockquote>
+<ul>
+<li>在国家顶级域名注册下的二级域名由该国家自行确定，如顶级域名为jp的日本，将其教育和企业的二级域名定为ac和co</li>
+<li>我国二级域名划分：<ul>
+<li>类别域名：七个：ac(科研机构)、com(工商金融等企业)、edu(教育机构)、gov(政府部门)、net(网络服务机构)、mil(军事机构)、org(非营利性机构)</li>
+<li>行政区域名：34个：适用于我国34个省、自治区、直辖市，如bj为北京市、sh为上海市</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-域名系统DNS"><a href="#3-域名系统DNS" class="headerlink" title="3.域名系统DNS"></a>3.域名系统DNS</h4><p>​		域名和IP地址的映射关系必须保存到域名服务器中，共其他应用查询，DNS使用分布在各地的域名服务器来实现域名到ip地址的转换。</p>
+<blockquote>
+<p>域名服务器的类型</p>
+</blockquote>
+<ul>
+<li><p>根域名服务器</p>
+<p>最高层次的域名服务器，每个根域名服务器都知道所有的顶级域名服务器域名及其ip地址，因特网上共有13个不同ip地址的根域名服务器。尽管我们将这13个根域名服务器中的每一个都视为单个的服务器，但“每台服务器”实际上是由许多分布在世界各地的计算机构成的服务器群集，当本地域名服务器向根域名服务器发送查询请求时，路由器就把查询请求报文转发到离这个DNS客户最近的一个跟域名服务器。这就加速了DNS的查询过程，同时也更加合理地利用了因特网的资源。<strong>根域名服务器通常不直接对域名进行解析，而是返回查询域名所属顶级域名的顶级域名服务器的ip地址。</strong></p>
+</li>
+<li><p>顶级域名服务器</p>
+<p>这些域名服务器负责管理在该顶级域名服务器注册的所有二级域名，当收到DNS查询请求时，就给出响应的应答（可能是最后的结果，也可能是下一级权限域名服务器的ip地址）</p>
+</li>
+<li><p>权限域名服务器</p>
+<p>这些域名服务器负责管理某个区的域名，每一个主机的域名都必须在某个权限域名服务器处注册登记，因此权限域名服务器知道其管辖的域名与IP地址的映射关系。另外，权限域名服务器还知道其下级域名服务器的ip地址</p>
+</li>
+<li><p>本地域名服务器（默认域名服务器）</p>
+<p>本地域名服务器不属于上述域名服务器的登记结构，当一个主机发出DNS请求报文时，这个报文就首先被送往该主机的本地域名服务器。本地域名服务器起着代理的作用，会将报文转发到上述的域名服务器中。本地域名服务器离用户较近，一般不超过几个路由器的距离，也可能就在同一个局域网中。本地域名服务器的ip地址需要直接配置在需要域名解析的主机中。</p>
+</li>
+</ul>
+<blockquote>
+<p>域名解析过程</p>
+</blockquote>
+<ul>
+<li><p>递归查询</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211021224001938.png" alt="image-20211021224001938"></p>
+<p>某主机想要访问y.abc.com,在浏览器提交域名后，如果采用递归查询，本地域名服务器收到主机的DNS查询报文，会将其转发至根域名服务器，此时，根域名服务器并不会直接返回结果，而是沿着域名服务器体系等级逐级向下查询，直至权限域名服务器查询到域名的ip地址，并层层返回至本地域名服务器，最后返回给用户主机。</p>
+</li>
+<li><p>迭代查询</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211021224800379.png" alt="image-20211021224800379"></p>
+<p>对于迭代查询，根域名服务器接收到本地域名服务器的查询请求后，会立即返回域名所属顶级域名所对应的顶级域名服务器的ip地址，本地域名服务器再向顶级域名服务器发送查询请求，直至逐层查询后查询出域名对应的ip地址，将其返回给用户主机。、</p>
+</li>
+</ul>
+<blockquote>
+<p>DNS高速缓存</p>
+</blockquote>
+<p>​		为提高DNS查询效率，并减轻根域名服务器的负荷及减少因特网中DNS报文数量，域名服务器中广泛地使用了高速缓存，用来存放最近查询的域名信息。</p>
+<p>​		由于域名与ip的映射关系并不是永久不变，为保证缓存的正确性，DNS缓存每条记录都有对应的生存时间，过期清除</p>
+<p>​		用户主机中同样有DNS高速缓存，用户主机在启动时会从本地域名服务器中下载域名和ip地址的全部数据，维护存放自己最近使用的域名高速缓存，并且在对域名解析时，优先查看本地hosts文件，找不到对应记录时就在本地DNS缓存中查找，缓存中也找不到想要访问的域名记录时才会向本地域名服务器发起DNS查询。</p>
+<hr>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=70">计算机网络微课堂(湖科大教书匠)</a></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.  简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9F%9F%E5%90%8D%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">2.域名结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9FDNS"><span class="toc-number">3.</span> <span class="toc-text">3.域名系统DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">3.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/&title=域名系统DNS"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/&title=域名系统DNS"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/&text=域名系统DNS"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=域名系统DNS&body=Check out this article: http://example.com/2021/07/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/DNS/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

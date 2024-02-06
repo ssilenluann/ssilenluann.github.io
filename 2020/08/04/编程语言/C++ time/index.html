@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>C ctime</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2020/08/05/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%E5%BE%AE%E7%A7%92%E7%BA%A7%E5%AE%9A%E6%97%B6%E5%99%A8%E5%B0%81%E8%A3%85/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20multi-threading%20condition_variable/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/&title=C ctime"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/&title=C ctime"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/&text=C ctime"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=C ctime&body=Check out this article: http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        C ctime
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2020-08-04T02:20:15.000Z"
+                  itemprop="datePublished">2020-08-04</time>
+            
+                (Updated:
+                <time datetime="2022-06-10T01:32:41.748Z"
+                      itemprop="dateModified">2022-06-10</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C/" rel="tag">C++</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h5 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h5><p>​		&lt;ctime&gt;(time.h)包含了一些获取或者操作时间和日期信息的函数。</p>
+<p><escape><span id="more"></span></escape></p>
+<blockquote>
+<p>常量</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The number of clock ticks per second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CLOCKS_PER_SEC  ((clock_t)1000)</span></span><br></pre></td></tr></table></figure>
+
+<p>​		CLOCKS_PER_SEC表示了时钟每秒钟计时次数，用计时器计时总次数除以该值可得到计时器计时秒数。</p>
+<blockquote>
+<p>变量类型</p>
+</blockquote>
+<ul>
+<li><p>clock_t</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">clock_t</span>;</span><br></pre></td></tr></table></figure>
+
+<p>clock_t是long的别名，用来表示时钟计数次数。</p>
+</li>
+<li><p>size_t</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _WIN64</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">unsigned</span> __int64 <span class="type">size_t</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">int</span>     <span class="type">size_t</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>size_t可以用来表示任何对象的字节数大小，被广泛用于表示大小或者计数。</p>
+</li>
+<li><p>time_t</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">long</span>                          <span class="type">__time32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> __int64                       <span class="type">__time64_t</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _CRT_NO_TIME_T</span></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> _USE_32BIT_TIME_T</span></span><br><span class="line">        <span class="keyword">typedef</span> <span class="type">__time32_t</span> <span class="type">time_t</span>;</span><br><span class="line">    <span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">        <span class="keyword">typedef</span> <span class="type">__time64_t</span> <span class="type">time_t</span>;</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>time_t同样是基本数字类型，通常用来表示从epoch(1970-01-01 00:00)到某一时间点的秒数。</p>
+</li>
+<li><p>tm</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">tm</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> tm_sec;   <span class="comment">// seconds after the minute - [0, 60] including leap second</span></span><br><span class="line">    <span class="type">int</span> tm_min;   <span class="comment">// minutes after the hour - [0, 59]</span></span><br><span class="line">    <span class="type">int</span> tm_hour;  <span class="comment">// hours since midnight - [0, 23]</span></span><br><span class="line">    <span class="type">int</span> tm_mday;  <span class="comment">// day of the month - [1, 31]</span></span><br><span class="line">    <span class="type">int</span> tm_mon;   <span class="comment">// months since January - [0, 11]</span></span><br><span class="line">    <span class="type">int</span> tm_year;  <span class="comment">// years since 1900</span></span><br><span class="line">    <span class="type">int</span> tm_wday;  <span class="comment">// days since Sunday - [0, 6]</span></span><br><span class="line">    <span class="type">int</span> tm_yday;  <span class="comment">// days since January 1 - [0, 365]</span></span><br><span class="line">    <span class="type">int</span> tm_isdst; <span class="comment">// daylight savings time flag</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>结构体tm常用来表示日历时间，可被拆分出如上元素，其中tm_isdst表示该时间是否为<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%A4%8F%E4%BB%A4%E6%97%B6/1809579?fr=aladdin">夏令时</a>。</p>
+</li>
+</ul>
+<blockquote>
+<p>函数</p>
+</blockquote>
+<ul>
+<li><p>clock</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">clock_t</span> <span class="title">clock</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>clock()函数返回从epoch开始到系统执行该语句时系统计时器计数，异常返回-1。</p>
+</li>
+<li><p>difftime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">double</span> <span class="title">difftime</span> <span class="params">(<span class="type">time_t</span> end, <span class="type">time_t</span> beginning)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>difftime用来计算两个时间变量相隔的秒数，如果beginning晚于end，则返回负数。</p>
+</li>
+<li><p>mktime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">time_t</span> <span class="title">mktime</span> <span class="params">(<span class="keyword">struct</span> tm * timeptr)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>返回epoch到timeptr中的本地时间的time_t，同时将结构体变量中未初始化的元素赋值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span>      <span class="comment">/* printf, scanf */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span>       <span class="comment">/* time_t, struct tm, time, mktime */</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">time_t</span> rawtime;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">tm</span> * timeinfo;</span><br><span class="line">  <span class="type">int</span> year, month ,day;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> * weekday[] = &#123; <span class="string">&quot;Sunday&quot;</span>, <span class="string">&quot;Monday&quot;</span>,</span><br><span class="line">                             <span class="string">&quot;Tuesday&quot;</span>, <span class="string">&quot;Wednesday&quot;</span>,</span><br><span class="line">                             <span class="string">&quot;Thursday&quot;</span>, <span class="string">&quot;Friday&quot;</span>, <span class="string">&quot;Saturday&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* prompt user for date */</span></span><br><span class="line">  <span class="built_in">printf</span> (<span class="string">&quot;Enter year: &quot;</span>); <span class="built_in">fflush</span>(stdout); <span class="built_in">scanf</span> (<span class="string">&quot;%d&quot;</span>,&amp;year);</span><br><span class="line">  <span class="built_in">printf</span> (<span class="string">&quot;Enter month: &quot;</span>); <span class="built_in">fflush</span>(stdout); <span class="built_in">scanf</span> (<span class="string">&quot;%d&quot;</span>,&amp;month);</span><br><span class="line">  <span class="built_in">printf</span> (<span class="string">&quot;Enter day: &quot;</span>); <span class="built_in">fflush</span>(stdout); <span class="built_in">scanf</span> (<span class="string">&quot;%d&quot;</span>,&amp;day);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* get current timeinfo and modify it to the user&#x27;s choice */</span></span><br><span class="line">  <span class="built_in">time</span> ( &amp;rawtime );</span><br><span class="line">  timeinfo = <span class="built_in">localtime</span> ( &amp;rawtime );</span><br><span class="line">  timeinfo-&gt;tm_year = year - <span class="number">1900</span>;</span><br><span class="line">  timeinfo-&gt;tm_mon = month - <span class="number">1</span>;</span><br><span class="line">  timeinfo-&gt;tm_mday = day;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* call mktime: timeinfo-&gt;tm_wday will be set */</span></span><br><span class="line">  <span class="built_in">mktime</span> ( timeinfo );</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span> (<span class="string">&quot;That day is a %s.\n&quot;</span>, weekday[timeinfo-&gt;tm_wday]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Enter year: 2000</span></span><br><span class="line"><span class="comment">* Enter month: 5</span></span><br><span class="line"><span class="comment">* Enter day: 20</span></span><br><span class="line"><span class="comment">* That day is a Saturday.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>time</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">time_t</span> <span class="title">time</span> <span class="params">(<span class="type">time_t</span>* timer)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>获得当前日历时间的time_t。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">time_t</span> timer;</span><br><span class="line">timer = <span class="built_in">time</span>(<span class="literal">nullptr</span>);	&lt;=&gt;   <span class="built_in">time</span>(&amp;<span class="type">time_t</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>asctime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">char</span>* <span class="title">asctime</span><span class="params">(<span class="type">const</span> <span class="keyword">struct</span> tm *timeptr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> <span class="type">char</span> wday_name[][<span class="number">4</span>] = &#123;</span><br><span class="line">    <span class="string">&quot;Sun&quot;</span>, <span class="string">&quot;Mon&quot;</span>, <span class="string">&quot;Tue&quot;</span>, <span class="string">&quot;Wed&quot;</span>, <span class="string">&quot;Thu&quot;</span>, <span class="string">&quot;Fri&quot;</span>, <span class="string">&quot;Sat&quot;</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> <span class="type">char</span> mon_name[][<span class="number">4</span>] = &#123;</span><br><span class="line">    <span class="string">&quot;Jan&quot;</span>, <span class="string">&quot;Feb&quot;</span>, <span class="string">&quot;Mar&quot;</span>, <span class="string">&quot;Apr&quot;</span>, <span class="string">&quot;May&quot;</span>, <span class="string">&quot;Jun&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Jul&quot;</span>, <span class="string">&quot;Aug&quot;</span>, <span class="string">&quot;Sep&quot;</span>, <span class="string">&quot;Oct&quot;</span>, <span class="string">&quot;Nov&quot;</span>, <span class="string">&quot;Dec&quot;</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="type">static</span> <span class="type">char</span> result[<span class="number">26</span>];</span><br><span class="line">  <span class="built_in">sprintf</span>(result, <span class="string">&quot;%.3s %.3s%3d %.2d:%.2d:%.2d %d\n&quot;</span>,</span><br><span class="line">    wday_name[timeptr-&gt;tm_wday],</span><br><span class="line">    mon_name[timeptr-&gt;tm_mon],</span><br><span class="line">    timeptr-&gt;tm_mday, timeptr-&gt;tm_hour,</span><br><span class="line">    timeptr-&gt;tm_min, timeptr-&gt;tm_sec,</span><br><span class="line">    <span class="number">1900</span> + timeptr-&gt;tm_year);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将tm结构体信息输出为可阅读的字符串。</p>
+</li>
+<li><p>ctime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">char</span>* <span class="title">ctime</span> <span class="params">(<span class="type">const</span> <span class="type">time_t</span> * timer)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>将time_t信息输出为可阅读的字符串。</p>
+</li>
+<li><p>gmtime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">tm</span> * <span class="built_in">gmtime</span> (<span class="type">const</span> <span class="type">time_t</span> * timer);</span><br></pre></td></tr></table></figure>
+
+<p>将time_t信息输出为tm类型，UTC时区。</p>
+</li>
+<li><p>localtime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">tm</span> * <span class="built_in">localtime</span> (<span class="type">const</span> <span class="type">time_t</span> * timer);</span><br></pre></td></tr></table></figure>
+
+<p>将time_t信息输出为tm类型，当地时区。</p>
+</li>
+<li><p>strftime</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">size_t</span> <span class="title">strftime</span> <span class="params">(<span class="type">char</span>* ptr, <span class="type">size_t</span> maxsize, <span class="type">const</span> <span class="type">char</span>* format,</span></span></span><br><span class="line"><span class="params"><span class="function">                 <span class="type">const</span> <span class="keyword">struct</span> tm* timeptr )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>将tm指针中的日期信息按照format指定的格式输出到ptr中，并且长度不超过maxsize，执行成功则返回转化后的字符串长度，否则返回0。</p>
+<p><img src="https://s2.loli.net/2022/03/27/CtmWuf6Zv8Np4Qb.png" alt="image-20220327160222007"></p>
+</li>
+<li><p>std::put_time</p>
+<p>头文件&lt;iomanip&gt;，最好在流操作中使用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">put_time</span> (<span class="type">const</span> <span class="keyword">struct</span> tm* tmb, <span class="type">const</span> charT* fmt);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;chrono&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">using</span> std::chrono::system_clock;</span><br><span class="line">	std::<span class="type">time_t</span> tt = system_clock::<span class="built_in">to_time_t</span>(system_clock::<span class="built_in">now</span>());</span><br><span class="line"></span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">std</span>::tm * ptm = std::<span class="built_in">localtime</span>(&amp;tt);</span><br><span class="line"></span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Now (local time): &quot;</span> &lt;&lt; std::<span class="built_in">put_time</span>(ptm, <span class="string">&quot;%F %T&quot;</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>说明符</th>
+<th>替换</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%a</td>
+<td>工作日名称的缩写 *</td>
+<td>Thu</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>完整工作日名称 *</td>
+<td>Thursday</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>月份名称缩写 *</td>
+<td>Aug</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>完整月份名称 *</td>
+<td>August</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>日期和时间表示</td>
+<td>Thu Aug 23 14:55:02 2019</td>
+</tr>
+<tr>
+<td>%C</td>
+<td>年份除以100，并截断为整数（00-99）</td>
+<td>20</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月份中的某一天，用零填充（01-31）</td>
+<td>23</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>MM&#x2F;DD&#x2F;YY日期的简写，相当于％m&#x2F;％d&#x2F;％y</td>
+<td>08&#x2F;23&#x2F;19</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>月份中的某日，空格填充（1-31）</td>
+<td>23</td>
+</tr>
+<tr>
+<td>%F</td>
+<td>YYYY-MM-DD日期的简写，相当于％Y-％m-％d</td>
+<td></td>
+</tr>
+<tr>
+<td>%g</td>
+<td>基于周的年份，后两位数字（00-99）</td>
+<td>01</td>
+</tr>
+<tr>
+<td>%G</td>
+<td>一年中周</td>
+<td>2001</td>
+</tr>
+<tr>
+<td>%h</td>
+<td>月份名称的缩写（与％b相同）</td>
+<td>Aug</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>24小时格式（00-23）</td>
+<td>14</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>12小时格式（01-12）</td>
+<td>02</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>一年中的某日（001-366）</td>
+<td>235</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月份的十进制数（01-12）</td>
+<td>08</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>分钟（00-59）</td>
+<td>56</td>
+</tr>
+<tr>
+<td>%n</td>
+<td>新行字符（<code>&#39;/n&#39;</code>）</td>
+<td></td>
+</tr>
+<tr>
+<td>%p</td>
+<td>指定AM或PM</td>
+<td>PM</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>12小时时钟时间</td>
+<td>02:55:02 pm</td>
+</tr>
+<tr>
+<td>%R</td>
+<td>24小时<code>HH:MM</code>时间，相当于<code>％H:％M</code></td>
+<td>14:51</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒（00-61）</td>
+<td>02</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>水平制表符（’&#x2F;t’）</td>
+<td></td>
+</tr>
+<tr>
+<td>%T</td>
+<td>ISO 8601时间格式 (<code>HH:MM:SS</code>)，相当于<code>%H:%M:%S</code></td>
+<td></td>
+</tr>
+<tr>
+<td>%u</td>
+<td>ISO 8601工作日，星期一的数字为<code>1</code>（<code>1-7</code>）</td>
+<td>4</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>周数，以第一个星期日为第一周的第一天（00-53）</td>
+<td>33</td>
+</tr>
+<tr>
+<td>%V</td>
+<td>ISO 8601周编号（00-53）</td>
+<td>34</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>工作日，使用十进制数，星期日为<code>0</code>（<code>0-6</code>）</td>
+<td>4</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>周数，第一个星期一作为第一周的第一天（00-53）</td>
+<td></td>
+</tr>
+<tr>
+<td>%x</td>
+<td>日期的表示</td>
+<td>08&#x2F;23&#x2F;01</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>时间的表示</td>
+<td>14:55:02</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>年份，最后两位数字（00-99）</td>
+<td>01</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>年份，四位数字</td>
+<td>2001</td>
+</tr>
+<tr>
+<td>%z</td>
+<td>ISO 8601偏离UTC在时区（1分钟&#x3D;1，1小时&#x3D;100）</td>
+<td>+100</td>
+</tr>
+<tr>
+<td>%Z</td>
+<td>时区名称或缩写</td>
+<td>CDT</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>％符号</td>
+<td>%</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/&title=C ctime"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/&title=C ctime"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/&text=C ctime"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=C ctime&body=Check out this article: http://example.com/2020/08/04/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++%20time/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>

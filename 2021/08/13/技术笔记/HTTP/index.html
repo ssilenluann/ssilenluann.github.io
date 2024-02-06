@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    
+    
+        
+            
+                <link rel="shortcut icon" href="/images/favicon.ico">
+            
+        
+        
+            
+                <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+            
+        
+        
+            
+                <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+            
+        
+    
+    <!-- title -->
+    <title>超文本文件传输协议HTTP</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/firacode/6.2.0/fira_code.min.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+
+    <div id="header-post">
+    <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+    <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i
+                class="fas fa-chevron-up fa-lg"></i></a>
+    <span id="menu">
+    <span id="nav">
+      <ul>
+          
+              <li><a href="/">Home</a></li>
+          
+              <li><a href="/archives/">Articles</a></li>
+          
+              <li><a href="/categories/">Category</a></li>
+          
+              <li><a href="/tags/">Tag</a></li>
+          
+              <li><a href="/about/">About</a></li>
+          
+              <li><a href="/search/">Search</a></li>
+          
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+          
+              <li><a class="icon" href="/2021/12/07/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/epoll%20API/"><i class="fas fa-chevron-left"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-prev').toggle();"
+                                                                           onmouseout="$('#i-prev').toggle();"></i></a></li>
+          
+          
+              <li><a class="icon" href="/2021/08/12/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/ftp/"><i class="fas fa-chevron-right"
+                                                                           aria-hidden="true"
+                                                                           onmouseover="$('#i-next').toggle();"
+                                                                           onmouseout="$('#i-next').toggle();"></i></a></li>
+          
+          <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i
+                          class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();"
+                          onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true"
+                                        onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();"
+                                        onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/&title=超文本文件传输协议HTTP"><i
+                    class="fab fa-qq " aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/&title=超文本文件传输协议HTTP"><i
+                    class="fab fa-weibo " aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/&text=超文本文件传输协议HTTP"><i
+                    class="fab fa-twitter " aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=超文本文件传输协议HTTP&body=Check out this article: http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/"><i
+                    class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.  简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8D%8F%E8%AE%AE%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">2.协议版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">3.报文格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Cookie"><span class="toc-number">4.</span> <span class="toc-text">4.Cookie</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Web%E7%BC%93%E5%AD%98%E5%92%8C%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">5.</span> <span class="toc-text">5.Web缓存和代理服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">5.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+<div class="content index py4">
+    
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        超文本文件传输协议HTTP
+    </h1>
+
+      <div class="meta">
+        <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">
+            
+                  John Doe
+                    
+          </span>
+        </span>
+        
+    <div class="postdate">
+        
+            <time datetime="2021-08-13T13:10:21.000Z"
+                  itemprop="datePublished">2021-08-13</time>
+            
+                (Updated:
+                <time datetime="2021-12-09T15:31:45.646Z"
+                      itemprop="dateModified">2021-12-09</time>)
+            
+        
+    </div>
+
+          
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    </div>
+
+            
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%BA%94%E7%94%A8%E5%B1%82/" rel="tag">应用层</a>
+    </div>
+
+      </div>
+  </header>
+  
+    <div class="content" itemprop="articleBody">
+      <h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1.  简介"></a>1.  简介</h4><p>​		HTTP全称超文本文件传输协议，定义了浏览器（万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网服务器怎样把万维网文档传送给浏览器。</p>
+<p><eacape><span id="more"></span></escape></p>
+<h4 id="2-协议版本"><a href="#2-协议版本" class="headerlink" title="2.协议版本"></a>2.协议版本</h4><blockquote>
+<p>HTTP1.0</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211023152928541.png" alt="image-20211023152928541"></p>
+<p>​		HTTP1.0采用非持续连接方式，在该方式下，每次浏览器要请求一个文件都要与服务器建立TCP连接，当收到响应后就立即关闭连接，这就造成HTTP1.0版本有如下局限性：</p>
+<ul>
+<li>每请求一个文档都至少有两倍的RTT的时延开销，若一个网页上有很多个引用对象，则每请求一个对象都要话费两倍的RTT时间</li>
+<li>为了减小时延，浏览器通常会建立多个并行的TCP连接同时请求多个对象，但是这会占用万维网服务器的资源，使其负担很重</li>
+</ul>
+<blockquote>
+<p>HTTP1.1</p>
+</blockquote>
+<p>​		HTTP 1.1采用持续连接的方式，在该方式下，万维网服务器在发送响应后仍然保持这条连接，使同一个客户和该服务器可以继续在该条连接上传送后续的HTTP请求和响应报文，这并不局限于同一个页面上引用的对象，只要这些文档在同一个服务器上就行。</p>
+<p>​		为了进一步提高效率，HTTP1.1的持续连接还可以使用popeline的方式工作，即浏览器再收到HTTP的响应报文之前就能连续发送多个请求报文，可以节省很多个RTT时间，使TCP空闲时间减少，提高链路使用率。</p>
+<h4 id="3-报文格式"><a href="#3-报文格式" class="headerlink" title="3.报文格式"></a>3.报文格式</h4><p>​		HTTP是面向文本的，其报文中的每一个字段都是一些ASCII码串，并且每个字段的长度都是不确定的。</p>
+<blockquote>
+<p>HTTP请求报文格式</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211023154039278.png" alt="image-20211023154039278"></p>
+<p>​		HTTP请求报文由请求行，首部行和实体主体构成：</p>
+<ul>
+<li><p>请求行：包含方法、URL、HTTP版本，字段间由空格隔开，以回车换行结尾</p>
+<ul>
+<li><p>HTTP请求行方法类型：</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211023154555875.png" alt="image-20211023154555875"></p>
+</li>
+</ul>
+</li>
+<li><p>首部行：包含首部字段名、值，以回车换行结尾，首部行后有一个空行</p>
+</li>
+</ul>
+<blockquote>
+<p>响应报文格式</p>
+</blockquote>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211023154844442.png" alt="image-20211023154844442"></p>
+<p>​		HTTP响应报文由状态行，首部行和实体主体构成：</p>
+<ul>
+<li><p>状态行：包含协议版本、状态码和短语，字段间由空格隔开，以换行回车符结尾</p>
+<ul>
+<li><p>状态码分类：</p>
+<p><img src="C:\Users\Luan\AppData\Roaming\Typora\typora-user-images\image-20211023155102079.png" alt="image-20211023155102079"></p>
+</li>
+</ul>
+</li>
+<li><p>首部行：与请求报文一致</p>
+</li>
+</ul>
+<h4 id="4-Cookie"><a href="#4-Cookie" class="headerlink" title="4.Cookie"></a>4.Cookie</h4><p>​		早期的万维网应用非常简单，仅仅是用户查看存放在不同服务器上的各种静态文档，因此HTTP被设计为一种无状态的协议，这样可以简化服务器的设计。</p>
+<p>​		现在，用户可以通过万维网实现各种复杂的应用，如网上购物，电子商务等，这些应用往往需要万维网服务器能够识别用户。Cookie提供了一种机制使得万维网服务器能够记住用户，而无需用户主动提供用户标识信息，也就是Cookie是一种对无状态的HTTP进行状态化的技术。</p>
+<blockquote>
+<p>Cookie的实现</p>
+</blockquote>
+<p>​		服务器在收到客户端的HTTP请求后，可以根据请求中的信息（如用户名，密码等），将其封装到HTTP响应报文的Set-Cookie字段中，后续客户端再发起HTTP请求时，就可以在请求报文中的Cookie字段中携带这些信息，这样就实现了HTTP的状态化。</p>
+<h4 id="5-Web缓存和代理服务器"><a href="#5-Web缓存和代理服务器" class="headerlink" title="5.Web缓存和代理服务器"></a>5.Web缓存和代理服务器</h4><p>​		在万维网中还可以使用缓存机制以提高万维网的效率，万维网缓存又称为web缓存，可位于客户机，也可位于中间系统上，位于中间系统上的web缓存又称为代理服务器。</p>
+<p>​		web缓存把最近的一些请求和响应暂存在本地磁盘中，新请求到达时，若发现这个请求与暂时存放的请求相同，就返回暂存的请求，而不需要按URL的地址在此去因特网访问该资源。</p>
+<p><img src="https://blog-images-silen.oss-cn-shanghai.aliyuncs.com/img/blog-images/image-20211024095639542.png" alt="image-20211024095639542"></p>
+<p>​		如图示，如果一台服务器想要向一台原始服务器请求一个文档，则其会首先向代理服务器发起请求：</p>
+<ul>
+<li>若代理服务器没有该文档，则该代理服务器将向原始服务器请求该文档，原始服务器将返回该文档，并告知代理服务器的修改时间（Last-Modified）和有效期（Expires）</li>
+<li>若代理服务器发现该文档，则首先判断该文档是否仍在有效期内：<ul>
+<li>若仍在有效期内，则将文档直接返回给客户端</li>
+<li>若不在有效期内，则代理服务器向原始服务器发起请求，请求中if-modified-since字段设为该文档的Last-Modified属性，原始服务器就可以根据该日期判断代理服务器中的文件是否和自身存储的该文档一致：<ul>
+<li>一致：原始服务器给代理服务器发送不包含实体主题的响应，状态码为304，代理服务器收到响应后更新文档有效期，将文档发送给客户端</li>
+<li>不一致：原始服务器返回自身存储的该文档，并告知代理服务器的修改时间和有效期，服务器收到响应后，更新文档及其修改时间和有效期，将文档发送给客户端</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h6 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h6><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=73&spm_id_from=pageDriver">计算机网络微课堂(湖科大教书匠)</a></p>
+
+    </div>
+</article>
+
+
+
+  <script>
+    //检测推送
+    var pushType = "";
+    var pushLink = "";
+    var siteName = "Hexo";
+
+    var ValineButton = document.getElementsByClassName("vsubmit vbtn")[0];
+    //分情况推送
+    if (pushType === "cp") {
+      var title = siteName + "上又有新评论啦~!\n";
+      function send_valine_CoolPush() {
+        //获取元素信息
+        var pagename = document.title;
+        var wz = pagename.indexOf("|");
+        var res = pagename.substring(0, wz);
+        var pageurl = document.URL;
+        var ptime = new Date();
+        var vnick = document.getElementsByClassName("vnick vinput")[0].value;
+        var vmail = document.getElementsByClassName("vmail vinput")[0].value;
+        var vlink = document.getElementsByClassName("vlink vinput")[0].value;
+        var veditor = document.getElementsByClassName("veditor vinput")[0].value;
+        var data =
+          "昵称: " +
+          vnick +
+          "\n\n邮箱: " +
+          vmail +
+          "\n\n网站地址: " +
+          vlink +
+          "\n\n当前页面: " +
+          pagename +
+          "\n\n评论内容: " +
+          veditor +
+          "\n\n跳转链接: " +
+          pageurl +
+          "\n\n评论时间: " +
+          ptime.toLocaleString();
+        var httpRequest = new XMLHttpRequest(); //第一步：创建需要的对象
+        httpRequest.open("POST", pushLink, true); //第二步：打开连接
+        httpRequest.setRequestHeader(
+          "Content-type",
+          "application/json"
+        ); //设置请求头 注：post方式必须设置请求头（在建立连接后设置请求头）
+        var payload = { "t": title, "c": data }
+        httpRequest.send(JSON.stringify(payload)); //发送请求 将情头体写在send中
+      }
+      ValineButton.onclick = send_valine_CoolPush;
+    }
+  </script>
+    
+        <div id="footer-post-container">
+    <div id="footer-post">
+
+        <div id="nav-footer" style="display: none">
+            <ul>
+                
+                    <li><a href="/">Home</a></li>
+                
+                    <li><a href="/archives/">Articles</a></li>
+                
+                    <li><a href="/categories/">Category</a></li>
+                
+                    <li><a href="/tags/">Tag</a></li>
+                
+                    <li><a href="/about/">About</a></li>
+                
+                    <li><a href="/search/">Search</a></li>
+                
+            </ul>
+        </div>
+
+        <div id="toc-footer" style="display: none">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">1.  简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8D%8F%E8%AE%AE%E7%89%88%E6%9C%AC"><span class="toc-number">2.</span> <span class="toc-text">2.协议版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">3.报文格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Cookie"><span class="toc-number">4.</span> <span class="toc-text">4.Cookie</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Web%E7%BC%93%E5%AD%98%E5%92%8C%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">5.</span> <span class="toc-text">5.Web缓存和代理服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">5.0.1.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></li></ol>
+        </div>
+
+        <div id="share-footer" style="display: none">
+            <ul>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/&title=超文本文件传输协议HTTP"><i
+                    class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon"
+           target="_blank" rel="noopener" href="https://service.weibo.com/share/share.php?url=http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/&title=超文本文件传输协议HTTP"><i
+                    class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/&text=超文本文件传输协议HTTP"><i
+                    class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+    <li><a class="icon" href="mailto:?subject=超文本文件传输协议HTTP&body=Check out this article: http://example.com/2021/08/13/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/HTTP/"><i
+                    class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+        </div>
+
+        <div id="actions-footer">
+            <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i
+                        class="fas fa-bars fa-lg"
+                        aria-hidden="true"></i> Menu</a>
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i
+                        class="fas fa-list fa-lg"
+                        aria-hidden="true"></i> TOC</a>
+            <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i
+                        class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+            <a id="top" style="display:none" class="icon" href="#"
+               onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg"
+                                                                               aria-hidden="true"></i> Top
+            </a>
+        </div>
+
+    </div>
+</div>
+    
+    <footer id="footer">
+  <div class="footer-top">
+    &copy; 2024 <i class="fas fa-heart"></i>
+    John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+
+  <div class="footer-bottom">
+    
+    <!-- tongji -->
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+    <br />
+      本网站由
+    <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+       又拍云 
+    </a>
+    提供CDN加速/云存储服务 
+  </div>
+</footer>
+
+</div>
+<!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.0.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+    
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // copy-btn HTML
+            var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+            btn += '<i class="far fa-clone"></i>';
+            btn += '</span>';
+            // mount it!
+            $(".highlight .code pre").before(btn);
+            var clip = new ClipboardJS('.btn-copy', {
+                target: function (trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clip.on('success', function (e) {
+                e.trigger.setAttribute('aria-label', "Copied!");
+                e.clearSelection();
+            })
+        })
+    </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+
+</html>
